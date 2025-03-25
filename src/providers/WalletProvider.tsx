@@ -1,19 +1,22 @@
 // providers/WalletProvider.tsx
 'use client'
 
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState, useContext } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider } from 'wagmi'
-import { RainbowKitProvider, darkTheme, Locale } from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider, darkTheme, lightTheme, Locale, Theme } from '@rainbow-me/rainbowkit'
 import { config } from '@/config/chains'
 import { useTranslation } from 'react-i18next'
 import { getRainbowKitLocale } from '@/lib/rainbowkit-locales'
+import { ThemeContext } from '@/providers/ThemeProvider'
 
 const queryClient = new QueryClient()
 
 export function WalletProvider({ children }: { children: ReactNode }) {
   const { i18n } = useTranslation()
   const [rainbowkitLocale, setRainbowkitLocale] = useState<Locale>('en')
+  const { isDark } = useContext(ThemeContext)
+  const [rainbowkitTheme, setRainbowkitTheme] = useState<Theme>(lightTheme())
 
   // 监听语言变化
   useEffect(() => {
@@ -27,10 +30,15 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     }
   }, [i18n])
 
+  // 监听主题变化
+  useEffect(() => {
+    setRainbowkitTheme(isDark ? darkTheme() : lightTheme())
+  }, [isDark])
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider locale={rainbowkitLocale} theme={darkTheme()}>
+        <RainbowKitProvider locale={rainbowkitLocale} theme={rainbowkitTheme}>
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>

@@ -32,11 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <I18nProvider>
-          <WalletProvider>
             <ThemeProvider>
+              <WalletProvider>
                 {children}
+              </WalletProvider>
             </ThemeProvider>
-          </WalletProvider>
         </I18nProvider>
       </body>
     </html>
