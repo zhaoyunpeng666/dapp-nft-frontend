@@ -1,3 +1,5 @@
+'use client'
+
 // lib/i18n.ts
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
@@ -9,7 +11,7 @@ const instance = i18n.createInstance()
 const savedLang = typeof window !== 'undefined' ? localStorage.getItem('i18nLang') : null
 
 instance.use(initReactI18next).init({
-  lng: savedLang || navigator.language.split('-')[0] || 'en',
+  lng: savedLang || 'en',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
@@ -21,9 +23,10 @@ instance.use(initReactI18next).init({
         connectWallet: 'Connect Wallet',
         language: 'Language',
         english: 'English',
-        chinese: '中文',
+        chinese: 'Chinese',
         profile: 'Profile',
         userInfo: 'User Information',
+        wrongNetwork: 'Wrong network',
       }
     },
     zh: {
@@ -35,6 +38,7 @@ instance.use(initReactI18next).init({
         chinese: '中文',
         profile: '个人中心',
         userInfo: '用户信息',
+        wrongNetwork: '网络错误',
       }
     }
   }

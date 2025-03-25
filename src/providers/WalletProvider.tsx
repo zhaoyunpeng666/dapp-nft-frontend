@@ -9,6 +9,8 @@ import { config } from '@/config/chains'
 import { useTranslation } from 'react-i18next'
 import { getRainbowKitLocale } from '@/lib/rainbowkit-locales'
 import { ThemeContext } from '@/providers/ThemeProvider'
+import { ToastContainer } from 'react-toastify'
+
 
 const queryClient = new QueryClient()
 
@@ -39,6 +41,19 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider locale={rainbowkitLocale} theme={rainbowkitTheme}>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='light'
+            // theme={isDark ? 'dark' : 'light'}
+          />
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>

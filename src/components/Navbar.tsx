@@ -2,19 +2,19 @@
 'use client'
 
 import { useContext, useState } from 'react'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+// import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from '@/providers/ThemeProvider'
 import { Switch, AppBar, Toolbar, Typography, Button, Menu, MenuItem  } from '@mui/material'
 import LanguageIcon from '@mui/icons-material/Language'
-// import i18n from '@/lib/i18n' // 确保从正确路径导入实例
+import CustomWalletButton from '@/components/CustomWalletButton'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
   // console.log('ZYP-dev 📍 Navbar.tsx 📍 Navbar 📍 i18n:', i18n);
   const { isDark, toggleTheme } = useContext(ThemeContext)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [connectWallet, setConnectWallet] = useState('Connect Wallet')
+  // const [connectWallet, setConnectWallet] = useState('Connect Wallet')
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -26,7 +26,7 @@ export default function Navbar() {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
-    setConnectWallet(t('connectWallet')) 
+    // setConnectWallet(t('connectWallet')) 
     handleMenuClose()
   }
 
@@ -61,12 +61,14 @@ export default function Navbar() {
             </MenuItem>
           </Menu>
           <Switch checked={isDark} onChange={toggleTheme} />
-          <ConnectButton 
+          {/* <ConnectButton 
             showBalance={true}
             chainStatus="icon"
             accountStatus="address"
             label={connectWallet}
-          />
+          /> */}
+          {/* 自定义钱包 */}
+          <CustomWalletButton />
         </div>
       </Toolbar>
     </AppBar>
