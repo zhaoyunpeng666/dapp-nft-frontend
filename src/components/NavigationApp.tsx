@@ -7,7 +7,7 @@ const NavigationApp: React.FC = () => {
     const pathname = usePathname();
     const menu = [
         {
-            name: '功能',
+            name: '市场',
             pathname: '/',
             isNew: false,
         },
@@ -27,8 +27,8 @@ const NavigationApp: React.FC = () => {
             isNew: false,
         },
         {
-            name: '市场',
-            pathname: '/market',
+            name: '功能',
+            pathname: '/function',
             isNew: false,
         },
     ];

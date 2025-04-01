@@ -4,7 +4,8 @@
 // import { useContext } from 'react'
 // import { useAccount } from 'wagmi'
 import { Box } from '@mui/material'
-import FunctionPage from '@/components/Function'
+// import FunctionPage from '@/components/Function'
+import MarketPlace from '@/components/MarkePlace'
 // import { ThemeContext } from '@/providers/ThemeProvider'
 
 export default function Home() {
@@ -12,8 +13,9 @@ export default function Home() {
 //   const { isDark } = useContext(ThemeContext)
   
   return (
-    <Box className={`min-h-screen bg-yellow-400`}>
-      <FunctionPage />
+    <Box className={`min-h-screen `}>
+      {/* <FunctionPage /> */}
+      <MarketPlace />
     </Box>
   );
 }
