@@ -34,13 +34,19 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   // 监听主题变化
   useEffect(() => {
-    setRainbowkitTheme(isDark ? darkTheme() : lightTheme())
+    setRainbowkitTheme(isDark ? darkTheme({
+      accentColor: '#6c63ff',
+      accentColorForeground: 'white',
+      borderRadius: 'medium',
+    }) : lightTheme())
   }, [isDark])
 
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider locale={rainbowkitLocale} theme={rainbowkitTheme}>
+        <RainbowKitProvider 
+          locale={rainbowkitLocale} 
+          theme={rainbowkitTheme}>
           <ToastContainer
             position="top-right"
             autoClose={3000}

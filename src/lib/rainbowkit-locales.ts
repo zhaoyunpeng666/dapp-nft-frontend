@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 // lib/rainbowkit-locales.ts
 import { Locale } from '@rainbow-me/rainbowkit'
 
@@ -16,5 +15,4 @@ const RAINBOWKIT_LOCALE_MAP: Record<string, SupportedRainbowKitLocales> = {
 
 export const getRainbowKitLocale = (i18nLang: string): Locale => {
     return RAINBOWKIT_LOCALE_MAP[i18nLang] || 'en'
-    // return require(`@rainbow-me/rainbowkit/locales/${langKey}.json`).default
 }

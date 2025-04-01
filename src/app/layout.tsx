@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { WalletProvider } from '@/providers/WalletProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { I18nProvider } from '@/providers/I18nProvider'
+import Navbar from '@/components/Navbar'
 import "./globals.css";
 
 
@@ -17,11 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-      >
+      <body>
         <I18nProvider>
             <ThemeProvider>
               <WalletProvider>
+                <Navbar />
                 {children}
               </WalletProvider>
             </ThemeProvider>
