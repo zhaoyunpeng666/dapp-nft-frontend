@@ -41,8 +41,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       mode: isDark ? 'dark' : 'light',
       violet: {
         main: violetBase,
-        light: alpha(violetBase, 0.5),
-        dark: alpha(violetBase, 0.9),
+        light: violetBase,
+        dark: violetBase,
+        contrastText: '#fff',
+      },
+      success: {
+        main: '#4CAF50',
+        light: '#81C784',
+        dark: '#388E3C',
         contrastText: '#fff',
       },
     },

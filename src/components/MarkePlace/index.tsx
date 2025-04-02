@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import { Box, FormControl, IconButton, MenuItem, Select, SelectChangeEvent, Typography, Button, Pagination, Tabs, Tab } from "@mui/material";
 import { GridView } from "@mui/icons-material";
 import { NFT_LIST_DATA } from './constants'
+import Image from "next/image";
+import { useRouter } from 'next/navigation';
 
 function a11yProps(index: number) {
     return {
@@ -22,6 +24,7 @@ function a11yProps(index: number) {
 const MarketPlace: React.FC = () => {
     const [age, setAge] = useState('');
     const [value, setValue] = React.useState(0);
+    const router = useRouter();
 
     const handleSelectChange = (event: SelectChangeEvent) => {
         setAge(event.target.value);
@@ -126,17 +129,18 @@ const MarketPlace: React.FC = () => {
                         {/* NFT作品列表 */}
                         <Box className="space-y-4 pt-4">
                             {NFT_LIST_DATA.map((item) => (
-                                <Box key={item.id} className="flex items-center p-4 bg-white shadow-md rounded-lg"
-                                sx={{
-                                    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.05)',
-                                    borderRadius: '10px',
-                                    padding: '20px',
-                                    '&:hover': {
-                                        transform: 'translateY(-5px)',
-                                        transition: 'transform 0.3s'
-                                    }
-                                }}>
-                                    <Box className="w-24 h-24 bg-gray-300 rounded-lg mr-4"></Box>
+                                <Box key={item.id} className="flex items-center p-5 bg-white shadow-md rounded-lg relative"
+                                    sx={{
+                                        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.05)',
+                                        borderRadius: '10px',
+                                        '&:hover': {
+                                            transform: 'translateY(-5px)',
+                                            transition: 'transform 0.3s'
+                                        }
+                                    }}>
+                                    <Box className="w-26 h-30 bg-gray-300 rounded-lg mr-4">
+                                        <Image src={item.imgUrl} alt={item.name} width={104} height={120} />
+                                    </Box>
                                     <Box className="flex-1">
                                         <Typography variant="h6">{item.name}</Typography>
                                         <Typography variant="caption" >{item.createAuthor}</Typography>
@@ -150,7 +154,17 @@ const MarketPlace: React.FC = () => {
                                         >{item.currentPrice}</Box>
                                         <Typography variant="body2" >{new Date(item.endTime).toLocaleString()}</Typography>
                                     </Box>
-                                    <Button variant="contained" color="violet">购买</Button>
+                                    <Button variant="contained" color="violet"
+                                        onClick={() => {
+                                            console.log('购买');
+                                            router.push(`/nft/${item.id}`);
+                                        }}
+                                        sx={{
+                                            position: 'absolute',
+                                            right: '12px',
+                                            bottom: '20px',
+                                        }}  
+                                    >购买</Button>
                                 </Box>
                             ))}
                         </Box>
