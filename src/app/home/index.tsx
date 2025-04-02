@@ -7,6 +7,7 @@ import { Box } from '@mui/material'
 // import FunctionPage from '@/components/Function'
 import MarketPlace from '@/components/MarkePlace'
 // import { ThemeContext } from '@/providers/ThemeProvider'
+import Footer from '@/components/Footer'
 
 export default function Home() {
 //   const { isConnected } = useAccount()
@@ -16,6 +17,7 @@ export default function Home() {
     <Box className={`min-h-screen `}>
       {/* <FunctionPage /> */}
       <MarketPlace />
+      <Footer />
     </Box>
   );
 }

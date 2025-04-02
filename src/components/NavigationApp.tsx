@@ -45,25 +45,26 @@ const NavigationApp: React.FC = () => {
                     fontWeight: 500,
                     color: 'rgba(255,255,255,0.64)',
                     textDecoration: 'none',
-                '&:hover': {
-                    cursor: 'pointer',
-                },
-                '&.h5': {
-                    width: '100%',
-                    lineHeight: '40px',
-                    background: '#171A1F',
-                    color: 'white',
-                },
-                '&.sub': {
-                    color: 'rgba(255,255,255,0.65)',
-                    fontWeight: 400,
+                    '&:hover': {
+                        cursor: 'pointer',
+                        textDecoration: 'none',
+                    },
+                    '&.h5': {
+                        width: '100%',
+                        lineHeight: '40px',
+                        background: '#171A1F',
+                        color: 'white',
+                    },
+                    '&.sub': {
+                        color: 'rgba(255,255,255,0.65)',
+                        fontWeight: 400,
+                    },
+                    '& .active-menu': {
+                        color: '#fff',
+                    },
                 },
                 '& .active-menu': {
                     color: '#fff',
-                },
-                },
-                '& .active-menu': {
-                color: '#fff',
                 },
             }}
         >
@@ -74,7 +75,7 @@ const NavigationApp: React.FC = () => {
                         href={item.pathname}
                         key={item.name}
                         className={isActive ? 'menu active-menu' : 'menu'}
-                        style={{ position: 'relative' }}
+                        style={{ position: 'relative', textDecoration: 'none' }}
                     >
                         {item.name}
                     </Link>
