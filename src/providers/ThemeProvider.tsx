@@ -39,12 +39,39 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const theme = createTheme({
     palette: {
       mode: isDark ? 'dark' : 'light',
-      // 紫色
       violet: {
-        main: violetMain,
+        main: violetBase,
         light: alpha(violetBase, 0.5),
         dark: alpha(violetBase, 0.9),
         contrastText: '#fff',
+      },
+    },
+    components: {
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            backgroundColor: violetMain
+          },
+          root: {
+            '& .MuiTabs-indicator': {
+              backgroundColor: violetMain,
+            },
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          // root: {
+          //   color: isDark ? '#fff' : '#000',
+          // },
+          // h6: {
+          //   color: isDark ? '#fff' : '#000',
+          // },
+          // caption: {
+          //   color: isDark ? '#fff' : '#000',
+          // },
+
+        },
       },
     },
   })
