@@ -13,7 +13,14 @@ const AuctionSection = ({ nftData }: {nftData: NFTData}) => {
     }}>
       {/* 拍卖信息 */}
       <Grid size={12}>
-        <Typography variant="body2" color="green">
+        <Typography variant="body2" color="green" sx={{
+            display: 'inline-block',
+            height: '30px',
+            lineHeight: '30px',
+            bgcolor: '#e6f7e6',
+            borderRadius: '8px',
+            padding: '0 10px',
+        }}>
           英式拍卖
         </Typography>
       </Grid>

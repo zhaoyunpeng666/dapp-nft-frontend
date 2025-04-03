@@ -6,6 +6,8 @@ import InfoCard from './_components/InfoCard';
 import AuctionSection from './_components/AuctionSection';
 import ActionButtons from './_components/ActionButtons';
 import { useSearchParams } from 'next/navigation';
+import { Box } from '@mui/material';
+import NFTDetailTable from '@/components/NFTDetail';
 
 const NFTDetail = () => {
   const searchParams = useSearchParams();
@@ -32,25 +34,32 @@ const NFTDetail = () => {
 
   //   确保在使用id之前进行空值检查
   if (!id) {
-    return <div>未找到 NFT ID</div>;
+    return <Box>未找到 NFT ID</Box>;
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-5xl grid grid-cols-3 gap-4">
-      {/* 左侧媒体部分 */}
-      <div className="col-span-1 bg-white rounded-lg p-4 shadow-md">
-        <MediaSection nftData={nftData} />
-      </div>
+    <Box>
+        <Box className="container mx-auto p-4 max-w-5xl grid grid-cols-3 gap-4">
+            {/* 左侧媒体部分 */}
+            <Box className="col-span-1 bg-white rounded-lg p-4 shadow-md">
+                <MediaSection nftData={nftData} />
+            </Box>
 
-      {/* 右侧信息部分 */}
-      <div className="col-span-2">
-        <div className="bg-white rounded-lg p-4 shadow-md">
-          <InfoCard nftData={nftData} />
-          <AuctionSection nftData={nftData} />
-          <ActionButtons />
-        </div>
-      </div>
-    </div>
+            {/* 右侧信息部分 */}
+            <Box className="col-span-2">
+                <Box className="bg-white rounded-lg p-4 shadow-md">
+                    <InfoCard nftData={nftData} />
+                    <AuctionSection nftData={nftData} />
+                    <ActionButtons />
+                </Box>
+            </Box>
+        </Box>
+        <Box className="container mx-auto p-4 max-w-5xl">
+            <Box className="bg-white rounded-lg p-4 shadow-md">
+                <NFTDetailTable />
+            </Box>
+        </Box>
+    </Box>
   );
 };
 

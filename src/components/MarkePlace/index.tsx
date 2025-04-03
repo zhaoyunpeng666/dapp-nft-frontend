@@ -157,7 +157,7 @@ const MarketPlace: React.FC = () => {
                                     <Button variant="contained" color="violet"
                                         onClick={() => {
                                             console.log('购买');
-                                            router.push(`/nft/${item.id}`);
+                                            router.push(`/nftDetail/?id=${item.id}`);
                                         }}
                                         sx={{
                                             position: 'absolute',
