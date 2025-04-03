@@ -34,7 +34,7 @@ const violetBase = '#6c63ff';
 const violetMain = alpha(violetBase, 0.7);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(false)
   
   const theme = createTheme({
     palette: {

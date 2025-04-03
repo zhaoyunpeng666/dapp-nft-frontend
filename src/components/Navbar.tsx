@@ -40,8 +40,8 @@ export default function Navbar() {
         position="static"
         className={`dark:bg-gray-700`}
         sx={{ 
-          background: isDark ? '#1a1a2e' : '#f8f8f8',
-          color: isDark ? '#f8f8f8' : '#1a1a2e',
+          background: isDark ? '#1a1a2e' : '#1a1a2e',
+          color: isDark ? '#f8f8f8' : '#f8f8f8',
         }}
       >
       <Toolbar className="flex justify-between">

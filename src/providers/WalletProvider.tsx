@@ -38,7 +38,11 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       accentColor: '#6c63ff',
       accentColorForeground: 'white',
       borderRadius: 'medium',
-    }) : lightTheme())
+    }) : lightTheme({
+      accentColor: '#6c63ff',
+      accentColorForeground: 'white',
+      borderRadius: 'medium',
+    }))
   }, [isDark])
 
   return (

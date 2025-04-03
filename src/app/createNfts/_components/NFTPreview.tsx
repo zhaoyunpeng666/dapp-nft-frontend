@@ -5,7 +5,7 @@ import { Box, Typography, Paper } from '@mui/material';
 
 export default function NFTPreview() {
   return (
-    <Box>
+    <Box className="bg-stone-50 p-6">
       <Typography variant="h6" className="mb-6">NFT预览</Typography>
       <Paper 
         elevation={0}

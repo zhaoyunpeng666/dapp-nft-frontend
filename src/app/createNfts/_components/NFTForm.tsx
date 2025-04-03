@@ -1,9 +1,8 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Box, TextField, Typography, Select, MenuItem, Button, FormControl, SelectChangeEvent, InputAdornment } from '@mui/material';
+import { Box, TextField, Typography, Select, MenuItem, Button, FormControl, SelectChangeEvent } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { ArrowDropDown } from '@mui/icons-material';
 
 export default function NFTForm() {
   const [formData, setFormData] = useState({
@@ -34,8 +33,12 @@ export default function NFTForm() {
     }));
   };
 
+  const handleSubmit = () => {
+    console.log('铸造NFT:', formData);
+  };
+
   return (
-    <Box className="bg-white p-6 rounded-lg shadow">
+    <Box className="bg-stone-50 p-6 rounded-lg shadow">
       <Typography variant="subtitle1" className="mb-6">NFT详情</Typography>
       
       {/* 文件上传区域 */}
@@ -127,12 +130,6 @@ export default function NFTForm() {
         //   label="类别"
           onChange={handleSelectChange}
           displayEmpty
-          endAdornment={
-            // 添加一个下拉箭头
-            <InputAdornment position="end">
-              <ArrowDropDown sx={{ color: 'rgba(0, 0, 0, 0.5)' }} />
-            </InputAdornment>
-          }
           sx={{
             color: 'black',
             '& .MuiOutlinedInput-notchedOutline': {
@@ -161,11 +158,6 @@ export default function NFTForm() {
           value={formData.blockchain}
           onChange={handleSelectChange}
           displayEmpty
-          endAdornment={
-            <InputAdornment position="end">
-              <ArrowDropDown sx={{ color: 'rgba(0, 0, 0, 0.5)' }} />
-            </InputAdornment>
-          }
           sx={{
             color: 'black',
             '& .MuiOutlinedInput-notchedOutline': {
@@ -235,6 +227,7 @@ export default function NFTForm() {
             bgcolor: 'primary.dark',
           }
         }}
+        onClick={handleSubmit}
       >
         铸造NFT
       </Button>

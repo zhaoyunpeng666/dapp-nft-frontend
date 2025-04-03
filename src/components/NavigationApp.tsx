@@ -43,27 +43,20 @@ const NavigationApp: React.FC = () => {
                 '& .menu': {
                     fontSize: '16px',
                     fontWeight: 500,
-                    color: 'rgba(255,255,255,0.64)',
+                    color: '#fff',
                     textDecoration: 'none',
                     '&:hover': {
+                        color: 'rgba(255, 255, 255, 0.8)',
                         cursor: 'pointer',
                     },
-                    '&.h5': {
-                        width: '100%',
-                        lineHeight: '40px',
-                        background: '#171A1F',
-                        color: 'white',
-                    },
-                    '&.sub': {
-                        color: 'rgba(255,255,255,0.65)',
-                        fontWeight: 400,
-                    },
+                    
                     '& .active-menu': {
                         color: '#fff',
                     },
                 },
                 '& .active-menu': {
                     color: '#fff',
+                    fontWeight: 600,
                 },
             }}
         >
