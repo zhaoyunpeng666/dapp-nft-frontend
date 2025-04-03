@@ -47,7 +47,6 @@ const NavigationApp: React.FC = () => {
                     textDecoration: 'none',
                     '&:hover': {
                         cursor: 'pointer',
-                        textDecoration: 'none',
                     },
                     '&.h5': {
                         width: '100%',
@@ -75,7 +74,7 @@ const NavigationApp: React.FC = () => {
                         href={item.pathname}
                         key={item.name}
                         className={isActive ? 'menu active-menu' : 'menu'}
-                        style={{ position: 'relative', textDecoration: 'none' }}
+                        style={{ position: 'relative' }}
                     >
                         {item.name}
                     </Link>
