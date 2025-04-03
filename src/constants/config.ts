@@ -1,6 +1,6 @@
 import { 
-    mainnet, 
-    // goerli 
+    // mainnet, 
+    sepolia 
 } from 'wagmi/chains';
 
 // FACET的配置文件
@@ -19,16 +19,16 @@ const FACET_MAIN_CONFIG = {
 // };
 
 // 后端API服务的配置文件
-const SERVER_MAIN_CONFIG = {
-  BASE_URL: '/api',
-  CHAIN: [mainnet],
-};
-
-// const SERVER_GOERLI_CONFIG = {
-//   BASE_URL: '/api-goerli',
-//   CHAIN: [goerli],
+// const SERVER_MAIN_CONFIG = {
+//   BASE_URL: '/api',
+//   CHAIN: [mainnet],
 // };
 
+const SERVER_GOERLI_CONFIG = {
+  BASE_URL: process.env.NODE_ENV === 'development' ? '/api/v1' : 'http://fangchao1988.xicp.net/api/v1',
+  CHAIN: [sepolia],
+};
+
 // 开启哪一个 配置
-export const SERVER_CONFIG = SERVER_MAIN_CONFIG; // SERVER_GOERLI_CONFIG;
+export const SERVER_CONFIG = SERVER_GOERLI_CONFIG; // SERVER_MAIN_CONFIG;
 export const FACET_CONFIG = FACET_MAIN_CONFIG; // FACET_GOERLI_CONFIG;

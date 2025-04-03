@@ -6,12 +6,15 @@ export interface AuthVerifyRequest {
 }
 
 export interface GetAuthNonceData {
-  nonce: string;
-  issuedAt: string;
+  address: string;
+  message: string;
 }
 
 export interface AuthVerifyData {
-  accessToken: string;
+  address: string;
+  chain_id: number;
+  message: string;
+  signature: string;
 }
 
 export interface UserInfoData {

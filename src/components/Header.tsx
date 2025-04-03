@@ -1,7 +1,7 @@
-// components/Navbar.tsx
+// components/Header.tsx
 'use client'
 
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from '@/providers/ThemeProvider'
@@ -11,14 +11,18 @@ import LanguageIcon from '@mui/icons-material/Language'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import NavigationApp from './NavigationApp'
+import { useAccount } from 'wagmi';
+import * as GlobalStore from '@/stores/GlobalStore';
+import * as Sentry from '@sentry/nextjs';
 
-export default function Navbar() {
+export default function Header() {
   const { t, i18n } = useTranslation()
-  // console.log('ZYP-dev 📍 Navbar.tsx 📍 Navbar 📍 i18n:', i18n);
+  // console.log('ZYP-dev 📍 Header.tsx 📍 Header 📍 i18n:', i18n);
   const { isDark, toggleTheme } = useContext(ThemeContext)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [connectWallet, setConnectWallet] = useState('Connect Wallet')
   const matches = useMediaQuery('(max-width:750px)')
+  const { address, connector } = useAccount();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -34,6 +38,20 @@ export default function Navbar() {
     setConnectWallet(t('connectWallet')) 
     handleMenuClose()
   }
+
+  const setSentryTag = () => {
+    Sentry.setTag('account', address);
+    Sentry.setTag('ConnectorName', connector?.name);
+  };
+
+  useEffect(() => {
+    if (address) {
+      GlobalStore.initRainbowKitAuthStatus(address);
+    }
+    if (address && connector) {
+      setSentryTag();
+    }
+  }, [address, connector]);
 
   return (
     <AppBar 

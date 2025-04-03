@@ -3,7 +3,7 @@ import React from 'react';
 import { WalletProvider } from '@/providers/WalletProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { I18nProvider } from '@/providers/I18nProvider'
-import Navbar from '@/components/Navbar'
+import Header from '@/components/Header'
 import "./globals.css";
 import { ProvidersMiddleware } from '@/providers/providerMiddleware';
 
@@ -24,7 +24,7 @@ export default function RootLayout({
         <I18nProvider>
             <ThemeProvider>
               <WalletProvider>
-                <Navbar />
+                <Header />
                 <ProvidersMiddleware>
                   {children}
                 </ProvidersMiddleware>
