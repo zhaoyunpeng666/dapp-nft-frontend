@@ -1,5 +1,5 @@
 import ApiClient from "../network/ApiClient";
-import { UserInfoDataResponse } from "./types";
+import { AuthVerifyRequest, AuthVerifyResponse, GetAuthNonceResponse } from "./types";
 
 export default class LoginService {
     private apiClient: ApiClient;
@@ -7,9 +7,20 @@ export default class LoginService {
     constructor(apiClient: ApiClient) {
         this.apiClient = apiClient;
     }
+    
+    // 获取登录签名信息
+    async getAuthNonce(address: string) {
+        return await this.apiClient.get(`/user/${address}/login-message}`);
+    }
 
-    async getUserInfo(address: string): Promise<UserInfoDataResponse> {
-        return await this.apiClient.get<UserInfoDataResponse>(`/did/${address}`);
-      }
+    // 登录
+    async postUserLogin(data: AuthVerifyRequest): Promise<AuthVerifyResponse> {
+        return await this.apiClient.post(`/user/login`, data);
+    }
+
+    // 获取用户签名状态
+    async getUserAuthStatus(address: string) {
+        return await this.apiClient.get(`/user/${address}/sig-status`);
+    }
 }
 
