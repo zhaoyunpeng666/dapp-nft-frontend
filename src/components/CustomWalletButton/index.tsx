@@ -53,15 +53,16 @@ const CustomWalletButton = () => {
                                 sx={{ 
                                     px: '12px',
                                     height: '40px',
-                                    background: '#D5E970',
+                                    minWidth: '100%',
+                                    background: '#6c63ff',
                                     borderRadius: '12px',
                                     fontWeight: '700',
                                     color: 'block',
                                     textTransform: 'none',
                                     fontSize: '16px',
                                     '&:hover': {
-                                        background: '#D5E970',
-                                        transform: 'scale(1.05)',
+                                        background: '#6c63ff',
+                                        transform: 'scale(1.01)',
                                         transition: '0.3s',
                                     }
                                 }}

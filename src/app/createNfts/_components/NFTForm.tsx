@@ -3,6 +3,10 @@
 import React, { useState } from 'react';
 import { Box, TextField, Typography, Select, MenuItem, Button, FormControl, SelectChangeEvent } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+// import { ConnectButton } from '@rainbow-me/rainbowkit';
+// import * as GlobalStore from '@/stores/GlobalStore';
+import { useAccount } from 'wagmi';
+import CustomWalletButton from '@/components/CustomWalletButton';
 
 export default function NFTForm() {
   const [formData, setFormData] = useState({
@@ -12,6 +16,8 @@ export default function NFTForm() {
     blockchain: 'Ethereum',
     royalty: '10'
   });
+
+  const { isConnected } = useAccount();
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -216,21 +222,34 @@ export default function NFTForm() {
           }
         }}
       />
-
-      <Button 
-        variant="contained" 
-        fullWidth 
-        size="large"
-        sx={{
-          bgcolor: 'primary.main',
-          '&:hover': {
-            bgcolor: 'primary.dark',
-          }
-        }}
-        onClick={handleSubmit}
-      >
-        铸造NFT
-      </Button>
+      <Box className='mb-6'>
+        {
+          isConnected  ? (
+            <Button 
+            variant="contained" 
+            fullWidth 
+            size="large"
+            sx={{
+              bgcolor: 'primary.main',
+              '&:hover': {
+                bgcolor: 'primary.dark',
+              }
+            }}
+            onClick={handleSubmit}
+          >
+            铸造NFT
+          </Button>
+          ) : (
+          // <ConnectButton 
+          //   showBalance={true}
+          //   chainStatus="icon"
+          //   accountStatus="address"
+          //   label='连接钱包'
+          // />
+          <CustomWalletButton />
+        )
+        }
+      </Box>
     </Box>
   );
 } 
