@@ -1,4 +1,4 @@
-import { IResponse } from '../types';
+import { IResponse, AuthorityResponse } from '../types';
 
 export interface AuthVerifyRequest {
   message: string;
@@ -17,6 +17,11 @@ export interface AuthVerifyData {
   signature: string;
 }
 
+export interface AuthVerifyResult {
+  is_allowed: boolean;
+  token: string;
+}
+
 export interface UserInfoData {
   address: string;
   name: string;
@@ -26,4 +31,4 @@ export interface UserInfoData {
 
 export type GetAuthNonceResponse = Awaited<Readonly<IResponse<GetAuthNonceData>>>;
 export type UserInfoDataResponse = Awaited<Readonly<IResponse<UserInfoData>>>;
-export type AuthVerifyResponse = Awaited<Readonly<IResponse<AuthVerifyData>>>;
+export type AuthVerifyResponse = Awaited<Readonly<AuthorityResponse<AuthVerifyResult>>>;

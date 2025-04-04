@@ -3,6 +3,13 @@ export interface IResponse<T> {
     message: string;
     data: T;
   }
+export interface AuthorityResponse<T> {
+    code: number;
+    message: string;
+    data: {
+      result: T;
+    };
+  }
   
   export interface ResultError {
     message: string;
