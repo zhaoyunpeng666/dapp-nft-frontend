@@ -1,12 +1,23 @@
 'use client'
 
-import React from 'react';
-import { Container, Typography, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { Container, Typography, Box, Grid2 as Grid } from '@mui/material';
 import NFTForm from './_components/NFTForm';
 import NFTPreview from './_components/NFTPreview';
 import MintSteps from './_components/MintSteps';
+import { Category, Blockchain } from './_components/constants';
 
 export default function CreateNFTPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    category: Category.ART,
+    blockchain: Blockchain.ETHEREUM,
+    royalty: '10',
+    file: null as File | null,
+    previewUrl: ''
+  });
+
   return (
     <Box>
       {/* 页面标题 */}
@@ -22,10 +33,14 @@ export default function CreateNFTPage() {
       </Box>
       <Container maxWidth="lg" className="py-8">
         {/* 主要内容区域 */}
-        <Box className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <NFTForm />
-          <NFTPreview />
-        </Box>
+        <Grid container spacing={4}>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <NFTForm formData={formData} setFormData={setFormData} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <NFTPreview formData={formData} />
+          </Grid>
+        </Grid>
 
         {/* 铸造流程 */}
         <Box className="mt-16">

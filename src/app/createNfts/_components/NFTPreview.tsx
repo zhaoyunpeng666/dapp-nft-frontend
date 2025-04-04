@@ -2,8 +2,22 @@
 
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
+import Image from 'next/image';
+import { CATEGORY_MENU, BLOCKCHAIN_MENU, Category, Blockchain } from './constants'
 
-export default function NFTPreview() {
+interface NFTPreviewProps {
+  formData: {
+    name: string;
+    description: string;
+    category: string;
+    blockchain: string;
+    royalty: string;
+    file: File | null;
+    previewUrl: string;
+  };
+}
+
+export default function NFTPreview({ formData }: NFTPreviewProps) {
   return (
     <Box className="bg-stone-50 p-6">
       <Typography variant="h6" className="mb-6">NFT预览</Typography>
@@ -11,20 +25,56 @@ export default function NFTPreview() {
         elevation={0}
         className="bg-gray-100 p-6 rounded-lg"
       >
-        <Box className="aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
-          <Typography color="text.secondary">
-            您的NFT预览将在这里显示
-          </Typography>
+        <Box className="aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+          {formData.previewUrl ? (
+            formData.file?.type.startsWith('image/') ? (
+              <Image
+                src={formData.previewUrl}
+                alt="NFT Preview"
+                width={300}
+                height={300}
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              />
+            ) : (
+              <video
+                src={formData.previewUrl}
+                controls
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            )
+          ) : (
+            <Typography color="text.secondary">
+              您的NFT预览将在这里显示
+            </Typography>
+          )}
         </Box>
 
         {/* NFT 信息预览 */}
         <Box className="space-y-4">
           <Box>
             <Typography variant="caption" color="text.secondary">
-              基本信息
+              名称
             </Typography>
             <Typography variant="subtitle1" className="font-medium">
-              -
+              {formData.name || '-'}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography variant="caption" color="text.secondary">
+              描述
+            </Typography>
+            <Typography variant="subtitle1" className="font-medium">
+              {formData.description || '-'}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography variant="caption" color="text.secondary">
+              类别
+            </Typography>
+            <Typography variant="subtitle1" className="font-medium">
+              {formData.category ? CATEGORY_MENU[formData.category as Category] : '-'}
             </Typography>
           </Box>
 
@@ -33,7 +83,7 @@ export default function NFTPreview() {
               区块链
             </Typography>
             <Typography variant="subtitle1" className="font-medium">
-              以太坊 (Ethereum)
+              {formData.blockchain ? BLOCKCHAIN_MENU[formData.blockchain as Blockchain] : '-'}
             </Typography>
           </Box>
 
@@ -42,7 +92,7 @@ export default function NFTPreview() {
               版税
             </Typography>
             <Typography variant="subtitle1" className="font-medium">
-              10%
+              {formData.royalty ? `${formData.royalty}%` : '-'}
             </Typography>
           </Box>
         </Box>

@@ -1,26 +1,51 @@
 'use client'
 
-import React, { useState } from 'react';
-import { Box, TextField, Typography, Select, MenuItem, Button, FormControl, SelectChangeEvent } from '@mui/material';
+import React, { useRef, useState } from 'react';
+import { Box, TextField, Typography, Select, MenuItem, Button, FormControl, SelectChangeEvent, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
 // import { ConnectButton } from '@rainbow-me/rainbowkit';
 // import * as GlobalStore from '@/stores/GlobalStore';
 import { useAccount } from 'wagmi';
 import CustomWalletButton from '@/components/CustomWalletButton';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Image from 'next/image';
+import { Category, Blockchain } from './constants';
 
-export default function NFTForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    category: 'art',
-    blockchain: 'Ethereum',
-    royalty: '10'
-  });
+interface NFTFormProps {
+  formData: {
+    name: string;
+    description: string;
+    category: Category;
+    blockchain: Blockchain;
+    royalty: string;
+    file: File | null;
+    previewUrl: string;
+  };
+  setFormData: React.Dispatch<React.SetStateAction<{
+    name: string;
+    description: string;
+    category: Category;
+    blockchain: Blockchain;
+    royalty: string;
+    file: File | null;
+    previewUrl: string;
+  }>>;
+}
 
-  const { isConnected } = useAccount();
+export default function NFTForm({ formData, setFormData }: NFTFormProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { isConnected, isDisconnected } = useAccount();
+  const [loading, setLoading] = useState(false);
+  const [nameError, setNameError] = useState(false);
+  console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 isConnected:', isConnected);
+  console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 isDisconnected:', isDisconnected);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (name === 'name') {
+      setNameError(!value.trim());
+    }
     if (name === 'royalty') {
       const numValue = Number(value);
       if (numValue > 100) return;
@@ -39,8 +64,37 @@ export default function NFTForm() {
     }));
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        file,
+        previewUrl: URL.createObjectURL(file)
+      }));
+    }
+  };
+
+  const handleFileDelete = () => {
+    if (formData.previewUrl) {
+      URL.revokeObjectURL(formData.previewUrl);
+    }
+    setFormData(prev => ({
+      ...prev,
+      file: null,
+      previewUrl: ''
+    }));
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleSubmit = () => {
     console.log('铸造NFT:', formData);
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000);
   };
 
   return (
@@ -49,26 +103,86 @@ export default function NFTForm() {
       
       {/* 文件上传区域 */}
       <Box 
-        className="border-2 border-dashed border-gray-300 rounded-lg p-8 mb-6 text-center cursor-pointer hover:border-violet-500"
+        className="border-2 border-dashed border-gray-300 rounded-lg p-8 mb-6 text-center"
         sx={{
           '&:hover': {
             borderColor: 'primary.main'
           }
         }}
       >
-        <CloudUploadIcon className="text-gray-400 text-4xl mb-2" />
-        <Typography className="mb-1">点击或拖拽文件到此处上传</Typography>
-        <Typography variant="caption" color="text.secondary">
-          支持JPG, PNG, GIF, MP4, MP3, 文件限制50MB
-        </Typography>
+        {!formData.previewUrl ? (
+          <>
+            <input
+              type="file"
+              accept="image/*,video/*,audio/*"
+              onChange={handleFileChange}
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+            />
+            <Button
+              variant="outlined"
+              component="label"
+              startIcon={<CloudUploadIcon />}
+              onClick={() => fileInputRef.current?.click()}
+              sx={{
+                mb: 2,
+                textTransform: 'none',
+                borderColor: 'primary.main',
+                color: 'primary.main',
+                '&:hover': {
+                  borderColor: 'primary.dark',
+                  backgroundColor: 'rgba(108, 99, 255, 0.04)'
+                }
+              }}
+            >
+              选择文件
+            </Button>
+            <Typography variant="body2" color="text.secondary">
+              支持 JPG, PNG, GIF, MP4, MP3 格式，文件大小不超过 50MB
+            </Typography>
+          </>
+        ) : (
+          <Box sx={{ position: 'relative' }}>
+            {formData.file?.type.startsWith('image/') ? (
+              <Image
+                src={formData.previewUrl}
+                alt="Preview"
+                width={300}
+                height={300}
+                style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px' }}
+              />
+            ) : (
+              <video
+                src={formData.previewUrl}
+                controls
+                style={{ objectFit: 'cover', maxWidth: '100%', maxHeight: '300px', borderRadius: '8px' }}
+              />
+            )}
+            <IconButton
+              onClick={handleFileDelete}
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.7)'
+                }
+              }}
+            >
+              <DeleteIcon sx={{ color: 'white' }} />
+            </IconButton>
+          </Box>
+        )}
       </Box>
 
       {/* 表单字段 */}
-      <Typography variant="subtitle1">NFT名称*</Typography>
+      <Typography variant="subtitle1">NFT名称<span className="text-red-500">*</span></Typography>
       <TextField
         fullWidth
         required
-        // label="NFT名称"
+        error={nameError}
+        helperText={nameError ? "NFT名称不能为空" : ""}
         name="name"
         value={formData.name}
         onChange={handleTextChange}
@@ -101,7 +215,6 @@ export default function NFTForm() {
         required
         multiline
         rows={4}
-        // label="描述"
         name="description"
         value={formData.description}
         onChange={handleTextChange}
@@ -133,7 +246,6 @@ export default function NFTForm() {
         <Select
           name="category"
           value={formData.category}
-        //   label="类别"
           onChange={handleSelectChange}
           displayEmpty
           sx={{
@@ -158,7 +270,6 @@ export default function NFTForm() {
 
       <Typography variant="subtitle1">区块链</Typography>
       <FormControl fullWidth sx={{ marginBottom: '16px' }}>
-        {/* <InputLabel>区块链</InputLabel> */}
         <Select
           name="blockchain"
           value={formData.blockchain}
@@ -187,7 +298,6 @@ export default function NFTForm() {
       <TextField
         fullWidth
         required
-        // label="版税比例 (%)"
         name="royalty"
         type="number"
         value={formData.royalty}
@@ -222,32 +332,30 @@ export default function NFTForm() {
           }
         }}
       />
+      
       <Box className='mb-6'>
         {
-          isConnected  ? (
-            <Button 
-            variant="contained" 
-            fullWidth 
-            size="large"
-            sx={{
-              bgcolor: 'primary.main',
-              '&:hover': {
-                bgcolor: 'primary.dark',
-              }
-            }}
-            onClick={handleSubmit}
-          >
-            铸造NFT
-          </Button>
+          isDisconnected ? (
+            <CustomWalletButton />
           ) : (
-          // <ConnectButton 
-          //   showBalance={true}
-          //   chainStatus="icon"
-          //   accountStatus="address"
-          //   label='连接钱包'
-          // />
-          <CustomWalletButton />
-        )
+            <LoadingButton 
+              variant="contained" 
+              loading={loading}
+              loadingPosition="start"
+              fullWidth 
+              size="large"
+              disabled={!formData.name.trim()}
+              sx={{
+                bgcolor: 'primary.main',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                }
+              }}
+              onClick={handleSubmit}
+            >
+              铸造NFT
+            </LoadingButton>
+          )
         }
       </Box>
     </Box>

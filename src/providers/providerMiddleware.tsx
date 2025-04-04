@@ -31,7 +31,7 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
         });
         console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 res:', res);
         if(res.code === 200) {
-          GlobalStore.setRainbowKitAuthStatus('authenticated', response.data.address, res.data.result.token);
+          GlobalStore.setRainbowKitAuthStatus('authenticated', response.data.address, res.data.result?.token ?? '');
           return;
         }
         GlobalStore.setRainbowKitAuthStatus('unauthenticated', response.data.address, '');
