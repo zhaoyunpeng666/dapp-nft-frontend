@@ -1,6 +1,8 @@
 import { Box, Typography, Button } from '@mui/material';
+import { useCopy } from '@/utils/useCopy';
 
 export default function Wallet() {
+  const [, copyHandler] = useCopy();
   const wallets = [
     {
       id: 1,
@@ -17,8 +19,7 @@ export default function Wallet() {
   ];
 
   const handleCopyAddress = (address: string) => {
-    navigator.clipboard.writeText(address);
-    alert('钱包地址已复制到剪贴板');
+    copyHandler(address);
   };
 
   return (
