@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { WalletProvider } from '@/providers/WalletProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { I18nProvider } from '@/providers/I18nProvider'
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang='en'>

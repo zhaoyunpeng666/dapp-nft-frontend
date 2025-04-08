@@ -34,7 +34,7 @@ const violetBase = '#6c63ff';
 const violetMain = alpha(violetBase, 0.7);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(true)
   
   const theme = createTheme({
     palette: {
@@ -83,12 +83,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   })
 
   return (
-    <ThemeContext value={{ isDark, toggleTheme: () => setIsDark(!isDark) }}>
+    <ThemeContext.Provider value={{ isDark, toggleTheme: () => setIsDark(!isDark) }}>
       <MuiThemeProvider theme={theme}>
         <Box className={isDark ? 'dark' : 'light'}>
           {children}
         </Box>
       </MuiThemeProvider>
-    </ThemeContext>
+    </ThemeContext.Provider>
   )
 }
