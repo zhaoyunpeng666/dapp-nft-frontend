@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useState } from "react";
-import { Box, FormControl, IconButton, MenuItem, Select, SelectChangeEvent, Typography, Button, Pagination, Tabs, Tab } from "@mui/material";
+import { Box, FormControl, IconButton, MenuItem, Select, SelectChangeEvent, Typography, Button, Pagination, Tabs, Tab, Theme } from "@mui/material";
 import { GridView } from "@mui/icons-material";
 import { NFT_LIST_DATA } from './constants'
 import Image from "next/image";
@@ -148,7 +148,7 @@ const MarketPlace: React.FC = () => {
                                         <Typography variant="caption" >当前出价</Typography>
                                         <Box 
                                             sx={{
-                                                color: (theme) => theme.palette.violet.main,
+                                                color: (theme: Theme) => theme.palette.violet.main,
                                                 fontWeight: 'bold',
                                             }}
                                         >{item.currentPrice}</Box>

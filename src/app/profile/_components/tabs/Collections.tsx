@@ -1,6 +1,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Collections() {
   const categories = ['全部', '艺术', '音乐', '收藏品'];
@@ -43,7 +44,7 @@ export default function Collections() {
         <Typography variant="h5" className="font-bold text-[#1a1a2e]">
           我的收藏
         </Typography>
-        <Link href="/marketplace">
+        <Link href="/marketPlace">
           <Button variant="outlined" className="border-[#6c63ff] text-[#6c63ff]">
             浏览市场
           </Button>
@@ -72,7 +73,9 @@ export default function Collections() {
             key={nft.id}
             className="bg-white rounded-lg overflow-hidden shadow-lg hover:transform hover:-translate-y-1 transition-transform"
           >
-            <img
+            <Image
+              width={300}
+              height={200}
               src={nft.image}
               alt={nft.title}
               className="w-full h-48 object-cover"

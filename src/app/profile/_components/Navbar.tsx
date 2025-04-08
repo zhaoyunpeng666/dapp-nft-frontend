@@ -24,7 +24,7 @@ export default function Navbar() {
           <Link href="/createNfts" className="text-white no-underline mx-4">
             <Typography>创建NFT</Typography>
           </Link>
-          <Link href="/marketplace" className="text-white no-underline mx-4">
+          <Link href="/marketPlace" className="text-white no-underline mx-4">
             <Typography>市场</Typography>
           </Link>
         </Box>

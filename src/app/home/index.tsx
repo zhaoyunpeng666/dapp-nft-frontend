@@ -4,8 +4,8 @@
 // import { useContext } from 'react'
 // import { useAccount } from 'wagmi'
 import { Box } from '@mui/material'
-// import FunctionPage from '@/components/Function'
-import MarketPlace from '@/components/MarkePlace'
+import FunctionPage from '@/components/Function'
+// import MarketPlace from '@/components/MarkePlace'
 // import { ThemeContext } from '@/providers/ThemeProvider'
 import Footer from '@/components/Footer'
 
@@ -15,8 +15,8 @@ export default function Home() {
   
   return (
     <Box className={`min-h-screen `}>
-      {/* <FunctionPage /> */}
-      <MarketPlace />
+      <FunctionPage />
+      {/* <MarketPlace /> */}
       <Footer />
     </Box>
   );
