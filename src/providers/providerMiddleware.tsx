@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useCallback } from 'react';
 import * as dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { useAccount, useChainId, useSignMessage } from 'wagmi';
@@ -16,7 +16,7 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
   console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 chainId:', chainId);
   const { signMessageAsync } = useSignMessage();
 
-  async function getDiDUserInfo() {
+  const getDiDUserInfo = useCallback(async () => {
     const response = await services.did.getAuthNonce((address as string) ?? '');
     if (response?.code == 200) {
       if (response.data.address) {
@@ -40,7 +40,7 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
         GlobalStore.setRainbowKitAuthStatus('unauthenticated', address as string, '');
       }
     }
-  }
+  }, [address, chainId, signMessageAsync]);
 
   useEffect(() => {
     if(!address) {
@@ -49,7 +49,7 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
       return
     };
     getDiDUserInfo();
-  }, [address, chainId]);
+  }, [address, chainId, getDiDUserInfo]);
 
   return <Fragment>{children}</Fragment>;
 }

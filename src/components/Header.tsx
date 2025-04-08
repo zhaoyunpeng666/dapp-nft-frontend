@@ -1,7 +1,7 @@
 // components/Header.tsx
 'use client'
 
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, useCallback } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from '@/providers/ThemeProvider'
@@ -39,10 +39,10 @@ export default function Header() {
     handleMenuClose()
   }
 
-  const setSentryTag = () => {
+  const setSentryTag = useCallback(() => {
     Sentry.setTag('account', address);
     Sentry.setTag('ConnectorName', connector?.name);
-  };
+  }, [address, connector]);
 
   useEffect(() => {
     if (address) {
@@ -51,7 +51,7 @@ export default function Header() {
     if (address && connector) {
       setSentryTag();
     }
-  }, [address, connector]);
+  }, [address, connector, setSentryTag]);
 
   return (
     <AppBar 
