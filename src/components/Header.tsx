@@ -55,7 +55,7 @@ export default function Header() {
 
   return (
     <AppBar 
-        position="static"
+        position="sticky"
         className={`dark:bg-gray-700`}
         sx={{ 
           background: isDark ? '#1a1a2e' : '#1a1a2e',
