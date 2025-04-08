@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import { Box, FormControl, IconButton, MenuItem, Select, SelectChangeEvent, Typography, Button, Pagination, Tabs, Tab, Theme } from "@mui/material";
 import { GridView } from "@mui/icons-material";
-import { NFT_LIST_DATA } from './constants'
+import { NFT_LIST_DATA } from './_constants'
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 
