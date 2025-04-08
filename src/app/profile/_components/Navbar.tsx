@@ -21,7 +21,7 @@ export default function Navbar() {
           <Link href="/#auction-types" className="text-white no-underline mx-4">
             <Typography>拍卖类型</Typography>
           </Link>
-          <Link href="/mint" className="text-white no-underline mx-4">
+          <Link href="/createNfts" className="text-white no-underline mx-4">
             <Typography>创建NFT</Typography>
           </Link>
           <Link href="/marketplace" className="text-white no-underline mx-4">

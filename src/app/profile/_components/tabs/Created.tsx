@@ -1,6 +1,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Created() {
   const categories = ['全部', '在售', '已售出'];
@@ -36,7 +37,7 @@ export default function Created() {
         <Typography variant="h5" className="font-bold text-[#1a1a2e]">
           已创建的NFT
         </Typography>
-        <Link href="/mint">
+        <Link href="/createNfts">
           <Button variant="contained" className="bg-[#6c63ff] text-white">
             创建新NFT
           </Button>
@@ -65,7 +66,9 @@ export default function Created() {
             key={nft.id}
             className="bg-white rounded-lg overflow-hidden shadow-lg hover:transform hover:-translate-y-1 transition-transform"
           >
-            <img
+            <Image
+              width={300}
+              height={200}
               src={nft.image}
               alt={nft.title}
               className="w-full h-48 object-cover"

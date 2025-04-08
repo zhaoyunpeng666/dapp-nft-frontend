@@ -1,5 +1,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import { useState } from 'react';
+import Image from 'next/image';
+
 
 export default function Auctions() {
   const categories = ['进行中', '已结束', '草稿'];
@@ -53,13 +55,15 @@ export default function Auctions() {
         ))}
       </Box>
 
-      <Box className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <Box className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         {auctions.map((auction) => (
           <Box
             key={auction.id}
             className="bg-white rounded-lg overflow-hidden shadow-lg hover:transform hover:-translate-y-1 transition-transform"
           >
-            <img
+            <Image
+              width={300}
+              height={200}
               src={auction.image}
               alt={auction.title}
               className="w-full h-48 object-cover"
