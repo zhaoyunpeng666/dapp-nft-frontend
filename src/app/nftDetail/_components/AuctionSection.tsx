@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { Grid2 as Grid, Typography, TextField, Button, Box } from '@mui/material';
 import { NFTData } from '@/@types';

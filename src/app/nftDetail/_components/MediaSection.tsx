@@ -1,5 +1,7 @@
+'use client'
+
 import React from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Image from 'next/image';
 import { NFTData } from '@/@types';
@@ -82,8 +84,8 @@ const MediaSection = ({ nftData }: {nftData: NFTData}) => {
           </Grid>
           <Grid size={4} textAlign="right">
             <Button variant="outlined" size="small" sx={{
-              color: (theme) => theme.palette.violet.main,
-              borderColor: (theme) => theme.palette.violet.main,
+              color: (theme: Theme) => theme.palette.violet.main,
+              borderColor: (theme: Theme) => theme.palette.violet.main,
             }}>
               关注
             </Button>

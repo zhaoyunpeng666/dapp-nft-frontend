@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { Grid2 as Grid, Button, Tooltip } from '@mui/material';
 import { 

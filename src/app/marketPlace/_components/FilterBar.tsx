@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Typography, Select, MenuItem, SelectChangeEvent, IconButton } from "@mui/material";
 import { ViewModule, ViewList } from "@mui/icons-material";
 

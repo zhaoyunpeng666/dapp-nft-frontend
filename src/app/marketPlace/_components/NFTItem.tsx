@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button, Typography, Theme } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
