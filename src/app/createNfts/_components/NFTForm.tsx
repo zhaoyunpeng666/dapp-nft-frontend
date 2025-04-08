@@ -6,11 +6,19 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import { ConnectButton } from '@rainbow-me/rainbowkit';
 // import * as GlobalStore from '@/stores/GlobalStore';
-import { useAccount } from 'wagmi';
+import {
+  useAccount,
+  useWriteContract,
+  usePublicClient,
+} from 'wagmi';
+import { PublicClient, Address } from 'viem';
 import CustomWalletButton from '@/components/CustomWalletButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Image from 'next/image';
 import { Category, Blockchain } from './constants';
+import { config } from '@/config/chains';
+import { NFTAuctionAbi, NFTAuctionAbiAddress } from '@/constants/abis';
+import { toast } from "react-toastify";
 
 interface NFTFormProps {
   formData: {
@@ -35,11 +43,20 @@ interface NFTFormProps {
 
 export default function NFTForm({ formData, setFormData }: NFTFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { isConnected, isDisconnected } = useAccount();
+  const { isDisconnected, address } = useAccount();
   const [loading, setLoading] = useState(false);
   const [nameError, setNameError] = useState(false);
-  console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 isConnected:', isConnected);
-  console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 isDisconnected:', isDisconnected);
+  // console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 isDisconnected:', isDisconnected);
+
+  const publicClient = usePublicClient() as PublicClient;
+
+  const {
+    writeContractAsync,
+    data
+ } = useWriteContract({
+    config
+ });
+    console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 data:', data);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -89,12 +106,33 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('铸造NFT:', formData);
     setLoading(true)
-    setTimeout(() => {
+
+    try {
+      // 1. 铸造NFT
+    const hash = await writeContractAsync({
+      abi: NFTAuctionAbi,
+      address: NFTAuctionAbiAddress,
+      functionName: 'mint',
+      args: [address as Address],
+    });
+    console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSubmit 📍 hash:', hash);
+    if(!hash) {
+      toast.error('铸造NFT失败')
       setLoading(false)
-    }, 2000);
+      return
+    } 
+      // 2. 等待交易确认      
+      await publicClient.waitForTransactionReceipt({ hash });
+      toast.success('铸造NFT成功')
+      setLoading(false)
+    } catch (error) {
+      console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSubmit 📍 error:', error);
+      toast.error('铸造NFT失败')
+      setLoading(false)
+    }
   };
 
   return (
