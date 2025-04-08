@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - NFT拍卖平台原型</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #6c63ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .user-name {
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .page-title p {
+            font-size: 16px;
+            max-width: 600px;
+        }
+        
+        /* 个人中心布局 */
+        .profile-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .profile-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+        
+        /* 侧边栏 */
+        .profile-sidebar {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sidebar-user {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #6c63ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-username {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+        
+        .sidebar-address {
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6c63ff;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 4px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .sidebar-menu a.active {
+            background-color: #6c63ff;
+            color: white;
+        }
+        
+        /* 内容区域 */
+        .profile-content {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .content-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: #6c63ff;
+            border: 1px solid #6c63ff;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom-color: #6c63ff;
+            color: #6c63ff;
+            font-weight: bold;
+        }
+        
+        /* NFT卡片网格 */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .nft-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .nft-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nft-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .nft-info {
+            padding: 15px;
+        }
+        
+        .nft-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .nft-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .price-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #6c63ff;
+        }
+        
+        .nft-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .status-active {
+            background-color: #e6f7e6;
+            color: #28a745;
+        }
+        
+        .status-sold {
+            background-color: #f7e6e6;
+            color: #dc3545;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #ffc107;
+        }
+        
+        /* 交易历史 */
+        .transaction-list {
+            list-style: none;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .transaction-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .transaction-icon.sold {
+            color: #28a745;
+        }
+        
+        .transaction-icon.bought {
+            color: #dc3545;
+        }
+        
+        .transaction-icon.bid {
+            color: #ffc107;
+        }
+        
+        .transaction-details h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+        
+        .transaction-details p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .transaction-amount {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        
+        /* 设置表单 */
+        .settings-form {
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+        
+        .form-submit {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .form-submit:hover {
+            background-color: #5a52d5;
+        }
+        
+        .wallet-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .wallet-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        
+        .wallet-balance {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6c63ff;
+        }
+        
+        .wallet-address {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .address-text {
+            flex-grow: 1;
+            font-family: monospace;
+            font-size: 14px;
+            color: #666;
+            word-break: break-all;
+        }
+        
+        .copy-button {
+            background: none;
+            border: none;
+            color: #6c63ff;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .wallet-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-text {
+            font-size: 18px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .user-profile {
+                margin-top: 15px;
+            }
+            
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            
+            .sidebar-menu li {
+                margin-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">NFT拍卖平台</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#features">功能</a></li>
+                    <li><a href="index.html#trending">热门NFT</a></li>
+                    <li><a href="index.html#auction-types">拍卖类型</a></li>
+                    <li><a href="mint.html">创建NFT</a></li>
+                    <li><a href="marketplace.html">市场</a></li>
+                </ul>
+                <div class="user-profile">
+                    <div class="user-avatar">U</div>
+                    <span class="user-name">用户名</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <section class="page-title">
+        <div class="container">
+            <h1>个人中心</h1>
+            <p>管理您的NFT收藏、拍卖历史和账户设置。</p>
+        </div>
+    </section>
+
+    <!-- 个人中心内容 -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-container">
+                <!-- 侧边栏 -->
+                <div class="profile-sidebar">
+                    <div class="sidebar-user">
+                        <div class="sidebar-avatar">U</div>
+                        <div class="sidebar-username">用户名</div>
+                        <div class="sidebar-address">0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t</div>
+                        <a href="#" class="btn btn-outline">编辑资料</a>
+                    </div>
+                    <div class="sidebar-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">已创建</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">已收藏</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">进行中</div>
+                        </div>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active" onclick="showTab('collections')">我的收藏</a></li>
+                        <li><a href="#" onclick="showTab('created')">已创建</a></li>
+                        <li><a href="#" onclick="showTab('auctions')">我的拍卖</a></li>
+                        <li><a href="#" onclick="showTab('bids')">我的出价</a></li>
+                        <li><a href="#" onclick="showTab('transactions')">交易历史</a></li>
+                        <li><a href="#" onclick="showTab('wallet')">钱包管理</a></li>
+                        <li><a href="#" onclick="showTab('settings')">账户设置</a></li>
+                    </ul>
+                </div>
+                
+                <!-- 内容区域 -->
+                <div class="profile-content">
+                    <!-- 我的收藏 -->
+                    <div id="collections" class="content-tab">
+                        <div class="content-title">
+                            <h2>我的收藏</h2>
+                            <div>
+                                <a href="marketplace.html" class="btn btn-outline">浏览市场</a>
+                            </div>
+                        </div>
+                        <div class="tabs">
+                            <div class="tab active" onclick="filterCollections('all')">全部</div>
+                            <div class="tab" onclick="filterCollections('art')">艺术</div>
+                            <div class="tab" onclick="filterCollections('music')">音乐</div>
+                            <div class="tab" onclick="filterCollections('collectible')">收藏品</div>
+                        </div>
+                        <div class="nft-grid">
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Digital+Art" alt="数字艺术" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">宇宙探索者 #42</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">2.5 ETH</div>
+                                        <div class="nft-status status-active">持有中</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看详情</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Collectible" alt="收藏品" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">像素猫咪 #103</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">1.8 ETH</div>
+                                        <div class="nft-status status-active">持有中</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看详情</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=3D+Model" alt="3D模型" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">未来城市 #7</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">3.2 ETH</div>
+                                        <div class="nft-status status-active">持有中</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看详情</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/1a1a2e/ffffff?text=Music+NFT" alt="音乐NFT" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">电子交响曲 #15</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">1.5 ETH</div>
+                                        <div class="nft-status status-active">持有中</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 已创建 -->
+                    <div id="created" class="content-tab" style="display: none;">
+                        <div class="content-title">
+                            <h2>已创建的NFT</h2>
+                            <div>
+                                <a href="mint.html" class="btn btn-primary">创建新NFT</a>
+                            </div>
+                        </div>
+                        <div class="tabs">
+                            <div class="tab active" onclick="filterCreated('all')">全部</div>
+                            <div class="tab" onclick="filterCreated('on-sale')">在售</div>
+                            <div class="tab" onclick="filterCreated('sold')">已售出</div>
+                        </div>
+                        <div class="nft-grid">
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Created+Art" alt="创建的艺术" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">抽象思维 #8</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">1.2 ETH</div>
+                                        <div class="nft-status status-active">拍卖中</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">管理拍卖</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Created+Music" alt="创建的音乐" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">电子节拍 #3</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">0.8 ETH</div>
+                                        <div class="nft-status status-sold">已售出</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看详情</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=Created+Photo" alt="创建的照片" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">城市夜景 #12</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">1.5 ETH</div>
+                                        <div class="nft-status status-active">拍卖中</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">管理拍卖</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 我的拍卖 -->
+                    <div id="auctions" class="content-tab" style="display: none;">
+                        <div class="content-title">
+                            <h2>我的拍卖</h2>
+                        </div>
+                        <div class="tabs">
+                            <div class="tab active" onclick="filterAuctions('active')">进行中</div>
+                            <div class="tab" onclick="filterAuctions('ended')">已结束</div>
+                            <div class="tab" onclick="filterAuctions('draft')">草稿</div>
+                        </div>
+                        <div class="nft-grid">
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Auction" alt="拍卖" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">抽象思维 #8</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">当前价: 1.2 ETH</div>
+                                        <div class="nft-status status-active">12小时后结束</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看出价</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=Auction" alt="拍卖" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">城市夜景 #12</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">当前价: 1.5 ETH</div>
+                                        <div class="nft-status status-active">2天后结束</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看出价</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Auction" alt="拍卖" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">电子节拍 #3</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">成交价: 0.8 ETH</div>
+                                        <div class="nft-status status-sold">已结束</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 我的出价 -->
+                    <div id="bids" class="content-tab" style="display: none;">
+                        <div class="content-title">
+                            <h2>我的出价</h2>
+                        </div>
+                        <div class="tabs">
+                            <div class="tab active" onclick="filterBids('active')">进行中</div>
+                            <div class="tab" onclick="filterBids('won')">已中标</div>
+                            <div class="tab" onclick="filterBids('lost')">未中标</div>
+                        </div>
+                        <div class="nft-grid">
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Bid" alt="出价" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">宇宙探索者 #42</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">我的出价: 2.5 ETH</div>
+                                        <div class="nft-status status-active">领先</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看拍卖</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Bid" alt="出价" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">像素猫咪 #103</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">我的出价: 1.8 ETH</div>
+                                        <div class="nft-status status-pending">已超越</div>
+                                    </div>
+                                    <a href="#" class="btn btn-primary">增加出价</a>
+                                </div>
+                            </div>
+                            <div class="nft-card">
+                                <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=Bid" alt="出价" class="nft-image">
+                                <div class="nft-info">
+                                    <div class="nft-title">未来城市 #7</div>
+                                    <div class="nft-price">
+                                        <div class="price-value">成交价: 3.2 ETH</div>
+                                        <div class="nft-status status-active">已中标</div>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 交易历史 -->
+                    <div id="transactions" class="content-tab" style="display: none;">
+                        <div class="content-title">
+                            <h2>交易历史</h2>
+                        </div>
+                        <div class="tabs">
+                            <div class="tab active" onclick="filterTransactions('all')">全部</div>
+                            <div class="tab" onclick="filterTransactions('purchases')">购买</div>
+                            <div class="tab" onclick="filterTransactions('sales')">销售</div>
+                            <div class="tab" onclick="filterTransactions('bids')">出价</div>
+                        </div>
+                        <ul class="transaction-list">
+                            <li class="transaction-item">
+                                <div class="transaction-info">
+                                    <div class="transaction-icon bought">💰</div>
+                                    <div class="transaction-details">
+                                        <h4>购买 "未来城市 #7"</h4>
+                                        <p>2025年3月20日 14:30</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount">-3.2 ETH</div>
+                            </li>
+                            <li class="transaction-item">
+                                <div class="transaction-info">
+                                    <div class="transaction-icon sold">💸</div>
+                                    <div class="transaction-details">
+                                        <h4>出售 "电子节拍 #3"</h4>
+                                        <p>2025年3月15日 09:45</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount">+0.8 ETH</div>
+                            </li>
+                            <li class="transaction-item">
+                                <div class="transaction-info">
+                                    <div class="transaction-icon bid">🔨</div>
+                                    <div class="transaction-details">
+                                        <h4>出价 "像素猫咪 #103"</h4>
+                                        <p>2025年3月10日 18:20</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount">1.8 ETH (待定)</div>
+                            </li>
+                            <li class="transaction-item">
+                                <div class="transaction-info">
+                                    <div class="transaction-icon bought">💰</div>
+                                    <div class="transaction-details">
+                                        <h4>购买 "宇宙探索者 #42"</h4>
+                                        <p>2025年3月5日 11:15</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount">-2.5 ETH</div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 钱包管理 -->
+                    <div id="wallet" class="content-tab" style="display: none;">
+                        <div class="content-title">
+                            <h2>钱包管理</h2>
+                        </div>
+                        <div class="wallet-section">
+                            <div class="wallet-header">
+                                <div class="wallet-title">以太坊钱包</div>
+                                <div class="wallet-balance">8.5 ETH</div>
+                            </div>
+                            <div class="wallet-address">
+                                <div class="address-text">0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t</div>
+                                <button class="copy-button">复制</button>
+                            </div>
+                            <div class="wallet-actions">
+                                <a href="#" class="btn btn-primary">充值</a>
+                                <a href="#" class="btn btn-outline">提现</a>
+                            </div>
+                        </div>
+                        <div class="wallet-section">
+                            <div class="wallet-header">
+                                <div class="wallet-title">Solana钱包</div>
+                                <div class="wallet-balance">15.2 SOL</div>
+                            </div>
+                            <div class="wallet-address">
+                                <div class="address-text">5Uj7qZ8XnRB9KuTjvhP2qH1XnJhmj6YdvK2HQHJmfQbS</div>
+                                <button class="copy-button">复制</button>
+                            </div>
+                            <div class="wallet-actions">
+                                <a href="#" class="btn btn-primary">充值</a>
+                                <a href="#" class="btn btn-outline">提现</a>
+                            </div>
+                        </div>
+                        <div class="wallet-section">
+                            <div class="wallet-header">
+                                <div class="wallet-title">连接新钱包</div>
+                            </div>
+                            <div class="wallet-actions" style="margin-top: 15px;">
+                                <a href="#" class="btn btn-outline">连接MetaMask</a>
+                                <a href="#" class="btn btn-outline">连接Phantom</a>
+                                <a href="#" class="btn btn-outline">连接其他钱包</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 账户设置 -->
+                    <div id="settings" class="content-tab" style="display: none;">
+                        <div class="content-title">
+                            <h2>账户设置</h2>
+                        </div>
+                        <form class="settings-form" id="profile-form" style="display: block;">
+                            <div class="form-group">
+                                <label for="username" class="form-label">用户名</label>
+                                <input type="text" id="username" class="form-input" value="用户名">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">电子邮箱</label>
+                                <input type="email" id="email" class="form-input" value="user@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="bio" class="form-label">个人简介</label>
+                                <textarea id="bio" class="form-textarea">NFT创作者和收藏家，热爱数字艺术和区块链技术。</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="website" class="form-label">个人网站</label>
+                                <input type="url" id="website" class="form-input" value="https://example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="twitter" class="form-label">Twitter</label>
+                                <input type="text" id="twitter" class="form-input" value="@username">
+                            </div>
+                            <button type="submit" class="form-submit">保存更改</button>
+                        </form>
+                        
+                        <form class="settings-form" id="notification-form">
+                            <div class="form-group">
+                                <label class="form-label">通知设置</label>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" id="notify-bid" checked>
+                                    <label for="notify-bid">有人对我的NFT出价时通知我</label>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" id="notify-outbid" checked>
+                                    <label for="notify-outbid">我的出价被超过时通知我</label>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" id="notify-auction-end" checked>
+                                    <label for="notify-auction-end">拍卖结束时通知我</label>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" id="notify-purchase" checked>
+                                    <label for="notify-purchase">购买成功时通知我</label>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" id="notify-sale" checked>
+                                    <label for="notify-sale">销售成功时通知我</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="form-submit">保存通知设置</button>
+                        </form>
+                        
+                        <form class="settings-form" id="security-form">
+                            <div class="form-group">
+                                <label for="current-password" class="form-label">当前密码</label>
+                                <input type="password" id="current-password" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password" class="form-label">新密码</label>
+                                <input type="password" id="new-password" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password" class="form-label">确认新密码</label>
+                                <input type="password" id="confirm-password" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">两步验证</label>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" id="enable-2fa">
+                                    <label for="enable-2fa">启用两步验证 (2FA)</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="form-submit">更新安全设置</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NFT拍卖平台</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">团队</a></li>
+                        <li><a href="#">职业机会</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>市场</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">所有NFT</a></li>
+                        <li><a href="#">艺术</a></li>
+                        <li><a href="#">音乐</a></li>
+                        <li><a href="#">摄影</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>资源</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">平台状态</a></li>
+                        <li><a href="#">合作伙伴</a></li>
+                        <li><a href="#">博客</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>法律</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">服务条款</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">版权政策</a></li>
+                        <li><a href="#">费用说明</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 NFT拍卖平台. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 标签页切换
+        function showTab(tabId) {
+            // 隐藏所有内容标签页
+            const contentTabs = document.querySelectorAll('.content-tab');
+            contentTabs.forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // 显示选中的标签页
+            document.getElementById(tabId).style.display = 'block';
+            
+            // 更新侧边栏菜单激活状态
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            menuItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick').includes(tabId)) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // 如果是设置标签页，默认显示个人资料表单
+            if (tabId === 'settings') {
+                showSettingsForm('profile-form');
+            }
+        }
+        
+        // 设置表单切换
+        function showSettingsForm(formId) {
+            const forms = document.querySelectorAll('.settings-form');
+            forms.forEach(form => {
+                form.style.display = 'none';
+            });
+            document.getElementById(formId).style.display = 'block';
+        }
+        
+        // 过滤收藏
+        function filterCollections(category) {
+            console.log('过滤收藏:', category);
+            // 在实际应用中，这里会根据类别过滤NFT卡片
+            
+            // 更新标签激活状态
+            updateTabActive('collections', category);
+        }
+        
+        // 过滤已创建
+        function filterCreated(status) {
+            console.log('过滤已创建:', status);
+            // 在实际应用中，这里会根据状态过滤NFT卡片
+            
+            // 更新标签激活状态
+            updateTabActive('created', status);
+        }
+        
+        // 过滤拍卖
+        function filterAuctions(status) {
+            console.log('过滤拍卖:', status);
+            // 在实际应用中，这里会根据状态过滤拍卖
+            
+            // 更新标签激活状态
+            updateTabActive('auctions', status);
+        }
+        
+        // 过滤出价
+        function filterBids(status) {
+            console.log('过滤出价:', status);
+            // 在实际应用中，这里会根据状态过滤出价
+            
+            // 更新标签激活状态
+            updateTabActive('bids', status);
+        }
+        
+        // 过滤交易
+        function filterTransactions(type) {
+            console.log('过滤交易:', type);
+            // 在实际应用中，这里会根据类型过滤交易
+            
+            // 更新标签激活状态
+            updateTabActive('transactions', type);
+        }
+        
+        // 更新标签激活状态
+        function updateTabActive(containerId, tabValue) {
+            const container = document.getElementById(containerId);
+            const tabs = container.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('onclick').includes(tabValue)) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+        
+        // 表单提交处理
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('设置已保存（在原型中此功能不会实际生效）');
+            });
+        });
+        
+        // 复制钱包地址
+        document.querySelectorAll('.copy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const addressText = button.previousElementSibling.textContent;
+                navigator.clipboard.writeText(addressText).then(() => {
+                    alert('钱包地址已复制到剪贴板');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

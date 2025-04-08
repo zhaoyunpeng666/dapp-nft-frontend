@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT市场 - NFT拍卖平台原型</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .page-title p {
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 市场布局 */
+        .marketplace-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .marketplace-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+        
+        /* 筛选侧边栏 */
+        .filter-sidebar {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            align-self: start;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .filter-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+        }
+        
+        .filter-group {
+            margin-bottom: 25px;
+        }
+        
+        .filter-group-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .filter-options {
+            list-style: none;
+        }
+        
+        .filter-option {
+            margin-bottom: 10px;
+        }
+        
+        .filter-checkbox {
+            margin-right: 10px;
+        }
+        
+        .filter-label {
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .filter-label:hover {
+            color: #6c63ff;
+        }
+        
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .price-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .filter-button {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .filter-button:hover {
+            background-color: #5a52d5;
+        }
+        
+        .clear-filters {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .clear-filters a {
+            color: #6c63ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        /* 内容区域 */
+        .marketplace-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .marketplace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .marketplace-title {
+            font-size: 24px;
+            color: #1a1a2e;
+        }
+        
+        .marketplace-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .sort-select {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+        
+        .view-toggle {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .view-toggle button {
+            padding: 8px 12px;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .view-toggle button.active {
+            background-color: #6c63ff;
+            color: white;
+        }
+        
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom-color: #6c63ff;
+            color: #6c63ff;
+            font-weight: bold;
+        }
+        
+        /* NFT卡片网格 */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .nft-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .nft-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nft-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .nft-info {
+            padding: 15px;
+        }
+        
+        .nft-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+        }
+        
+        .nft-creator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .creator-avatar {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .creator-name {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .nft-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .price-label {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .price-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #6c63ff;
+        }
+        
+        .auction-info {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .auction-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .auction-type.english {
+            background-color: #e6f7e6;
+            color: #28a745;
+        }
+        
+        .auction-type.dutch {
+            background-color: #f7e6e6;
+            color: #dc3545;
+        }
+        
+        .auction-type.fixed {
+            background-color: #e6e6f7;
+            color: #6c63ff;
+        }
+        
+        .auction-type.blind {
+            background-color: #f7f7e6;
+            color: #ffc107;
+        }
+        
+        .nft-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nft-actions .btn {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+        }
+        
+        .nft-actions .btn-outline {
+            color: #6c63ff;
+            border-color: #6c63ff;
+            margin-right: 0;
+        }
+        
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ddd;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination-item:hover {
+            border-color: #6c63ff;
+            color: #6c63ff;
+        }
+        
+        .pagination-item.active {
+            background-color: #6c63ff;
+            color: white;
+            border-color: #6c63ff;
+        }
+        
+        /* 列表视图 */
+        .nft-list {
+            display: none;
+        }
+        
+        .nft-list-item {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .nft-list-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nft-list-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .nft-list-info {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .nft-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .nft-list-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+        }
+        
+        .nft-list-creator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .nft-list-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .nft-list-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nft-list-price {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .nft-list-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            
+            .marketplace-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-sidebar {
+                position: static;
+                margin-bottom: 30px;
+            }
+            
+            .nft-list-item {
+                flex-direction: column;
+            }
+            
+            .nft-list-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">NFT拍卖平台</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#features">功能</a></li>
+                    <li><a href="index.html#trending">热门NFT</a></li>
+                    <li><a href="index.html#auction-types">拍卖类型</a></li>
+                    <li><a href="mint.html">创建NFT</a></li>
+                    <li><a href="marketplace.html">市场</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline">登录</a>
+                    <a href="#" class="btn btn-primary">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <section class="page-title">
+        <div class="container">
+            <h1>NFT市场</h1>
+            <p>探索、收藏和拍卖独特的数字艺术品和收藏品。</p>
+        </div>
+    </section>
+
+    <!-- 市场内容 -->
+    <section class="marketplace-section">
+        <div class="container">
+            <div class="marketplace-container">
+                <!-- 筛选侧边栏 -->
+                <div class="filter-sidebar">
+                    <h2 class="filter-title">筛选</h2>
+                    
+                    <div class="filter-group">
+                        <h3 class="filter-group-title">类别</h3>
+                        <ul class="filter-options">
+                            <li class="filter-option">
+                                <input type="checkbox" id="category-art" class="filter-checkbox">
+                                <label for="category-art" class="filter-label">艺术</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="category-music" class="filter-checkbox">
+                                <label for="category-music" class="filter-label">音乐</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="category-photography" class="filter-checkbox">
+                                <label for="category-photography" class="filter-label">摄影</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="category-game" class="filter-checkbox">
+                                <label for="category-game" class="filter-label">游戏资产</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="category-collectible" class="filter-checkbox">
+                                <label for="category-collectible" class="filter-label">收藏品</label>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3 class="filter-group-title">拍卖类型</h3>
+                        <ul class="filter-options">
+                            <li class="filter-option">
+                                <input type="checkbox" id="auction-english" class="filter-checkbox">
+                                <label for="auction-english" class="filter-label">英式拍卖</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="auction-dutch" class="filter-checkbox">
+                                <label for="auction-dutch" class="filter-label">荷兰式拍卖</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="auction-fixed" class="filter-checkbox">
+                                <label for="auction-fixed" class="filter-label">固定价格</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="auction-blind" class="filter-checkbox">
+                                <label for="auction-blind" class="filter-label">盲拍</label>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3 class="filter-group-title">区块链</h3>
+                        <ul class="filter-options">
+                            <li class="filter-option">
+                                <input type="checkbox" id="blockchain-ethereum" class="filter-checkbox">
+                                <label for="blockchain-ethereum" class="filter-label">以太坊</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="blockchain-solana" class="filter-checkbox">
+                                <label for="blockchain-solana" class="filter-label">Solana</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="blockchain-polygon" class="filter-checkbox">
+                                <label for="blockchain-polygon" class="filter-label">Polygon</label>
+                            </li>
+                            <li class="filter-option">
+                                <input type="checkbox" id="blockchain-binance" class="filter-checkbox">
+                                <label for="blockchain-binance" class="filter-label">币安智能链</label>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3 class="filter-group-title">价格范围</h3>
+                        <div class="price-range">
+                            <input type="number" placeholder="最低" class="price-input">
+                            <span>至</span>
+                            <input type="number" placeholder="最高" class="price-input">
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <select class="sort-select" style="width: 100%;">
+                                <option value="eth">ETH</option>
+                                <option value="sol">SOL</option>
+                                <option value="matic">MATIC</option>
+                                <option value="bnb">BNB</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="filter-button">应用筛选</button>
+                    <div class="clear-filters">
+                        <a href="#">清除所有筛选</a>
+                    </div>
+                </div>
+                
+                <!-- 内容区域 -->
+                <div class="marketplace-content">
+                    <div class="marketplace-header">
+                        <h2 class="marketplace-title">所有NFT</h2>
+                        <div class="marketplace-actions">
+                            <select class="sort-select">
+                                <option value="recent">最新上架</option>
+                                <option value="price-low">价格从低到高</option>
+                                <option value="price-high">价格从高到低</option>
+                                <option value="ending-soon">即将结束</option>
+                                <option value="most-bids">出价最多</option>
+                            </select>
+                            <div class="view-toggle">
+                                <button class="active" onclick="toggleView('grid')">网格</button>
+                                <button onclick="toggleView('list')">列表</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tabs">
+                        <div class="tab active" onclick="filterMarketplace('all')">全部</div>
+                        <div class="tab" onclick="filterMarketplace('art')">艺术</div>
+                        <div class="tab" onclick="filterMarketplace('music')">音乐</div>
+                        <div class="tab" onclick="filterMarketplace('photography')">摄影</div>
+                        <div class="tab" onclick="filterMarketplace('game')">游戏资产</div>
+                        <div class="tab" onclick="filterMarketplace('collectible')">收藏品</div>
+                    </div>
+                    
+                    <!-- 网格视图 -->
+                    <div class="nft-grid" id="grid-view">
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Digital+Art" alt="数字艺术" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">宇宙探索者 #42</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=C" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 CryptoArtist 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前出价</div>
+                                        <div class="price-value">2.5 ETH</div>
+                                    </div>
+                                    <span class="auction-type english">英式</span>
+                                </div>
+                                <div class="auction-info">12小时后结束</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">出价</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Collectible" alt="收藏品" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">像素猫咪 #103</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=P" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 PixelMaster 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前价格</div>
+                                        <div class="price-value">1.8 ETH</div>
+                                    </div>
+                                    <span class="auction-type fixed">固定价</span>
+                                </div>
+                                <div class="auction-info">可立即购买</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">购买</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=3D+Model" alt="3D模型" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">未来城市 #7</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=F" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 Future3D 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前价格</div>
+                                        <div class="price-value">3.2 ETH</div>
+                                    </div>
+                                    <span class="auction-type dutch">荷兰式</span>
+                                </div>
+                                <div class="auction-info">价格每小时下降0.1 ETH</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">购买</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/1a1a2e/ffffff?text=Music+NFT" alt="音乐NFT" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">电子交响曲 #15</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=M" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 MusicMaker 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前出价</div>
+                                        <div class="price-value">1.5 ETH</div>
+                                    </div>
+                                    <span class="auction-type blind">盲拍</span>
+                                </div>
+                                <div class="auction-info">3天后结束</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">出价</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Photography" alt="摄影" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">城市夜景 #12</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=P" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 PhotoArtist 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前出价</div>
+                                        <div class="price-value">1.2 ETH</div>
+                                    </div>
+                                    <span class="auction-type english">英式</span>
+                                </div>
+                                <div class="auction-info">2天后结束</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">出价</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Game+Asset" alt="游戏资产" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">传奇武器 #28</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=G" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 GameDev 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前价格</div>
+                                        <div class="price-value">0.8 ETH</div>
+                                    </div>
+                                    <span class="auction-type fixed">固定价</span>
+                                </div>
+                                <div class="auction-info">可立即购买</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">购买</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=Digital+Art" alt="数字艺术" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">抽象思维 #8</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=A" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 AbstractArtist 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前出价</div>
+                                        <div class="price-value">1.7 ETH</div>
+                                    </div>
+                                    <span class="auction-type english">英式</span>
+                                </div>
+                                <div class="auction-info">5天后结束</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">出价</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-card">
+                            <img src="https://via.placeholder.com/300x250/1a1a2e/ffffff?text=Collectible" alt="收藏品" class="nft-image">
+                            <div class="nft-info">
+                                <div class="nft-title">数字收藏卡 #56</div>
+                                <div class="nft-creator">
+                                    <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=C" alt="创作者头像" class="creator-avatar">
+                                    <span class="creator-name">由 CardCollector 创作</span>
+                                </div>
+                                <div class="nft-price">
+                                    <div>
+                                        <div class="price-label">当前价格</div>
+                                        <div class="price-value">0.5 ETH</div>
+                                    </div>
+                                    <span class="auction-type dutch">荷兰式</span>
+                                </div>
+                                <div class="auction-info">价格每天下降0.05 ETH</div>
+                                <div class="nft-actions">
+                                    <a href="#" class="btn btn-outline">查看</a>
+                                    <a href="#" class="btn btn-primary">购买</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 列表视图 -->
+                    <div class="nft-list" id="list-view">
+                        <div class="nft-list-item">
+                            <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Digital+Art" alt="数字艺术" class="nft-list-image">
+                            <div class="nft-list-info">
+                                <div class="nft-list-header">
+                                    <div>
+                                        <div class="nft-list-title">宇宙探索者 #42</div>
+                                        <div class="nft-list-creator">
+                                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=C" alt="创作者头像" class="creator-avatar">
+                                            <span class="creator-name">由 CryptoArtist 创作</span>
+                                        </div>
+                                    </div>
+                                    <span class="auction-type english">英式拍卖</span>
+                                </div>
+                                <div class="nft-list-description">
+                                    这是一幅描绘宇宙探索的数字艺术作品，展现了未来太空旅行的壮丽景象。作品融合了科幻元素和艺术想象，创造出独特的视觉体验。
+                                </div>
+                                <div class="nft-list-footer">
+                                    <div class="nft-list-price">
+                                        <div class="price-label">当前出价</div>
+                                        <div class="price-value">2.5 ETH</div>
+                                        <div class="auction-info">12小时后结束</div>
+                                    </div>
+                                    <div class="nft-list-actions">
+                                        <a href="#" class="btn btn-outline">查看</a>
+                                        <a href="#" class="btn btn-primary">出价</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-list-item">
+                            <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Collectible" alt="收藏品" class="nft-list-image">
+                            <div class="nft-list-info">
+                                <div class="nft-list-header">
+                                    <div>
+                                        <div class="nft-list-title">像素猫咪 #103</div>
+                                        <div class="nft-list-creator">
+                                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=P" alt="创作者头像" class="creator-avatar">
+                                            <span class="creator-name">由 PixelMaster 创作</span>
+                                        </div>
+                                    </div>
+                                    <span class="auction-type fixed">固定价格</span>
+                                </div>
+                                <div class="nft-list-description">
+                                    这是一个像素风格的猫咪收藏品，采用复古的8位像素艺术风格创作。每个像素猫咪都有独特的特征和颜色组合，是数字收藏家的理想选择。
+                                </div>
+                                <div class="nft-list-footer">
+                                    <div class="nft-list-price">
+                                        <div class="price-label">当前价格</div>
+                                        <div class="price-value">1.8 ETH</div>
+                                        <div class="auction-info">可立即购买</div>
+                                    </div>
+                                    <div class="nft-list-actions">
+                                        <a href="#" class="btn btn-outline">查看</a>
+                                        <a href="#" class="btn btn-primary">购买</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-list-item">
+                            <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=3D+Model" alt="3D模型" class="nft-list-image">
+                            <div class="nft-list-info">
+                                <div class="nft-list-header">
+                                    <div>
+                                        <div class="nft-list-title">未来城市 #7</div>
+                                        <div class="nft-list-creator">
+                                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=F" alt="创作者头像" class="creator-avatar">
+                                            <span class="creator-name">由 Future3D 创作</span>
+                                        </div>
+                                    </div>
+                                    <span class="auction-type dutch">荷兰式拍卖</span>
+                                </div>
+                                <div class="nft-list-description">
+                                    这是一个精心设计的3D未来城市模型，展示了未来建筑和城市规划的创新概念。模型包含丰富的细节和互动元素，可用于虚拟现实体验。
+                                </div>
+                                <div class="nft-list-footer">
+                                    <div class="nft-list-price">
+                                        <div class="price-label">当前价格</div>
+                                        <div class="price-value">3.2 ETH</div>
+                                        <div class="auction-info">价格每小时下降0.1 ETH</div>
+                                    </div>
+                                    <div class="nft-list-actions">
+                                        <a href="#" class="btn btn-outline">查看</a>
+                                        <a href="#" class="btn btn-primary">购买</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-list-item">
+                            <img src="https://via.placeholder.com/300x250/1a1a2e/ffffff?text=Music+NFT" alt="音乐NFT" class="nft-list-image">
+                            <div class="nft-list-info">
+                                <div class="nft-list-header">
+                                    <div>
+                                        <div class="nft-list-title">电子交响曲 #15</div>
+                                        <div class="nft-list-creator">
+                                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=M" alt="创作者头像" class="creator-avatar">
+                                            <span class="creator-name">由 MusicMaker 创作</span>
+                                        </div>
+                                    </div>
+                                    <span class="auction-type blind">盲拍</span>
+                                </div>
+                                <div class="nft-list-description">
+                                    这是一首原创电子交响乐作品，融合了古典音乐元素和现代电子音效。作品长度为5分钟，包含完整的音频文件和独家混音版本。
+                                </div>
+                                <div class="nft-list-footer">
+                                    <div class="nft-list-price">
+                                        <div class="price-label">当前出价</div>
+                                        <div class="price-value">1.5 ETH</div>
+                                        <div class="auction-info">3天后结束</div>
+                                    </div>
+                                    <div class="nft-list-actions">
+                                        <a href="#" class="btn btn-outline">查看</a>
+                                        <a href="#" class="btn btn-primary">出价</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 分页 -->
+                    <div class="pagination">
+                        <div class="pagination-item active">1</div>
+                        <div class="pagination-item">2</div>
+                        <div class="pagination-item">3</div>
+                        <div class="pagination-item">4</div>
+                        <div class="pagination-item">5</div>
+                        <div class="pagination-item">...</div>
+                        <div class="pagination-item">10</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NFT拍卖平台</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">团队</a></li>
+                        <li><a href="#">职业机会</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>市场</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">所有NFT</a></li>
+                        <li><a href="#">艺术</a></li>
+                        <li><a href="#">音乐</a></li>
+                        <li><a href="#">摄影</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>资源</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">平台状态</a></li>
+                        <li><a href="#">合作伙伴</a></li>
+                        <li><a href="#">博客</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>法律</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">服务条款</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">版权政策</a></li>
+                        <li><a href="#">费用说明</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 NFT拍卖平台. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 切换视图（网格/列表）
+        function toggleView(viewType) {
+            const gridView = document.getElementById('grid-view');
+            const listView = document.getElementById('list-view');
+            const viewButtons = document.querySelectorAll('.view-toggle button');
+            
+            if (viewType === 'grid') {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+                viewButtons[0].classList.add('active');
+                viewButtons[1].classList.remove('active');
+            } else {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+                viewButtons[0].classList.remove('active');
+                viewButtons[1].classList.add('active');
+            }
+        }
+        
+        // 筛选市场
+        function filterMarketplace(category) {
+            console.log('筛选市场:', category);
+            // 在实际应用中，这里会根据类别筛选NFT
+            
+            // 更新标签激活状态
+            const tabs = document.querySelectorAll('.tabs .tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('onclick').includes(category)) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+        
+        // 应用筛选按钮点击事件
+        document.querySelector('.filter-button').addEventListener('click', () => {
+            alert('筛选已应用（在原型中此功能不会实际生效）');
+        });
+        
+        // 清除筛选链接点击事件
+        document.querySelector('.clear-filters a').addEventListener('click', (e) => {
+            e.preventDefault();
+            // 清除所有复选框
+            document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // 清除价格输入
+            document.querySelectorAll('.price-input').forEach(input => {
+                input.value = '';
+            });
+            
+            alert('所有筛选已清除');
+        });
+        
+        // 分页点击事件
+        document.querySelectorAll('.pagination-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.pagination-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                if (item.textContent !== '...') {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

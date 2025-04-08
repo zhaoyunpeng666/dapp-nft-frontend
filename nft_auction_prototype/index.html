@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT拍卖平台原型</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        /* 特色区域 */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: #6c63ff;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+        
+        /* 热门NFT区域 */
+        .trending-nfts {
+            padding: 80px 0;
+            background-color: #f5f5f5;
+        }
+        
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .nft-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .nft-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nft-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .nft-info {
+            padding: 20px;
+        }
+        
+        .nft-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+        
+        .nft-creator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .creator-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .creator-name {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .nft-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .price-label {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .price-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6c63ff;
+        }
+        
+        .bid-button {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .bid-button:hover {
+            background-color: #5a52d5;
+        }
+        
+        /* 拍卖类型区域 */
+        .auction-types {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .auction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .auction-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .auction-icon {
+            font-size: 36px;
+            color: #6c63ff;
+            margin-bottom: 15px;
+        }
+        
+        .auction-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+        
+        .auction-card p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            color: #1a1a2e;
+        }
+        
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-submit {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .form-submit:hover {
+            background-color: #5a52d5;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-footer a {
+            color: #6c63ff;
+            text-decoration: none;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-title h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">NFT拍卖平台</a>
+                <ul class="nav-links">
+                    <li><a href="#features">功能</a></li>
+                    <li><a href="#trending">热门NFT</a></li>
+                    <li><a href="#auction-types">拍卖类型</a></li>
+                    <li><a href="#create">创建NFT</a></li>
+                    <li><a href="#marketplace">市场</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline" onclick="openModal('login-modal')">登录</a>
+                    <a href="#" class="btn btn-primary" onclick="openModal('register-modal')">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <h1>探索、收集与拍卖数字艺术品</h1>
+            <p>在我们的NFT拍卖平台上，您可以发现独特的数字艺术品，参与激动人心的拍卖，或者铸造并出售您自己的创作。</p>
+            <a href="#" class="btn btn-primary">探索市场</a>
+        </div>
+    </section>
+
+    <!-- 特色区域 -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>平台特色</h2>
+                <p>我们的平台提供全方位的NFT创建、拍卖和交易功能，让您的数字资产管理更加便捷。</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>安全可靠</h3>
+                    <p>基于区块链技术，确保交易安全性和数据透明性，智能合约经过第三方审计。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>多链支持</h3>
+                    <p>支持多链NFT资产兼容，包括以太坊、Solana等主流区块链网络。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>灵活支付</h3>
+                    <p>支持加密货币和法币支付，自动版税分配系统保障创作者权益。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>数据分析</h3>
+                    <p>提供NFT市场趋势图表和用户行为分析，帮助您做出明智的投资决策。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 热门NFT区域 -->
+    <section class="trending-nfts" id="trending">
+        <div class="container">
+            <div class="section-title">
+                <h2>热门NFT</h2>
+                <p>发现当前市场上最受欢迎的数字艺术品和收藏品。</p>
+            </div>
+            <div class="nft-grid">
+                <div class="nft-card">
+                    <img src="https://via.placeholder.com/300x250/6c63ff/ffffff?text=Digital+Art" alt="数字艺术" class="nft-image">
+                    <div class="nft-info">
+                        <div class="nft-title">宇宙探索者 #42</div>
+                        <div class="nft-creator">
+                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=C" alt="创作者头像" class="creator-avatar">
+                            <span class="creator-name">由 CryptoArtist 创作</span>
+                        </div>
+                        <div class="nft-price">
+                            <div>
+                                <div class="price-label">当前出价</div>
+                                <div class="price-value">2.5 ETH</div>
+                            </div>
+                            <button class="bid-button">出价</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-card">
+                    <img src="https://via.placeholder.com/300x250/16213e/ffffff?text=Collectible" alt="收藏品" class="nft-image">
+                    <div class="nft-info">
+                        <div class="nft-title">像素猫咪 #103</div>
+                        <div class="nft-creator">
+                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=P" alt="创作者头像" class="creator-avatar">
+                            <span class="creator-name">由 PixelMaster 创作</span>
+                        </div>
+                        <div class="nft-price">
+                            <div>
+                                <div class="price-label">当前出价</div>
+                                <div class="price-value">1.8 ETH</div>
+                            </div>
+                            <button class="bid-button">出价</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-card">
+                    <img src="https://via.placeholder.com/300x250/5a52d5/ffffff?text=3D+Model" alt="3D模型" class="nft-image">
+                    <div class="nft-info">
+                        <div class="nft-title">未来城市 #7</div>
+                        <div class="nft-creator">
+                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=F" alt="创作者头像" class="creator-avatar">
+                            <span class="creator-name">由 Future3D 创作</span>
+                        </div>
+                        <div class="nft-price">
+                            <div>
+                                <div class="price-label">当前出价</div>
+                                <div class="price-value">3.2 ETH</div>
+                            </div>
+                            <button class="bid-button">出价</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-card">
+                    <img src="https://via.placeholder.com/300x250/1a1a2e/ffffff?text=Music+NFT" alt="音乐NFT" class="nft-image">
+                    <div class="nft-info">
+                        <div class="nft-title">电子交响曲 #15</div>
+                        <div class="nft-creator">
+                            <img src="https://via.placeholder.com/30x30/1a1a2e/ffffff?text=M" alt="创作者头像" class="creator-avatar">
+                            <span class="creator-name">由 MusicMaker 创作</span>
+                        </div>
+                        <div class="nft-price">
+                            <div>
+                                <div class="price-label">当前出价</div>
+                                <div class="price-value">1.5 ETH</div>
+                            </div>
+                            <button class="bid-button">出价</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 拍卖类型区域 -->
+    <section class="auction-types" id="auction-types">
+        <div class="container">
+            <div class="section-title">
+                <h2>拍卖类型</h2>
+                <p>我们提供多种拍卖方式，满足不同创作者和收藏家的需求。</p>
+            </div>
+            <div class="auction-grid">
+                <div class="auction-card">
+                    <div class="auction-icon">🔨</div>
+                    <h3>英式拍卖</h3>
+                    <p>公开竞价，价高者得。拍卖期间价格逐渐上升，最终卖给出价最高的买家。</p>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-icon">📉</div>
+                    <h3>荷兰式拍卖</h3>
+                    <p>价格随时间递减，首个出价者成交。拍卖开始时价格较高，然后逐渐降低。</p>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-icon">💲</div>
+                    <h3>固定价格销售</h3>
+                    <p>直接定价购买，无需等待拍卖结束。创作者设定固定价格，买家可立即购买。</p>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-icon">🕶️</div>
+                    <h3>盲拍</h3>
+                    <p>隐藏其他用户出价，仅显示最高价。保护买家隐私，减少价格操纵。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NFT拍卖平台</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">团队</a></li>
+                        <li><a href="#">职业机会</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>市场</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">所有NFT</a></li>
+                        <li><a href="#">艺术</a></li>
+                        <li><a href="#">音乐</a></li>
+                        <li><a href="#">摄影</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>资源</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">平台状态</a></li>
+                        <li><a href="#">合作伙伴</a></li>
+                        <li><a href="#">博客</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>法律</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">服务条款</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">版权政策</a></li>
+                        <li><a href="#">费用说明</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 NFT拍卖平台. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 登录模态框 -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">登录</h2>
+                <button class="close-button" onclick="closeModal('login-modal')">&times;</button>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="login-email" class="form-label">电子邮箱</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="输入您的电子邮箱" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" class="form-label">密码</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="输入您的密码" required>
+                </div>
+                <button type="submit" class="form-submit">登录</button>
+                <div class="form-footer">
+                    <p>还没有账号？ <a href="#" onclick="switchModal('login-modal', 'register-modal')">注册</a></p>
+                    <p><a href="#">忘记密码？</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">注册</h2>
+                <button class="close-button" onclick="closeModal('register-modal')">&times;</button>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="register-username" class="form-label">用户名</label>
+                    <input type="text" id="register-username" class="form-input" placeholder="创建用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email" class="form-label">电子邮箱</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="输入您的电子邮箱" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password" class="form-label">密码</label>
+                    <input type="password" id="register-password" class="form-input" placeholder="创建密码" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-wallet" class="form-label">钱包地址（可选）</label>
+                    <input type="text" id="register-wallet" class="form-input" placeholder="连接您的钱包地址">
+                </div>
+                <button type="submit" class="form-submit">注册</button>
+                <div class="form-footer">
+                    <p>已有账号？ <a href="#" onclick="switchModal('register-modal', 'login-modal')">登录</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 打开模态框
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        // 关闭模态框
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // 切换模态框
+        function switchModal(closeModalId, openModalId) {
+            closeModal(closeModalId);
+            openModal(openModalId);
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -34,7 +34,7 @@ yarn-error.log*
 .env*
 
 # 原型图
-/nft_auction_prototype
+# /nft_auction_prototype
 
 # vercel
 .vercel

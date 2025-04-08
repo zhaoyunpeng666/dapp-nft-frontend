@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT铸造 - NFT拍卖平台原型</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .page-title p {
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 铸造表单 */
+        .mint-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .mint-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .mint-form {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+        
+        .form-submit {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .form-submit:hover {
+            background-color: #5a52d5;
+        }
+        
+        /* 预览区域 */
+        .preview-section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .preview-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+        }
+        
+        .nft-preview {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .preview-image-container {
+            width: 100%;
+            height: 300px;
+            background-color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 18px;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            display: none;
+        }
+        
+        .preview-info {
+            padding: 20px;
+        }
+        
+        .preview-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+        
+        .preview-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .preview-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .preview-detail {
+            font-size: 14px;
+        }
+        
+        .detail-label {
+            color: #999;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* 文件上传区域 */
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: #6c63ff;
+        }
+        
+        .file-upload-icon {
+            font-size: 36px;
+            color: #6c63ff;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload-text {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload-info {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        /* 铸造步骤 */
+        .mint-steps {
+            padding: 60px 0;
+            background-color: #f5f5f5;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 25%;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #6c63ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+        
+        .step-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+        
+        .step-description {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #6c63ff;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            
+            .mint-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .steps-container::before {
+                display: none;
+            }
+            
+            .step {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">NFT拍卖平台</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#features">功能</a></li>
+                    <li><a href="index.html#trending">热门NFT</a></li>
+                    <li><a href="index.html#auction-types">拍卖类型</a></li>
+                    <li><a href="mint.html">创建NFT</a></li>
+                    <li><a href="marketplace.html">市场</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline">登录</a>
+                    <a href="#" class="btn btn-primary">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <section class="page-title">
+        <div class="container">
+            <h1>铸造您的NFT</h1>
+            <p>将您的数字创作转化为区块链上的非同质化代币，开启您的NFT之旅。</p>
+        </div>
+    </section>
+
+    <!-- 铸造表单 -->
+    <section class="mint-section">
+        <div class="container">
+            <div class="mint-container">
+                <div class="mint-form">
+                    <h2 class="form-title">NFT详情</h2>
+                    <form id="mint-form">
+                        <div class="file-upload" id="file-upload-area">
+                            <div class="file-upload-icon">📁</div>
+                            <div class="file-upload-text">点击或拖拽文件到此处上传</div>
+                            <div class="file-upload-info">支持JPG, PNG, GIF, MP4, MP3, 3D模型等格式，最大50MB</div>
+                            <input type="file" id="file-input" class="file-input" accept="image/*,video/*,audio/*,.glb,.gltf">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nft-name" class="form-label">NFT名称 *</label>
+                            <input type="text" id="nft-name" class="form-input" placeholder="为您的NFT命名" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nft-description" class="form-label">描述</label>
+                            <textarea id="nft-description" class="form-textarea" placeholder="描述您的NFT，包括其独特性和背景故事"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nft-category" class="form-label">类别</label>
+                            <select id="nft-category" class="form-select">
+                                <option value="">选择类别</option>
+                                <option value="art">艺术</option>
+                                <option value="music">音乐</option>
+                                <option value="photography">摄影</option>
+                                <option value="game">游戏资产</option>
+                                <option value="collectible">收藏品</option>
+                                <option value="domain">域名</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nft-blockchain" class="form-label">区块链</label>
+                            <select id="nft-blockchain" class="form-select">
+                                <option value="ethereum">以太坊 (Ethereum)</option>
+                                <option value="solana">索拉纳 (Solana)</option>
+                                <option value="polygon">Polygon</option>
+                                <option value="binance">币安智能链 (BSC)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nft-royalty" class="form-label">版税比例 (%)</label>
+                            <input type="number" id="nft-royalty" class="form-input" placeholder="例如：10" min="0" max="50" value="10">
+                        </div>
+                        
+                        <button type="submit" class="form-submit">铸造NFT</button>
+                    </form>
+                </div>
+                
+                <div class="preview-section">
+                    <h2 class="preview-title">NFT预览</h2>
+                    <div class="nft-preview">
+                        <div class="preview-image-container" id="preview-image-container">
+                            <span>您的NFT预览将显示在这里</span>
+                            <img src="" alt="NFT预览" class="preview-image" id="preview-image">
+                        </div>
+                        <div class="preview-info">
+                            <div class="preview-name" id="preview-name">未命名NFT</div>
+                            <div class="preview-description" id="preview-description">暂无描述</div>
+                            <div class="preview-details">
+                                <div class="preview-detail">
+                                    <div class="detail-label">创作者</div>
+                                    <div class="detail-value">您的用户名</div>
+                                </div>
+                                <div class="preview-detail">
+                                    <div class="detail-label">区块链</div>
+                                    <div class="detail-value" id="preview-blockchain">以太坊 (Ethereum)</div>
+                                </div>
+                                <div class="preview-detail">
+                                    <div class="detail-label">类别</div>
+                                    <div class="detail-value" id="preview-category">未分类</div>
+                                </div>
+                                <div class="preview-detail">
+                                    <div class="detail-label">版税</div>
+                                    <div class="detail-value" id="preview-royalty">10%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 铸造步骤 -->
+    <section class="mint-steps">
+        <div class="container">
+            <div class="section-title">
+                <h2>铸造流程</h2>
+                <p>了解NFT铸造的完整流程，从创建到上架拍卖。</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">创建NFT</div>
+                    <div class="step-description">上传您的数字作品并填写详细信息</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">铸造上链</div>
+                    <div class="step-description">将您的NFT铸造到选定的区块链上</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">设置拍卖</div>
+                    <div class="step-description">选择拍卖类型并设置起拍价</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">开始拍卖</div>
+                    <div class="step-description">您的NFT将在市场上展示并开始拍卖</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NFT拍卖平台</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">团队</a></li>
+                        <li><a href="#">职业机会</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>市场</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">所有NFT</a></li>
+                        <li><a href="#">艺术</a></li>
+                        <li><a href="#">音乐</a></li>
+                        <li><a href="#">摄影</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>资源</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">平台状态</a></li>
+                        <li><a href="#">合作伙伴</a></li>
+                        <li><a href="#">博客</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>法律</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">服务条款</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">版权政策</a></li>
+                        <li><a href="#">费用说明</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 NFT拍卖平台. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 文件上传预览
+        const fileInput = document.getElementById('file-input');
+        const fileUploadArea = document.getElementById('file-upload-area');
+        const previewImage = document.getElementById('preview-image');
+        const previewImageContainer = document.getElementById('preview-image-container');
+        
+        fileUploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    previewImage.src = event.target.result;
+                    previewImage.style.display = 'block';
+                    previewImageContainer.querySelector('span').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // 表单实时预览
+        const nftNameInput = document.getElementById('nft-name');
+        const nftDescriptionInput = document.getElementById('nft-description');
+        const nftCategorySelect = document.getElementById('nft-category');
+        const nftBlockchainSelect = document.getElementById('nft-blockchain');
+        const nftRoyaltyInput = document.getElementById('nft-royalty');
+        
+        const previewName = document.getElementById('preview-name');
+        const previewDescription = document.getElementById('preview-description');
+        const previewCategory = document.getElementById('preview-category');
+        const previewBlockchain = document.getElementById('preview-blockchain');
+        const previewRoyalty = document.getElementById('preview-royalty');
+        
+        nftNameInput.addEventListener('input', () => {
+            previewName.textContent = nftNameInput.value || '未命名NFT';
+        });
+        
+        nftDescriptionInput.addEventListener('input', () => {
+            previewDescription.textContent = nftDescriptionInput.value || '暂无描述';
+        });
+        
+        nftCategorySelect.addEventListener('change', () => {
+            const selectedOption = nftCategorySelect.options[nftCategorySelect.selectedIndex];
+            previewCategory.textContent = selectedOption.text !== '选择类别' ? selectedOption.text : '未分类';
+        });
+        
+        nftBlockchainSelect.addEventListener('change', () => {
+            const selectedOption = nftBlockchainSelect.options[nftBlockchainSelect.selectedIndex];
+            previewBlockchain.textContent = selectedOption.text;
+        });
+        
+        nftRoyaltyInput.addEventListener('input', () => {
+            previewRoyalty.textContent = `${nftRoyaltyInput.value}%`;
+        });
+        
+        // 表单提交
+        const mintForm = document.getElementById('mint-form');
+        mintForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('NFT铸造功能在原型中不可用。在实际应用中，这将连接到您的钱包并在区块链上铸造NFT。');
+        });
+    </script>
+</body>
+</html>
