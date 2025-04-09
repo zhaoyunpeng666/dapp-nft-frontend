@@ -15,7 +15,7 @@ import { PublicClient, Address } from 'viem';
 import CustomWalletButton from '@/components/CustomWalletButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Image from 'next/image';
-import { Category, Blockchain } from './constants';
+import { Category, Blockchain, CATEGORY_MENU_ARRAY, BLOCKCHAIN_MENU_ARRAY } from './constants';
 import { config } from '@/config/chains';
 import { NFTAuctionAbi, NFTAuctionAbiAddress } from '@/constants/abis';
 import { toast } from "react-toastify";
@@ -303,6 +303,11 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
           <MenuItem value="music">音乐</MenuItem>
           <MenuItem value="video">视频</MenuItem>
           <MenuItem value="photography">摄影</MenuItem>
+          {
+            CATEGORY_MENU_ARRAY.map((item) => (
+              <MenuItem key={item.key} value={item.key}>{item.value}</MenuItem>
+            ))
+          }
         </Select>
       </FormControl>
 
@@ -326,9 +331,11 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
             }
           }}
         >
-          <MenuItem value="Ethereum">以太坊 (Ethereum)</MenuItem>
-          <MenuItem value="Polygon">Polygon</MenuItem>
-          <MenuItem value="BSC">BSC</MenuItem>
+          {
+            BLOCKCHAIN_MENU_ARRAY.map((item) => (
+              <MenuItem key={item.key} value={item.key}>{item.value}</MenuItem>
+            ))
+          }
         </Select>
       </FormControl>
 

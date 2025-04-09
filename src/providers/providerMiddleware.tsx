@@ -10,7 +10,7 @@ import services from '@/services';
 dayjs.extend(duration);
 
 export function ProvidersMiddleware({ children }: { children: React.ReactNode }) {
-  const { address } = useAccount();
+  const { address, isDisconnected } = useAccount();
   console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 address:', address);
   const chainId = useChainId();
   console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 chainId:', chainId);
@@ -30,30 +30,35 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
           chain_id: chainId,
         });
         console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 res:', res);
-        // if(res.code === 200) {
-        //   GlobalStore.setRainbowKitAuthStatus('authenticated', response.data.address, res.data.result?.token ?? '');
-        //   return;
-        // }
+        if(res.code === 200) {
+          // GlobalStore.setRainbowKitAuthStatus('authenticated', response.data.address, res.data.result?.token ?? '');
+          localStorage.setItem('token', res.data.result?.token ?? '');
+          return;
+        }
+        localStorage.removeItem('token');
         // GlobalStore.setRainbowKitAuthStatus('unauthenticated', response.data.address, '');
       } else {
         // GlobalStore.setIsOGPass(false);
         // GlobalStore.setRainbowKitAuthStatus('unauthenticated', address as string, '');
+        localStorage.removeItem('token');
       }
     }
   }, [address, chainId, signMessageAsync]);
 
   useEffect(() => {
-    // console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 address:', address);
-  }, [address])
+    const token = localStorage.getItem('token');
+    if(isDisconnected && token) {
+      localStorage.removeItem('token');
+    }
+  }, [isDisconnected])
 
   useEffect(() => {
-    // if(!address) {
-    //   GlobalStore.setIsOGPass(false);
-    //   GlobalStore.setRainbowKitAuthStatus('unauthenticated', '', '');
-    //   return
-    // };
     const token = localStorage.getItem('token');
-    console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 useEffect 📍 token:', token);
+    if(!address || !chainId || token) {
+      // GlobalStore.setIsOGPass(false);
+      // GlobalStore.setRainbowKitAuthStatus('unauthenticated', '', '');
+      return
+    };
     if(!token) {
       getDiDUserInfo();
     }

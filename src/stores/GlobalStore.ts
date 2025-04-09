@@ -35,9 +35,9 @@ export const setRainbowKitAuthStatus = (status: AuthenticationStatus, address: s
   if (status === 'authenticated') {
     accessTokens.push({ [address]: { token } });
     localStorage.setItem('token', token);
-    localStorage.setItem('accessTokens', JSON.stringify(accessTokens));
+    // localStorage.setItem('accessTokens', JSON.stringify(accessTokens));
   } else if (status === 'unauthenticated') {
-    // localStorage.removeItem('token');
+    localStorage.removeItem('token');
     accessTokens = accessTokens.map((item) => {
       return item[address] ? { [address]: { token: '' } } : item;
     });
