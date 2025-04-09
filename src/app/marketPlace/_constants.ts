@@ -57,7 +57,4 @@ export const NFT_LIST_DATA: NFT_LIST_DATA_INTERFACE[] = [
 // virtual_world
 // other
 
-// english
-// dutch
-// fixed_price
-// blind
+// english dutch fixed_price blind

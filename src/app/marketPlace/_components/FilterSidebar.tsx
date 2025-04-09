@@ -2,8 +2,11 @@
 
 import { Box, Typography, Checkbox, FormControlLabel, FormGroup, TextField, Select, MenuItem, Button, SelectChangeEvent } from "@mui/material";
 import React, { useState } from "react";
+import { FilterParamsType } from '../_type'
 
-export default function FilterSidebar() {
+export default function FilterSidebar({ handleSidebarFilterChange }: 
+  { handleSidebarFilterChange: ({categories, auctionTypes, blockchains, priceRange }: FilterParamsType) => void }
+) {
   const [categories, setCategories] = useState({
     art: false,
     music: false,
@@ -15,7 +18,7 @@ export default function FilterSidebar() {
   const [auctionTypes, setAuctionTypes] = useState({
     english: false,
     dutch: false,
-    fixed: false,
+    fixed_price: false,
     blind: false
   });
 
@@ -70,6 +73,7 @@ export default function FilterSidebar() {
   const handleApplyFilter = () => {
     // 在实际应用中，这里会应用筛选
     console.log('应用筛选:', { categories, auctionTypes, blockchains, priceRange });
+    handleSidebarFilterChange({categories, auctionTypes, blockchains, priceRange});
   };
 
   const handleClearFilter = () => {
@@ -80,10 +84,10 @@ export default function FilterSidebar() {
       game_assets: false,
       collectibles: false
     });
-    setAuctionTypes({
+    setAuctionTypes({ 
       english: false,
       dutch: false,
-      fixed: false,
+      fixed_price: false,
       blind: false
     });
     setBlockchains({
@@ -164,7 +168,7 @@ export default function FilterSidebar() {
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />
           <FormControlLabel 
-            control={<Checkbox checked={auctionTypes.fixed} onChange={handleAuctionTypeChange} name="fixed" />} 
+            control={<Checkbox checked={auctionTypes.fixed_price} onChange={handleAuctionTypeChange} name="fixed_price" />} 
             label="固定价格" 
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />

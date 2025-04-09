@@ -36,3 +36,16 @@ export type AuthVerifyResponse = Awaited<Readonly<AuthorityResponse<AuthVerifyRe
 export type UploadFileResponse = Awaited<Readonly<{path: string; status: string}>>;
 
 
+// 拍卖信息列表
+export interface AuctionListParams {
+  category: string;
+  auction_type: string;
+  chain_id: string;
+  min_price: number;
+  max_price: number;
+  page: number;
+  page_size: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AuctionListResponse = Awaited<Readonly<IResponse<{result: object[]; total: number}>>>;

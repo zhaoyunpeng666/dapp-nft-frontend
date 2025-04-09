@@ -1,5 +1,12 @@
 import ApiClient from "../network/ApiClient";
-import { GetAuthNonceResponse, AuthVerifyData, AuthVerifyResponse, UploadFileResponse } from "./types";
+import { 
+    GetAuthNonceResponse, 
+    AuthVerifyData, 
+    AuthVerifyResponse, 
+    UploadFileResponse,
+    AuctionListParams,
+    AuctionListResponse
+ } from "./types";
 
 export default class LoginService {
     private apiClient: ApiClient;
@@ -32,6 +39,11 @@ export default class LoginService {
                 'Content-Type': 'multipart/form-data'
             }
         });
+    }
+
+    // 获取拍卖信息列表
+    async getAuctionList(params: AuctionListParams) {
+        return await this.apiClient.get<AuctionListResponse>(`/auctions`, { params });
     }
 }
 
