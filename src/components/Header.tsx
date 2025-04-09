@@ -12,7 +12,7 @@ import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import NavigationApp from './NavigationApp'
 import { useAccount } from 'wagmi';
-import * as GlobalStore from '@/stores/GlobalStore';
+// import * as GlobalStore from '@/stores/GlobalStore';
 import * as Sentry from '@sentry/nextjs';
 
 export default function Header() {
@@ -45,9 +45,9 @@ export default function Header() {
   }, [address, connector]);
 
   useEffect(() => {
-    if (address) {
-      GlobalStore.initRainbowKitAuthStatus(address);
-    }
+    // if (address) {
+    //   GlobalStore.initRainbowKitAuthStatus(address);
+    // }
     if (address && connector) {
       setSentryTag();
     }

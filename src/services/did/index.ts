@@ -1,5 +1,5 @@
 import ApiClient from "../network/ApiClient";
-import { GetAuthNonceResponse, AuthVerifyData, AuthVerifyResponse } from "./types";
+import { GetAuthNonceResponse, AuthVerifyData, AuthVerifyResponse, UploadFileResponse } from "./types";
 
 export default class LoginService {
     private apiClient: ApiClient;
@@ -27,7 +27,7 @@ export default class LoginService {
     async uploadFile(file: File) {
         const formData = new FormData();
         formData.append('file', file);
-        return await this.apiClient.post(`/uploadFile/creatNFT`, formData, {
+        return await this.apiClient.post<FormData, UploadFileResponse>(`/uploadFile/creatNFT`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

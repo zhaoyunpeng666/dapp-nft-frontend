@@ -32,3 +32,7 @@ export interface UserInfoData {
 export type GetAuthNonceResponse = Awaited<Readonly<IResponse<GetAuthNonceData>>>;
 export type UserInfoDataResponse = Awaited<Readonly<IResponse<UserInfoData>>>;
 export type AuthVerifyResponse = Awaited<Readonly<AuthorityResponse<AuthVerifyResult>>>;
+
+export type UploadFileResponse = Awaited<Readonly<{path: string; status: string}>>;
+
+

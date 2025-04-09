@@ -4,7 +4,7 @@ import { Fragment, useEffect, useCallback } from 'react';
 import * as dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { useAccount, useChainId, useSignMessage } from 'wagmi';
-import * as GlobalStore from '@/stores/GlobalStore';
+// import * as GlobalStore from '@/stores/GlobalStore';
 import services from '@/services';
 
 dayjs.extend(duration);
@@ -20,7 +20,7 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
     const response = await services.did.getAuthNonce((address as string) ?? '');
     if (response?.code == 200) {
       if (response.data.address) {
-        GlobalStore.setIsOGPass(true);
+        // GlobalStore.setIsOGPass(true);
         const signature = await signMessageAsync({ message: response.data.message });
         console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 signature:', signature);
         const res = await services.did.postUserLogin({
@@ -30,25 +30,33 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
           chain_id: chainId,
         });
         console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 res:', res);
-        if(res.code === 200) {
-          GlobalStore.setRainbowKitAuthStatus('authenticated', response.data.address, res.data.result?.token ?? '');
-          return;
-        }
-        GlobalStore.setRainbowKitAuthStatus('unauthenticated', response.data.address, '');
+        // if(res.code === 200) {
+        //   GlobalStore.setRainbowKitAuthStatus('authenticated', response.data.address, res.data.result?.token ?? '');
+        //   return;
+        // }
+        // GlobalStore.setRainbowKitAuthStatus('unauthenticated', response.data.address, '');
       } else {
-        GlobalStore.setIsOGPass(false);
-        GlobalStore.setRainbowKitAuthStatus('unauthenticated', address as string, '');
+        // GlobalStore.setIsOGPass(false);
+        // GlobalStore.setRainbowKitAuthStatus('unauthenticated', address as string, '');
       }
     }
   }, [address, chainId, signMessageAsync]);
 
   useEffect(() => {
-    if(!address) {
-      GlobalStore.setIsOGPass(false);
-      GlobalStore.setRainbowKitAuthStatus('unauthenticated', '', '');
-      return
-    };
-    getDiDUserInfo();
+    // console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 address:', address);
+  }, [address])
+
+  useEffect(() => {
+    // if(!address) {
+    //   GlobalStore.setIsOGPass(false);
+    //   GlobalStore.setRainbowKitAuthStatus('unauthenticated', '', '');
+    //   return
+    // };
+    const token = localStorage.getItem('token');
+    console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 useEffect 📍 token:', token);
+    if(!token) {
+      getDiDUserInfo();
+    }
   }, [address, chainId, getDiDUserInfo]);
 
   return <Fragment>{children}</Fragment>;

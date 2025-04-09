@@ -85,7 +85,8 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       setFormData(prev => ({
         ...prev,
         file,
-        previewUrl: URL.createObjectURL(file)
+        previewUrl: URL.createObjectURL(file),
+        urlPath: res.path
       }));
     }
   };
@@ -97,7 +98,8 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
     setFormData(prev => ({
       ...prev,
       file: null,
-      previewUrl: ''
+      previewUrl: '',
+      urlPath: ''
     }));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';

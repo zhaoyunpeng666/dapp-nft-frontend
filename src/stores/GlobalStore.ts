@@ -25,7 +25,7 @@ export const initRainbowKitAuthStatus = (address: string) => {
     localStorage.setItem('token', accessToken?.token);
     store.rainbowKitAuthStatus = 'authenticated';
   } else {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     store.rainbowKitAuthStatus = 'unauthenticated';
   }
 };
@@ -37,7 +37,7 @@ export const setRainbowKitAuthStatus = (status: AuthenticationStatus, address: s
     localStorage.setItem('token', token);
     localStorage.setItem('accessTokens', JSON.stringify(accessTokens));
   } else if (status === 'unauthenticated') {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     accessTokens = accessTokens.map((item) => {
       return item[address] ? { [address]: { token: '' } } : item;
     });
