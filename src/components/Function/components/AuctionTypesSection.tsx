@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Typography, Grid, Card, CardContent } from '@mui/material'
+import { Box, Typography, Grid2 as Grid, Card, CardContent } from '@mui/material'
 
 const auctionTypes = [
   {
@@ -44,7 +44,7 @@ export default function AuctionTypesSection() {
         
         <Grid container spacing={3}>
           {auctionTypes.map((type) => (
-            <Grid item xs={12} sm={6} md={3} key={type.id}>
+            <Grid size={{xs: 12, sm: 6, md: 3}} key={type.id}>
               <Card 
                 sx={{ 
                   height: '100%', 

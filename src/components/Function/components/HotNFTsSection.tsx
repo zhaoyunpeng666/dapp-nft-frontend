@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Typography, Grid, Card, CardContent, CardMedia, Button } from '@mui/material'
+import { Box, Typography, Grid2 as Grid, Card, CardContent, CardMedia, Button } from '@mui/material'
 import Image from 'next/image'
 
 const hotNFTs = [
@@ -29,41 +29,43 @@ const hotNFTs = [
 
 export default function HotNFTsSection() {
   return (
-    <Box sx={{ py: 8, px: 2, bgcolor: 'background.paper' }}>
-      <Typography variant="h4" component="h2" align="center" gutterBottom>
-        热门NFT
-      </Typography>
-      <Grid container spacing={4} sx={{ mt: 4 }}>
-        {hotNFTs.map((nft) => (
-          <Grid item xs={12} sm={6} md={4} key={nft.id}>
-            <Card>
-              <CardMedia>
-                <Image
-                  src={nft.image}
-                  alt={nft.title}
-                  width={400}
-                  height={400}
-                  style={{ width: '100%', height: 'auto' }}
-                />
-              </CardMedia>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {nft.title}
-                </Typography>
-                <Typography color="text.secondary" gutterBottom>
-                  创作者: {nft.creator}
-                </Typography>
-                <Typography variant="h6" color="primary" gutterBottom>
-                  {nft.price}
-                </Typography>
-                <Button variant="contained" fullWidth>
-                  立即购买
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+    <Box sx={{ py: 8, px: 2 }} id="trending">
+      <Box className="container mx-auto" sx={{ maxWidth: 1200}}>
+        <Typography variant="h4" component="h2" align="center" gutterBottom>
+          热门NFT
+        </Typography>
+        <Grid container spacing={4} sx={{ mt: 4 }}>
+          {hotNFTs.map((nft) => (
+            <Grid size={{xs: 12, sm: 6, md: 4}} key={nft.id}>
+              <Card>
+                <CardMedia>
+                  <Image
+                    src={nft.image}
+                    alt={nft.title}
+                    width={400}
+                    height={300}
+                    style={{ width: '100%', height: 'auto' }}
+                  />
+                </CardMedia>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {nft.title}
+                  </Typography>
+                  <Typography color="text.secondary" gutterBottom>
+                    创作者: {nft.creator}
+                  </Typography>
+                  <Typography variant="h6" color="primary" gutterBottom>
+                    {nft.price}
+                  </Typography>
+                  <Button variant="contained" fullWidth>
+                    立即购买
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+        </Box>
     </Box>
   )
 }

@@ -62,10 +62,10 @@ export default function Header() {
           color: isDark ? '#f8f8f8' : '#f8f8f8',
         }}
       >
-      <Toolbar className="flex justify-between">
+      <Toolbar className="container mx-auto">
         <Typography variant="h6">NFT拍卖平台</Typography>
         <NavigationApp />
-        <Box className="flex items-center gap-4">
+        <Box className="flex items-center gap-4 ml-auto">
           <Button
             color="inherit"
             startIcon={<LanguageIcon />}

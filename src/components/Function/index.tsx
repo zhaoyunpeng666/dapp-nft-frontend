@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import { Box } from '@mui/material';
 import { ThemeContext } from '@/providers/ThemeProvider'
 // import PlatformFeatures from './PlatformFeatures';
+// import Navbar from '@/app/profile/_components/Navbar'
 import HeroSection from './components/HeroSection';
 import FeaturesSection from './components/FeaturesSection';
 import HotNFTsSection from './components/HotNFTsSection';
@@ -14,6 +15,7 @@ const FunctionPage: React.FC = () => {
 
     return (
         <>
+            {/* <Navbar /> */}
             {/* 探索 */}
             <Box 
                 className="flex flex-col items-center justify-center gap-4 w-full"
@@ -28,7 +30,9 @@ const FunctionPage: React.FC = () => {
             {/* 平台特色 */}
             {/* <PlatformFeatures /> */}
             <FeaturesSection />
+            {/* 热门NFT */}
             <HotNFTsSection />
+            {/* 拍卖类型 */}
             <AuctionTypesSection />
         </>
     )

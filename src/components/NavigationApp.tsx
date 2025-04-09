@@ -13,12 +13,12 @@ const NavigationApp: React.FC = () => {
         },
         {
             name: '热门NFT',
-            pathname: '/popularNfts',
+            pathname: '/#trending',
             isNew: false,
         },
         {
             name: '拍卖类型',
-            pathname: '/auctionType',
+            pathname: '/#auction-types',
             isNew: false,
         },
         {
@@ -28,17 +28,17 @@ const NavigationApp: React.FC = () => {
         },
         {
             name: '市场',
-            pathname: '/marketPlace',
+            pathname: '/marketplace',
             isNew: false,
         },
     ];
 
     return (
         <Box
+            className="ml-8"
             sx={{
                 display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row',
+                // alignItems: 'center',
                 gap: '28px',
                 '& .menu': {
                     fontSize: '16px',

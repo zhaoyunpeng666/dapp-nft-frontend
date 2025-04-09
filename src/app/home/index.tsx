@@ -5,7 +5,7 @@
 // import { useAccount } from 'wagmi'
 import { Box } from '@mui/material'
 import FunctionPage from '@/components/Function'
-// import MarketPlace from '@/components/MarkePlace'
+// import MarketPlace from '@/marketplace'
 // import { ThemeContext } from '@/providers/ThemeProvider'
 import Footer from '@/components/Footer'
 

@@ -44,7 +44,7 @@ export default function Collections() {
         <Typography variant="h5" className="font-bold text-[#1a1a2e]">
           我的收藏
         </Typography>
-        <Link href="/marketPlace">
+        <Link href="/marketplace">
           <Button variant="outlined" className="border-[#6c63ff] text-[#6c63ff]">
             浏览市场
           </Button>

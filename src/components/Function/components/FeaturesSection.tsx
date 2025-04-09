@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Typography, Grid } from '@mui/material'
+import { Box, Typography, Grid2 as Grid } from '@mui/material'
 
 const features = [
   {
@@ -62,7 +62,7 @@ export default function FeaturesSection() {
 
         <Grid container spacing={4}>
           {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid size={{xs: 12, sm: 6, md: 3}} key={index}>
               <Box 
                 className="p-8 rounded-lg bg-gray-50 hover:transform hover:-translate-y-2 transition-transform duration-300"
                 sx={{ 
