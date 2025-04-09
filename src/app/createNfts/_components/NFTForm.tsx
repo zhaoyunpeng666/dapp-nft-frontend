@@ -19,26 +19,22 @@ import { Category, Blockchain } from './constants';
 import { config } from '@/config/chains';
 import { NFTAuctionAbi, NFTAuctionAbiAddress } from '@/constants/abis';
 import { toast } from "react-toastify";
+import services from '@/services';
+
+type FormData = {
+  name: string;
+  description: string;
+  category: Category;
+  blockchain: Blockchain;
+  royalty: string;
+  file: File | null;
+  previewUrl: string;
+  urlPath: string;
+}
 
 interface NFTFormProps {
-  formData: {
-    name: string;
-    description: string;
-    category: Category;
-    blockchain: Blockchain;
-    royalty: string;
-    file: File | null;
-    previewUrl: string;
-  };
-  setFormData: React.Dispatch<React.SetStateAction<{
-    name: string;
-    description: string;
-    category: Category;
-    blockchain: Blockchain;
-    royalty: string;
-    file: File | null;
-    previewUrl: string;
-  }>>;
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }
 
 export default function NFTForm({ formData, setFormData }: NFTFormProps) {
@@ -56,7 +52,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
  } = useWriteContract({
     config
  });
-    console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 data:', data);
+  console.log('ZYP-dev 📍 NFTForm.tsx 📍 NFTForm 📍 data:', data);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -81,9 +77,11 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
     }));
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      const res = await services.did.uploadFile(file);
+      console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleFileChange 📍 res:', res);
       setFormData(prev => ({
         ...prev,
         file,

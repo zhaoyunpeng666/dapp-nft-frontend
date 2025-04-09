@@ -22,5 +22,16 @@ export default class LoginService {
     async getUserAuthStatus(address: string) {
         return await this.apiClient.get(`/user/${address}/sig-status`);
     }
+
+    // 上传文件（创建NFT）
+    async uploadFile(file: File) {
+        const formData = new FormData();
+        formData.append('file', file);
+        return await this.apiClient.post(`/uploadFile/creatNFT`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
 }
 
