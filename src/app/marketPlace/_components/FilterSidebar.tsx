@@ -8,8 +8,8 @@ export default function FilterSidebar() {
     art: false,
     music: false,
     photography: false,
-    game: false,
-    collectible: false
+    game_assets: false,
+    collectibles: false
   });
 
   const [auctionTypes, setAuctionTypes] = useState({
@@ -77,8 +77,8 @@ export default function FilterSidebar() {
       art: false,
       music: false,
       photography: false,
-      game: false,
-      collectible: false
+      game_assets: false,
+      collectibles: false
     });
     setAuctionTypes({
       english: false,
@@ -136,12 +136,12 @@ export default function FilterSidebar() {
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />
           <FormControlLabel 
-            control={<Checkbox checked={categories.game} onChange={handleCategoryChange} name="game" />} 
+            control={<Checkbox checked={categories.game_assets} onChange={handleCategoryChange} name="game_assets" />} 
             label="游戏资产" 
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />
           <FormControlLabel 
-            control={<Checkbox checked={categories.collectible} onChange={handleCategoryChange} name="collectible" />} 
+            control={<Checkbox checked={categories.collectibles} onChange={handleCategoryChange} name="collectibles" />} 
             label="收藏品" 
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />

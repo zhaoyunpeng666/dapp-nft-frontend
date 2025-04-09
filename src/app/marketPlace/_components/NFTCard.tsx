@@ -12,7 +12,7 @@ interface NFTItem {
   description?: string;
   price: string;
   image: string;
-  auctionType: 'english' | 'dutch' | 'fixed' | 'blind';
+  auctionType: 'english' | 'dutch' | 'fixed_price' | 'blind';
   auctionEndsIn?: string;
   fixedPrice?: boolean;
   category: string;
@@ -31,7 +31,7 @@ export default function NFTCard({ item }: NFTCardProps) {
         return 'bg-[#e6f7e6] text-[#28a745]';
       case 'dutch':
         return 'bg-[#f7e6e6] text-[#dc3545]';
-      case 'fixed':
+      case 'fixed_price':
         return 'bg-[#e6e6f7] text-[#6c63ff]';
       case 'blind':
         return 'bg-[#f7f7e6] text-[#ffc107]';
@@ -91,7 +91,7 @@ export default function NFTCard({ item }: NFTCardProps) {
           >
             {item.auctionType === 'english' ? '英式' : 
              item.auctionType === 'dutch' ? '荷兰式' : 
-             item.auctionType === 'fixed' ? '固定价' : '盲拍'}
+             item.auctionType === 'fixed_price' ? '固定价' : '盲拍'}
           </Box>
         </Box>
         <Typography className="text-xs text-gray-500 mb-3">

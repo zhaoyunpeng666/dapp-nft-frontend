@@ -46,3 +46,18 @@ export const NFT_LIST_DATA: NFT_LIST_DATA_INTERFACE[] = [
         endTime: '2023-09-30T20:00:00Z',
     }
 ];
+
+// art
+// music
+// photography
+// game_assets
+// collectibles
+// domain_name
+// sport
+// virtual_world
+// other
+
+// english
+// dutch
+// fixed_price
+// blind

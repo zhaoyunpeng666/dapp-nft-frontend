@@ -14,8 +14,8 @@ export default function CategoryTabs({ activeCategory, onCategoryChange }: Categ
     { value: 'art', label: '艺术' },
     { value: 'music', label: '音乐' },
     { value: 'photography', label: '摄影' },
-    { value: 'game', label: '游戏资产' },
-    { value: 'collectible', label: '收藏品' }
+    { value: 'game_assets', label: '游戏资产' },
+    { value: 'collectibles', label: '收藏品' }
   ];
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {

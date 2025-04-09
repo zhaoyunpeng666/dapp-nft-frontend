@@ -11,6 +11,11 @@ export enum Category {
   OTHER = 'other'
 }
 
+// english
+// dutch
+// fixed_price
+// blind
+
 // 区块链枚举
 export enum Blockchain {
   ETHEREUM = '1',

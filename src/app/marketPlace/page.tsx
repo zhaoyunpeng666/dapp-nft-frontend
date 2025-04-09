@@ -30,9 +30,9 @@ export default function MarketPlace() {
       creator: 'PixelMaster',
       price: '1.8 ETH',
       image: 'https://via.placeholder.com/300x250/16213e/ffffff?text=Collectible',
-      auctionType: 'fixed',
+      auctionType: 'fixed_price',
       fixedPrice: true,
-      category: 'collectible'
+      category: 'collectibles'
     },
     {
       id: 3,
@@ -73,9 +73,9 @@ export default function MarketPlace() {
       creator: 'GameDev',
       price: '0.8 ETH',
       image: 'https://via.placeholder.com/300x250/16213e/ffffff?text=Game+Asset',
-      auctionType: 'fixed',
+      auctionType: 'fixed_price',
       fixedPrice: true,
-      category: 'game'
+      category: 'game_assets'
     }
   ];
 
@@ -110,7 +110,7 @@ export default function MarketPlace() {
         return 'bg-[#e6f7e6] text-[#28a745]';
       case 'dutch':
         return 'bg-[#f7e6e6] text-[#dc3545]';
-      case 'fixed':
+      case 'fixed_price':
         return 'bg-[#e6e6f7] text-[#6c63ff]';
       case 'blind':
         return 'bg-[#f7f7e6] text-[#ffc107]';
@@ -288,7 +288,7 @@ export default function MarketPlace() {
                           >
                             {item.auctionType === 'english' ? '英式' : 
                             item.auctionType === 'dutch' ? '荷兰式' : 
-                            item.auctionType === 'fixed' ? '固定价' : '盲拍'}
+                            item.auctionType === 'fixed_price' ? '固定价' : '盲拍'}
                           </Box>
                         </Box>
                         <Typography className="text-xs text-gray-500 mb-3">
@@ -377,7 +377,7 @@ export default function MarketPlace() {
                           >
                             {item.auctionType === 'english' ? '英式拍卖' : 
                             item.auctionType === 'dutch' ? '荷兰式拍卖' : 
-                            item.auctionType === 'fixed' ? '固定价格' : '盲拍'}
+                            item.auctionType === 'fixed_price' ? '固定价格' : '盲拍'}
                           </Box>
                         </Box>
                       </Box>
