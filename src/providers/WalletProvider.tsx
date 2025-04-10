@@ -36,7 +36,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setRainbowkitTheme(isDark ? darkTheme({
       accentColor: '#6c63ff',
-      accentColorForeground: 'white',
+      accentColorForeground: 'black',
       borderRadius: 'medium',
     }) : lightTheme({
       accentColor: '#6c63ff',
