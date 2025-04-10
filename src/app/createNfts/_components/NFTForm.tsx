@@ -24,12 +24,12 @@ import services from '@/services';
 type FormData = {
   name: string;
   description: string;
-  category: Category;
-  blockchain: Blockchain;
-  royalty: string;
+  categorieId: Category;
+  chainId: Blockchain;
+  royaltyPercentage: string;
   file: File | null;
   previewUrl: string;
-  urlPath: string;
+  imageUrl: string;
 }
 
 interface NFTFormProps {
@@ -59,7 +59,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
     if (name === 'name') {
       setNameError(!value.trim());
     }
-    if (name === 'royalty') {
+    if (name === 'royaltyPercentage') {
       const numValue = Number(value);
       if (numValue > 100) return;
     }
@@ -86,7 +86,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
         ...prev,
         file,
         previewUrl: URL.createObjectURL(file),
-        urlPath: res.path
+        imageUrl: res.path
       }));
     }
   };
@@ -99,31 +99,45 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       ...prev,
       file: null,
       previewUrl: '',
-      urlPath: ''
+      imageUrl: ''
     }));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
+  // 保存NFT信息
+  const handleSaveNFTInfo = async () => {
+    try {
+      const res = await services.did.saveNFTInfo({
+        ...formData
+      });
+      console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSaveNFTInfo 📍 res:', res);
+    } catch (error) {
+      console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSaveNFTInfo 📍 error:', error);
+    }
+  }
+
   const handleSubmit = async () => {
     console.log('铸造NFT:', formData);
     setLoading(true)
+    handleSaveNFTInfo()
+    return
 
     try {
       // 1. 铸造NFT
-    const hash = await writeContractAsync({
-      abi: NFTAuctionAbi,
-      address: NFTAuctionAbiAddress,
-      functionName: 'mint',
-      args: [address as Address],
-    });
-    console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSubmit 📍 hash:', hash);
-    if(!hash) {
-      toast.error('铸造NFT失败')
-      setLoading(false)
-      return
-    } 
+      const hash = await writeContractAsync({
+        abi: NFTAuctionAbi,
+        address: NFTAuctionAbiAddress,
+        functionName: 'mint',
+        args: [address as Address],
+      });
+      console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSubmit 📍 hash:', hash);
+      if(!hash) {
+        toast.error('铸造NFT失败')
+        setLoading(false)
+        return
+      } 
       // 2. 等待交易确认      
       await publicClient.waitForTransactionReceipt({ hash });
       toast.success('铸造NFT成功')
@@ -283,7 +297,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       <FormControl fullWidth sx={{ marginBottom: '16px' }}>
         <Select
           name="category"
-          value={formData.category}
+          value={formData.categorieId}
           onChange={handleSelectChange}
           displayEmpty
           sx={{
@@ -314,8 +328,8 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       <Typography variant="subtitle1">区块链</Typography>
       <FormControl fullWidth sx={{ marginBottom: '16px' }}>
         <Select
-          name="blockchain"
-          value={formData.blockchain}
+          name="chainId"
+          value={formData.chainId}
           onChange={handleSelectChange}
           displayEmpty
           sx={{
@@ -343,9 +357,9 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       <TextField
         fullWidth
         required
-        name="royalty"
+        name="royaltyPercentage"
         type="number"
-        value={formData.royalty}
+        value={formData.royaltyPercentage}
         onChange={handleTextChange}
         placeholder="输入版税比例"
         inputProps={{

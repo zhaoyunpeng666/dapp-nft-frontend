@@ -11,9 +11,9 @@ dayjs.extend(duration);
 
 export function ProvidersMiddleware({ children }: { children: React.ReactNode }) {
   const { address, isDisconnected } = useAccount();
-  console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 address:', address);
+  // console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 address:', address);
   const chainId = useChainId();
-  console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 chainId:', chainId);
+  // console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 ProvidersMiddleware 📍 chainId:', chainId);
   const { signMessageAsync } = useSignMessage();
 
   const getDiDUserInfo = useCallback(async () => {
@@ -22,14 +22,14 @@ export function ProvidersMiddleware({ children }: { children: React.ReactNode })
       if (response.data.address) {
         // GlobalStore.setIsOGPass(true);
         const signature = await signMessageAsync({ message: response.data.message });
-        console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 signature:', signature);
+        // console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 signature:', signature);
         const res = await services.did.postUserLogin({
           address: address as string,
           message: response.data.message,
           signature,
           chain_id: chainId,
         });
-        console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 res:', res);
+        // console.log('ZYP-dev 📍 providerMiddleware.tsx 📍 getDiDUserInfo 📍 res:', res);
         if(res.code === 200) {
           // GlobalStore.setRainbowKitAuthStatus('authenticated', response.data.address, res.data.result?.token ?? '');
           localStorage.setItem('token', res.data.result?.token ?? '');

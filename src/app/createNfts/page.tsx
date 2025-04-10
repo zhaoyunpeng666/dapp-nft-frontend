@@ -10,12 +10,12 @@ import { Category, Blockchain } from './_components/constants';
 export default function CreateNFTPage() {
   const [formData, setFormData] = useState({
     previewUrl: '',
-    urlPath: '',
+    imageUrl: '',
     name: '',
     description: '',
-    category: Category.ART,
-    blockchain: Blockchain.ETHEREUM,
-    royalty: '10',
+    categorieId: Category.ART,
+    chainId: Blockchain.ETHEREUM,
+    royaltyPercentage: '10',
     file: null as File | null,
   });
 

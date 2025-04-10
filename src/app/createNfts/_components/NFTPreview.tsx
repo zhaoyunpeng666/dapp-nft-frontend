@@ -9,9 +9,9 @@ interface NFTPreviewProps {
   formData: {
     name: string;
     description: string;
-    category: string;
-    blockchain: string;
-    royalty: string;
+    categorieId: string;
+    chainId: string;
+    royaltyPercentage: string;
     file: File | null;
     previewUrl: string;
   };
@@ -74,7 +74,7 @@ export default function NFTPreview({ formData }: NFTPreviewProps) {
               类别
             </Typography>
             <Typography variant="subtitle1" className="font-medium">
-              {formData.category ? CATEGORY_MENU[formData.category as Category] : '-'}
+              {formData.categorieId ? CATEGORY_MENU[formData.categorieId as Category] : '-'}
             </Typography>
           </Box>
 
@@ -83,7 +83,7 @@ export default function NFTPreview({ formData }: NFTPreviewProps) {
               区块链
             </Typography>
             <Typography variant="subtitle1" className="font-medium">
-              {formData.blockchain ? BLOCKCHAIN_MENU[formData.blockchain as Blockchain] : '-'}
+              {formData.chainId ? BLOCKCHAIN_MENU[formData.chainId as Blockchain] : '-'}
             </Typography>
           </Box>
 
@@ -92,7 +92,7 @@ export default function NFTPreview({ formData }: NFTPreviewProps) {
               版税
             </Typography>
             <Typography variant="subtitle1" className="font-medium">
-              {formData.royalty ? `${formData.royalty}%` : '-'}
+              {formData.royaltyPercentage ? `${formData.royaltyPercentage}%` : '-'}
             </Typography>
           </Box>
         </Box>
