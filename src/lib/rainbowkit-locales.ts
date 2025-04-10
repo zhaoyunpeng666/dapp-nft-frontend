@@ -14,5 +14,5 @@ const RAINBOWKIT_LOCALE_MAP: Record<string, SupportedRainbowKitLocales> = {
 }
 
 export const getRainbowKitLocale = (i18nLang: string): Locale => {
-    return RAINBOWKIT_LOCALE_MAP[i18nLang] || 'en'
+    return RAINBOWKIT_LOCALE_MAP[i18nLang] || 'zh'
 }

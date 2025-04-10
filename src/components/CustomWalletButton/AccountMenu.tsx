@@ -4,16 +4,14 @@ import { ContentCopy, Logout } from '@mui/icons-material';
 import { Box, Divider, ListItemIcon, Menu, MenuItem, useMediaQuery } from '@mui/material';
 import React from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
-import { useRouter } from 'next/navigation';
 import { useCopy } from '@/utils/useCopy';
-import HomeIcon from '@mui/icons-material/Home';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { useTranslation } from 'react-i18next';
 
 const AccountMenu: React.FC<{ children: React.ReactElement }> = ({ children }) => {
     const { disconnect } = useDisconnect();
     const account = useAccount();
-    const router = useRouter();
     const matches = useMediaQuery('(max-width:750px)');
+    const { t } = useTranslation();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [copied, copyHandler] = useCopy();
@@ -27,6 +25,11 @@ const AccountMenu: React.FC<{ children: React.ReactElement }> = ({ children }) =
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleDisconnect = () => {
+        disconnect();
+        localStorage.removeItem('token');
+    }
 
     return (
         <Box>
@@ -61,30 +64,20 @@ const AccountMenu: React.FC<{ children: React.ReactElement }> = ({ children }) =
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={() => router.push('/owner')} className="item">
-                    <ListItemIcon>
-                        <HomeIcon className="icon" fontSize="small" />
-                    </ListItemIcon>
-                        My Ethscriptions
-                    </MenuItem>
-                    <MenuItem onClick={() => router.push('/asset')} className="item">
-                    <ListItemIcon>
-                        <WalletIcon className="icon" fontSize="small" />
-                    </ListItemIcon>
-                        My Assets
-                    </MenuItem>
-                    <MenuItem onClick={() => copyHandler(account?.address || '')} className="item">
+                <MenuItem onClick={() => copyHandler(account?.address || '')} className="item">
                     <ListItemIcon>
                         <ContentCopy className="icon" fontSize="small" />
                     </ListItemIcon>
-                        Copy Address
-                    </MenuItem>
-                    <Divider sx={{ width: '80%', margin: '0 auto' }} />
-                    <MenuItem onClick={() => disconnect()} className="item">
+                    {/* Copy Address */}
+                    {t('copyAddress')}
+                </MenuItem>
+                <Divider sx={{ width: '80%', margin: '0 auto' }} />
+                <MenuItem onClick={() => handleDisconnect()} className="item">
                     <ListItemIcon>
                         <Logout className="icon" fontSize="small" />
                     </ListItemIcon>
-                        Logout
+                    {/* Logout */}
+                    {t('logout')}
                 </MenuItem>
             </Menu>
         </Box>

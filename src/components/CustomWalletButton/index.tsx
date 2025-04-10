@@ -35,7 +35,7 @@ const CustomWalletButton = () => {
                     authenticationStatus === 'authenticated');
     
             return (
-                <div
+                <Box
                     {...(!ready && {
                     'aria-hidden': true,
                     'style': {
@@ -83,7 +83,7 @@ const CustomWalletButton = () => {
                         }
             
                         return (
-                            <div style={{ display: 'flex', gap: 12 }}>
+                            <Box style={{ display: 'flex', gap: 12 }}>
                             {account.address && (
                                 <AccountMenu>
                                 <Box
@@ -122,10 +122,10 @@ const CustomWalletButton = () => {
                                 </Box>
                                 </AccountMenu>
                             )}
-                            </div>
+                            </Box>
                         );
                     })()}
-                </div>
+                </Box>
             );
         }}
         </ConnectButton.Custom>

@@ -1,43 +1,50 @@
 // components/Header.tsx
 'use client'
 
-import { useContext, useState, useEffect, useCallback } from 'react'
+import { useContext, useEffect, useCallback } from 'react'
 // import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useTranslation } from 'react-i18next'
+// import { useTranslation } from 'react-i18next'
 import { ThemeContext } from '@/providers/ThemeProvider'
-import { Switch, AppBar, Toolbar, Typography, Button, Menu, MenuItem, useMediaQuery, Box } from '@mui/material'
-import LanguageIcon from '@mui/icons-material/Language'
+import { 
+  // Switch, 
+  AppBar, Toolbar, Typography, 
+  // Button, Menu, MenuItem, useMediaQuery, 
+  Box } from '@mui/material'
+// import LanguageIcon from '@mui/icons-material/Language'
 import CustomWalletButton from '@/components/CustomWalletButton'
-import LightModeIcon from '@mui/icons-material/LightMode'
-import DarkModeIcon from '@mui/icons-material/DarkMode'
+// import LightModeIcon from '@mui/icons-material/LightMode'
+// import DarkModeIcon from '@mui/icons-material/DarkMode'
 import NavigationApp from './NavigationApp'
 import { useAccount } from 'wagmi';
 // import * as GlobalStore from '@/stores/GlobalStore';
 import * as Sentry from '@sentry/nextjs';
 
 export default function Header() {
-  const { t, i18n } = useTranslation()
+  // const { t, i18n } = useTranslation()
   // console.log('ZYP-dev 📍 Header.tsx 📍 Header 📍 i18n:', i18n);
-  const { isDark, toggleTheme } = useContext(ThemeContext)
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { 
+     isDark,
+    //  toggleTheme 
+    } = useContext(ThemeContext)
+  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   // const [connectWallet, setConnectWallet] = useState('Connect Wallet')
-  const matches = useMediaQuery('(max-width:750px)')
+  // const matches = useMediaQuery('(max-width:750px)')
   const { address, connector } = useAccount();
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    !matches && setAnchorEl(event.currentTarget)
-  }
+  // const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  //   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  //   !matches && setAnchorEl(event.currentTarget)
+  // }
 
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null)
+  // }
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng)
-    // setConnectWallet(t('connectWallet')) 
-    handleMenuClose()
-  }
+  // const changeLanguage = (lng: string) => {
+  //   i18n.changeLanguage(lng)
+  //   // setConnectWallet(t('connectWallet')) 
+  //   handleMenuClose()
+  // }
 
   const setSentryTag = useCallback(() => {
     Sentry.setTag('account', address);
@@ -66,7 +73,7 @@ export default function Header() {
         <Typography variant="h6">NFT拍卖平台</Typography>
         <NavigationApp />
         <Box className="flex items-center gap-4 ml-auto">
-          <Button
+          {/* <Button
             color="inherit"
             startIcon={<LanguageIcon />}
             onClick={handleMenuOpen}
@@ -90,10 +97,10 @@ export default function Header() {
             >
               {t('chinese')}
             </MenuItem>
-          </Menu>
-          <LightModeIcon className={!isDark ? 'text-yellow-500' : 'text-gray-400'} />
+          </Menu> */}
+          {/* <LightModeIcon className={!isDark ? 'text-yellow-500' : 'text-gray-400'} />
           <Switch checked={isDark} onChange={toggleTheme} />
-          <DarkModeIcon className={isDark ? 'text-purple-300' : 'text-gray-500'} />
+          <DarkModeIcon className={isDark ? 'text-purple-300' : 'text-gray-500'} /> */}
           {/* <ConnectButton 
             showBalance={true}
             chainStatus="icon"

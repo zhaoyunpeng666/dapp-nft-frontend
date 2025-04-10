@@ -7,8 +7,8 @@ const instance = i18n.createInstance()
 
 // 初始化 i18n
 instance.use(initReactI18next).init({
-  lng: 'en', // 默认语言
-  fallbackLng: 'en',
+  lng: 'zh', // 默认语言
+  fallbackLng: 'zh',
   interpolation: {
     escapeValue: false,
   },
@@ -23,6 +23,8 @@ instance.use(initReactI18next).init({
         profile: 'Profile',
         userInfo: 'User Information',
         wrongNetwork: 'Wrong network',
+        copyAddress: 'Copy Address',
+        logout: 'Logout',
       }
     },
     zh: {
@@ -35,6 +37,8 @@ instance.use(initReactI18next).init({
         profile: '个人中心',
         userInfo: '用户信息',
         wrongNetwork: '网络错误',
+        copyAddress: '复制地址',
+        logout: '退出',
       }
     }
   }
