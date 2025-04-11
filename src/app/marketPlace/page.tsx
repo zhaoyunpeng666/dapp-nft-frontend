@@ -22,6 +22,7 @@ import { AuctionListParams, AuctionListResponse } from "@/services/did/types";
 import { toast } from "react-toastify";
 import { FilterParamsType } from "./_type";
 import { calculateTime } from "@/utils";
+import { useRouter } from "next/navigation";
 
 export default function MarketPlace() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -45,6 +46,7 @@ export default function MarketPlace() {
       page_size: pageSize,
     }
   });
+  const router = useRouter();
 
   // 分类
   const categories = [
@@ -400,6 +402,7 @@ export default function MarketPlace() {
                                 backgroundColor: "rgba(108, 99, 255, 0.04)",
                               },
                             }}
+                            onClick={() => router.push(`/nftDetail?id=${item.nft_id}`)}
                           >
                             查看
                           </Button>
@@ -519,6 +522,7 @@ export default function MarketPlace() {
                                 backgroundColor: "rgba(108, 99, 255, 0.04)",
                               },
                             }}
+                            onClick={() => router.push(`/nftDetail?id=${item.nft_id}`)}
                           >
                             查看
                           </Button>
