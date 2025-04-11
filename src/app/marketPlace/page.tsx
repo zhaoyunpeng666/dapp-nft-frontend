@@ -18,7 +18,7 @@ import Image from "next/image";
 import { ViewModule, ViewList } from "@mui/icons-material";
 import FilterSidebar from "./_components/FilterSidebar";
 import services from "@/services";
-import { AuctionListParams } from "@/services/did/types";
+import { AuctionListParams, AuctionListResponse } from "@/services/did/types";
 import { toast } from "react-toastify";
 import { FilterParamsType } from "./_type";
 
@@ -26,84 +26,7 @@ export default function MarketPlace() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortValue, setSortValue] = useState("updated_at"); // 排序
   const [activeCategory, setActiveCategory] = useState("");
-  // const [nftData, setNftData] = useState([]);
-
-  // NFT数据
-  const nftData = [
-    {
-      nft_id: 1,
-      nft_name: "测试 NFT",
-      nft_creator: "zhangsan",
-      current_price: 15,
-      auction_type: "english", // english dutch fixed_price blind
-      auction_id: 1,
-      category: "art",
-      chain_id: 1,
-      currency_symbol: "ETH",
-      end_time: "2025-04-30T17:20:35+08:00",
-      status: "pending",
-      created_at: "2025-04-08T17:21:01+08:00",
-
-      image:
-        "https://via.placeholder.com/300x250/16213e/ffffff?text=Collectible",
-    },
-    // {
-    //   id: 2,
-    //   title: "像素猫咪 #103",
-    //   creator: "PixelMaster",
-    //   price: "1.8 ETH",
-    //   image:
-    //     "https://via.placeholder.com/300x250/16213e/ffffff?text=Collectible",
-    //   auctionType: "fixed_price",
-    //   fixedPrice: true,
-    //   category: "collectibles",
-    // },
-    // {
-    //   id: 3,
-    //   title: "未来城市 #7",
-    //   creator: "Future3D",
-    //   price: "3.2 ETH",
-    //   image: "https://via.placeholder.com/300x250/5a52d5/ffffff?text=3D+Model",
-    //   auctionType: "dutch",
-    //   auctionEndsIn: "价格每小时下降0.1 ETH",
-    //   fixedPrice: false,
-    //   category: "art",
-    // },
-    // {
-    //   id: 4,
-    //   title: "电子交响曲 #15",
-    //   creator: "MusicMaker",
-    //   price: "1.5 ETH",
-    //   image: "https://via.placeholder.com/300x250/1a1a2e/ffffff?text=Music+NFT",
-    //   auctionType: "blind",
-    //   auctionEndsIn: "3天后结束",
-    //   fixedPrice: false,
-    //   category: "music",
-    // },
-    // {
-    //   id: 5,
-    //   title: "城市夜景 #12",
-    //   creator: "PhotoArtist",
-    //   price: "1.2 ETH",
-    //   image:
-    //     "https://via.placeholder.com/300x250/6c63ff/ffffff?text=Photography",
-    //   auctionType: "english",
-    //   auctionEndsIn: "2天后结束",
-    //   fixedPrice: false,
-    //   category: "photography",
-    // },
-    // {
-    //   id: 6,
-    //   title: "传奇武器 #28",
-    //   creator: "GameDev",
-    //   price: "0.8 ETH",
-    //   image:
-    //     "https://via.placeholder.com/300x250/16213e/ffffff?text=Game+Asset",
-    //   auctionType: "fixed_price",
-    //   fixedPrice: true,
-    //   category: "game_assets",
-    // },
-  ];
+  const [nftData, setNftData] = useState<AuctionListResponse['data']['result']>([]);
 
   // 分类
   const categories = [
@@ -119,7 +42,7 @@ export default function MarketPlace() {
     const res = await services.did.getAuctionList(auctionListParams);
     console.log("ZYP-dev 📍 page.tsx 📍 fetchNftData 📍 res:", res);
     if (res.code === 200) {
-      // setNftData(res.data.result);
+      setNftData(res.data.result);
     } else {
       toast.error("获取NFT数据失败");
     }
@@ -177,7 +100,6 @@ export default function MarketPlace() {
         page_size: 10,
       }
     };
-    console.log('ZYP-dev 📍 page.tsx 📍 handleSidebarFilterChange 📍 auctionListParams:', auctionListParams);
     fetchNftData(auctionListParams);
   };
 

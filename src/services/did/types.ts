@@ -61,5 +61,20 @@ export interface AuctionListParams {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AuctionListResponse = Awaited<Readonly<IResponse<{result: object[]; total: number}>>>;
+export interface NFTItem {
+  nft_id: number;
+  nft_name: string;
+  nft_creator: string;
+  current_price: number;
+  auction_type: string;
+  auction_id: number;
+  category: string;
+  chain_id: number;
+  currency_symbol: string;
+  end_time: string;
+  status: string;
+  created_at: string;
+  image: string;
+}
+
+export type AuctionListResponse = Awaited<Readonly<IResponse<{result: NFTItem[]; total: number}>>>;
