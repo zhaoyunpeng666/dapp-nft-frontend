@@ -3,17 +3,18 @@
 import { Box, Typography, Checkbox, FormControlLabel, FormGroup, TextField, Select, MenuItem, Button, SelectChangeEvent } from "@mui/material";
 import React, { useState } from "react";
 import { FilterParamsType } from '../_type'
+// import { BLOCKCHAIN_MENU } from '@/app/createNfts/_components/constants'
 
 export default function FilterSidebar({ handleSidebarFilterChange }: 
-  { handleSidebarFilterChange: ({categories, auctionTypes, blockchains, priceRange }: FilterParamsType) => void }
+  { handleSidebarFilterChange: ({auctionTypes, chainIds, priceRange }: FilterParamsType) => void }
 ) {
-  const [categories, setCategories] = useState({
-    art: false,
-    music: false,
-    photography: false,
-    game_assets: false,
-    collectibles: false
-  });
+  // const [categories, setCategories] = useState({
+  //   art: false,
+  //   music: false,
+  //   photography: false,
+  //   game_assets: false,
+  //   collectibles: false
+  // });
 
   const [auctionTypes, setAuctionTypes] = useState({
     english: false,
@@ -22,7 +23,7 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
     blind: false
   });
 
-  const [blockchains, setBlockchains] = useState({
+  const [chainIds, setChainIds] = useState({
     ethereum: false,
     solana: false,
     polygon: false,
@@ -35,12 +36,12 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
     currency: "eth"
   });
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCategories({
-      ...categories,
-      [event.target.name]: event.target.checked
-    });
-  };
+  // const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setCategories({
+  //     ...categories,
+  //     [event.target.name]: event.target.checked
+  //   });
+  // };
 
   const handleAuctionTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAuctionTypes({
@@ -50,8 +51,8 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
   };
 
   const handleBlockchainChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBlockchains({
-      ...blockchains,
+    setChainIds({
+      ...chainIds,
       [event.target.name]: event.target.checked
     });
   };
@@ -72,25 +73,25 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
 
   const handleApplyFilter = () => {
     // 在实际应用中，这里会应用筛选
-    console.log('应用筛选:', { categories, auctionTypes, blockchains, priceRange });
-    handleSidebarFilterChange({categories, auctionTypes, blockchains, priceRange});
+    console.log('应用筛选:', { auctionTypes, chainIds, priceRange });
+    handleSidebarFilterChange({auctionTypes, chainIds, priceRange});
   };
 
   const handleClearFilter = () => {
-    setCategories({
-      art: false,
-      music: false,
-      photography: false,
-      game_assets: false,
-      collectibles: false
-    });
+    // setCategories({
+    //   art: false,
+    //   music: false,
+    //   photography: false,
+    //   game_assets: false,
+    //   collectibles: false
+    // });
     setAuctionTypes({ 
       english: false,
       dutch: false,
       fixed_price: false,
       blind: false
     });
-    setBlockchains({
+    setChainIds({
       ethereum: false,
       solana: false,
       polygon: false,
@@ -119,38 +120,40 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
         筛选
       </Typography>
       
-      <Box className="mb-6">
-        <Typography variant="subtitle1" className="font-semibold mb-3" sx={{ color: '#333' }}>
-          类别
-        </Typography>
-        <FormGroup>
-          <FormControlLabel 
-            control={<Checkbox checked={categories.art} onChange={handleCategoryChange} name="art" />} 
-            label="艺术" 
-            sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
-          />
-          <FormControlLabel 
-            control={<Checkbox checked={categories.music} onChange={handleCategoryChange} name="music" />} 
-            label="音乐" 
-            sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
-          />
-          <FormControlLabel 
-            control={<Checkbox checked={categories.photography} onChange={handleCategoryChange} name="photography" />} 
-            label="摄影" 
-            sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
-          />
-          <FormControlLabel 
-            control={<Checkbox checked={categories.game_assets} onChange={handleCategoryChange} name="game_assets" />} 
-            label="游戏资产" 
-            sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
-          />
-          <FormControlLabel 
-            control={<Checkbox checked={categories.collectibles} onChange={handleCategoryChange} name="collectibles" />} 
-            label="收藏品" 
-            sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
-          />
-        </FormGroup>
-      </Box>
+      {/*
+        <Box className="mb-6">
+          <Typography variant="subtitle1" className="font-semibold mb-3" sx={{ color: '#333' }}>
+            类别
+          </Typography>
+          <FormGroup>
+            <FormControlLabel 
+              control={<Checkbox checked={categories.art} onChange={handleCategoryChange} name="art" />} 
+              label="艺术" 
+              sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
+            />
+            <FormControlLabel 
+              control={<Checkbox checked={categories.music} onChange={handleCategoryChange} name="music" />} 
+              label="音乐" 
+              sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
+            />
+            <FormControlLabel 
+              control={<Checkbox checked={categories.photography} onChange={handleCategoryChange} name="photography" />} 
+              label="摄影" 
+              sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
+            />
+            <FormControlLabel 
+              control={<Checkbox checked={categories.game_assets} onChange={handleCategoryChange} name="game_assets" />} 
+              label="游戏资产" 
+              sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
+            />
+            <FormControlLabel 
+              control={<Checkbox checked={categories.collectibles} onChange={handleCategoryChange} name="collectibles" />} 
+              label="收藏品" 
+              sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
+            />
+          </FormGroup>
+        </Box> 
+      */}
 
       <Box className="mb-6">
         <Typography variant="subtitle1" className="font-semibold mb-3" sx={{ color: '#333' }}>
@@ -186,23 +189,23 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
         </Typography>
         <FormGroup>
           <FormControlLabel 
-            control={<Checkbox checked={blockchains.ethereum} onChange={handleBlockchainChange} name="ethereum" />} 
+            control={<Checkbox checked={chainIds.ethereum} onChange={handleBlockchainChange} name="ethereum" />} 
             label="以太坊" 
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />
           <FormControlLabel 
-            control={<Checkbox checked={blockchains.solana} onChange={handleBlockchainChange} name="solana" />} 
+            control={<Checkbox checked={chainIds.solana} onChange={handleBlockchainChange} name="solana" />} 
             label="Solana" 
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />
           <FormControlLabel 
-            control={<Checkbox checked={blockchains.polygon} onChange={handleBlockchainChange} name="polygon" />} 
+            control={<Checkbox checked={chainIds.polygon} onChange={handleBlockchainChange} name="polygon" />} 
             label="Polygon" 
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />
           <FormControlLabel 
-            control={<Checkbox checked={blockchains.binance} onChange={handleBlockchainChange} name="binance" />} 
-            label="币安智能链" 
+            control={<Checkbox checked={chainIds.binance} onChange={handleBlockchainChange} name="binance" />} 
+            label="币安智能链(BSC)" 
             sx={{ '& .MuiFormControlLabel-label': { color: '#666' } }}
           />
         </FormGroup>
@@ -251,9 +254,10 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
           sx={{ mt: 1, fontSize: '14px' }}
         >
           <MenuItem value="eth">ETH</MenuItem>
-          <MenuItem value="sol">SOL</MenuItem>
+          {/* 暂时屏蔽 */}
+          {/* <MenuItem value="sol">SOL</MenuItem>
           <MenuItem value="matic">MATIC</MenuItem>
-          <MenuItem value="bnb">BNB</MenuItem>
+          <MenuItem value="bnb">BNB</MenuItem> */}
         </Select>
       </Box>
 

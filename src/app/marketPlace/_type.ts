@@ -5,7 +5,7 @@ export type AuctionTypes = {
     fixed_price: boolean;
 }
 
-export type BlockchainTypes = {
+export type ChainIdTypes = {
     ethereum: boolean;
     solana: boolean;
     polygon: boolean;
@@ -32,8 +32,8 @@ export type PriceRangeTypes = {
 
 export type FilterParamsType = {
     auctionTypes: AuctionTypes;
-    blockchains: BlockchainTypes;
-    categories: CategoryTypes;
+    chainIds: ChainIdTypes;
+    categories?: CategoryTypes;
     priceRange: PriceRangeTypes;
 }
 

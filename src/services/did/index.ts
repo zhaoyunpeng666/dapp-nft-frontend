@@ -50,30 +50,11 @@ export default class LoginService {
 
     // 获取拍卖信息列表
     async getAuctionList(params: AuctionListParams) {
-        return await this.apiClient.get<AuctionListResponse>(`/auctions`, { params });
+        return await this.apiClient.get<AuctionListResponse>(`/auctions`, { 
+            params: {
+                filters: JSON.stringify(params.filters)
+            }
+         });
     }
-    // {
-    //     "trace_id": "",
-    //     "code": 200,
-    //     "msg": "Successful",
-    //     "data": {
-    //         "result": [
-    //             {
-    //                 "auction_id": 1,
-    //                 "nft_id": 1,
-    //                 "category": "art",
-    //                 "auction_type": "english",
-    //                 "chain_id": 1,
-    //                 "current_price": 15,
-    //                 "currency_symbol": "ETH",
-    //                 "end_time": "2025-04-30T17:20:35+08:00",
-    //                 "status": "pending",
-    //                 "created_at": "2025-04-08T17:21:01+08:00",
-    //                 "nft_name": "测试 NFT",
-    //                 "nft_creator": "zhangsan"
-    //             }
-    //         ]
-    //     }
-    // }
 }
 

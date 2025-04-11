@@ -24,8 +24,8 @@ import { FilterParamsType } from "./_type";
 
 export default function MarketPlace() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [sortValue, setSortValue] = useState(""); // 排序
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [sortValue, setSortValue] = useState("updated_at"); // 排序
+  const [activeCategory, setActiveCategory] = useState("");
   // const [nftData, setNftData] = useState([]);
 
   // NFT数据
@@ -107,7 +107,7 @@ export default function MarketPlace() {
 
   // 分类
   const categories = [
-    { value: "all", label: "全部" },
+    { value: "", label: "全部" },
     { value: "art", label: "艺术" },
     { value: "music", label: "音乐" },
     { value: "photography", label: "摄影" },
@@ -115,17 +115,8 @@ export default function MarketPlace() {
     { value: "collectibles", label: "收藏品" },
   ];
 
-  const fetchNftData = async () => {
-    const params: AuctionListParams = {
-      category: activeCategory,
-      auction_type: "english",
-      chain_id: "1",
-      min_price: 0,
-      max_price: 10,
-      page: 1,
-      page_size: 10,
-    };
-    const res = await services.did.getAuctionList(params);
+  const fetchNftData = async (auctionListParams: AuctionListParams) => {
+    const res = await services.did.getAuctionList(auctionListParams);
     console.log("ZYP-dev 📍 page.tsx 📍 fetchNftData 📍 res:", res);
     if (res.code === 200) {
       // setNftData(res.data.result);
@@ -135,8 +126,18 @@ export default function MarketPlace() {
   };
 
   useEffect(() => {
-    fetchNftData();
-  }, [activeCategory]);
+    const auctionListParams: AuctionListParams = {
+      filters: {
+        category: activeCategory,
+        auction_type: [],
+        chain_id: [],
+        order_by: sortValue,
+        page: 1,
+        page_size: 10,
+      }
+    };
+    fetchNftData(auctionListParams);
+  }, []);
 
   const handleSortChange = (event: SelectChangeEvent) => {
     setSortValue(event.target.value);
@@ -146,20 +147,38 @@ export default function MarketPlace() {
     setActiveCategory(newValue);
   };
 
+  // 应用筛选
   const handleSidebarFilterChange = (params: FilterParamsType) => {
     console.log('ZYP-dev 📍 page.tsx 📍 handleSidebarFilterChange 📍 params:', params);
+
+    const BlockchainNameToId = {
+      ethereum: 1,
+      solana: 2,
+      polygon: 137,
+      binance: 56
+    }
+
+    // 生成一个通用的方法，将auctionTypes和chainIds转换为auction_type和chain_id
+    const auction_type = Object.keys(params.auctionTypes).filter(key => params.auctionTypes[key as keyof typeof params.auctionTypes]);
+    const chain_ids = Object.keys(params.chainIds).filter(key => params.chainIds[key as keyof typeof params.chainIds]);
+    // 根据BlockchainNameToId将chain_id转换为[1,2,137,56]格式
+    const chain_id = chain_ids.map(key => BlockchainNameToId[key as keyof typeof BlockchainNameToId]);
+    
     // 将params中的auctionTypes、blockchains、categories、priceRange转换为AuctionListParams
     const auctionListParams: AuctionListParams = {
-      category: params.categories.art ? "art" : "",
-      auction_type: params.auctionTypes.english ? "english" : "",
-      chain_id: params.blockchains.ethereum ? "1" : "",
-      min_price: params.priceRange.min ? Number(params.priceRange.min) : 0,
-      max_price: params.priceRange.max ? Number(params.priceRange.max) : 0,
-      page: 1,
-      page_size: 10,
+      filters: {
+        category: activeCategory,
+        auction_type,
+        chain_id,
+        min_price: params.priceRange.min ? Number(params.priceRange.min) : 0,
+        max_price: params.priceRange.max ? Number(params.priceRange.max) : 0,
+        order_by: sortValue,
+        page: 1,
+        page_size: 10,
+      }
     };
     console.log('ZYP-dev 📍 page.tsx 📍 handleSidebarFilterChange 📍 auctionListParams:', auctionListParams);
-    // setActiveCategory(filter);
+    fetchNftData(auctionListParams);
   };
 
   const handleViewModeChange = (mode: "grid" | "list") => {
@@ -248,11 +267,11 @@ export default function MarketPlace() {
                       },
                     }}
                   >
-                    <MenuItem value="">最新上架</MenuItem>
-                    <MenuItem value="price-low">价格从低到高</MenuItem>
-                    <MenuItem value="price-high">价格从高到低</MenuItem>
-                    <MenuItem value="ending-soon">即将结束</MenuItem>
-                    <MenuItem value="most-bids">出价最多</MenuItem>
+                    <MenuItem value="updated_at">最新上架</MenuItem>
+                    <MenuItem value="low_to_high_price">价格从低到高</MenuItem>
+                    <MenuItem value="high_to_low_price">价格从高到低</MenuItem>
+                    <MenuItem value="end_time">即将结束</MenuItem>
+                    <MenuItem value="bid_count">出价最多</MenuItem>
                   </Select>
                 </Box>
 

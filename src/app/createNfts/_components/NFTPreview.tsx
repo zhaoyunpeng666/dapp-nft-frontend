@@ -33,7 +33,7 @@ export default function NFTPreview({ formData }: NFTPreviewProps) {
                 alt="NFT Preview"
                 width={300}
                 height={300}
-                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                style={{ width: '100%', height: '100%' }}
               />
             ) : (
               <video

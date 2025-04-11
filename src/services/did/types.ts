@@ -49,13 +49,16 @@ export type SaveNFTInfoResponse = Awaited<Readonly<IResponse<{result: boolean}>>
 
 // 拍卖信息列表
 export interface AuctionListParams {
-  category: string;
-  auction_type: string;
-  chain_id: string;
-  min_price: number;
-  max_price: number;
-  page: number;
-  page_size: number;
+  filters: {
+    category?: string;
+    auction_type?: string[];
+    chain_id?: number[];
+    min_price?: number;
+    max_price?: number;
+    order_by?: string;
+    page?: number;
+    page_size?: number;
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

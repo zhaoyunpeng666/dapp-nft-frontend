@@ -20,6 +20,7 @@ import { config } from '@/config/chains';
 import { NFTAuctionAbi, NFTAuctionAbiAddress } from '@/constants/abis';
 import { toast } from "react-toastify";
 import services from '@/services';
+import { omit } from 'lodash';
 
 type FormData = {
   name: string;
@@ -108,10 +109,9 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
 
   // 保存NFT信息
   const handleSaveNFTInfo = async () => {
+    const params = omit(formData, ['previewUrl', 'file'])
     try {
-      const res = await services.did.saveNFTInfo({
-        ...formData
-      });
+      const res = await services.did.saveNFTInfo(params);
       console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSaveNFTInfo 📍 res:', res);
     } catch (error) {
       console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSaveNFTInfo 📍 error:', error);
@@ -122,6 +122,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
     console.log('铸造NFT:', formData);
     setLoading(true)
     handleSaveNFTInfo()
+    setLoading(false)
     return
 
     try {
@@ -313,10 +314,10 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
             }
           }}
         >
-          <MenuItem value="art">艺术</MenuItem>
+          {/* <MenuItem value="art">艺术</MenuItem>
           <MenuItem value="music">音乐</MenuItem>
           <MenuItem value="video">视频</MenuItem>
-          <MenuItem value="photography">摄影</MenuItem>
+          <MenuItem value="photography">摄影</MenuItem> */}
           {
             CATEGORY_MENU_ARRAY.map((item) => (
               <MenuItem key={item.key} value={item.key}>{item.value}</MenuItem>

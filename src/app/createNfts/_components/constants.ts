@@ -5,10 +5,10 @@ export enum Category {
   PHOTOGRAPHY = 'photography',
   GAME_ASSETS = 'game_assets',
   COLLECTIBLES = 'collectibles',
-  DOMAIN_NAME = 'domain_name',
-  SPORTS = 'sport',
-  VIRTUAL_WORLD = 'virtual_world',
-  OTHER = 'other'
+  // DOMAIN_NAME = 'domain_name',
+  // SPORTS = 'sport',
+  // VIRTUAL_WORLD = 'virtual_world',
+  // OTHER = 'other'
 }
 
 // english
@@ -34,10 +34,10 @@ export const CATEGORY_MENU: Record<Category, string> = {
   [Category.PHOTOGRAPHY]: '摄影',
   [Category.GAME_ASSETS]: '游戏资产',
   [Category.COLLECTIBLES]: '收藏品',
-  [Category.DOMAIN_NAME]: '域名',
-  [Category.SPORTS]: '体育',
-  [Category.VIRTUAL_WORLD]: '虚拟世界',
-  [Category.OTHER]: '其他'
+  // [Category.DOMAIN_NAME]: '域名',
+  // [Category.SPORTS]: '体育',
+  // [Category.VIRTUAL_WORLD]: '虚拟世界',
+  // [Category.OTHER]: '其他'
 }
 
 // 将CATEGORY_MENU转换成对象数组

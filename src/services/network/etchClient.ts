@@ -16,7 +16,7 @@ const etchClient = new ApiClient(
 etchClient.client.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    config.headers['Authorization'] = token ? `Bearer ${token}` : 'Bearer ';
+    config.headers['session_id'] = token ? `${token}` : '';
     return config;
   },
   (error) => {
