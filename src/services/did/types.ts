@@ -77,4 +77,4 @@ export interface NFTItem {
   image: string;
 }
 
-export type AuctionListResponse = Awaited<Readonly<IResponse<{result: NFTItem[]; total: number}>>>;
+export type AuctionListResponse = Awaited<Readonly<IResponse<{result: NFTItem[]; count: number}>>>;

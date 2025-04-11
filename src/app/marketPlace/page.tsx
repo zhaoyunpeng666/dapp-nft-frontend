@@ -13,7 +13,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { useState, SyntheticEvent, useEffect } from "react";
+import { useState, SyntheticEvent, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ViewModule, ViewList } from "@mui/icons-material";
 import FilterSidebar from "./_components/FilterSidebar";
@@ -25,8 +25,25 @@ import { FilterParamsType } from "./_type";
 export default function MarketPlace() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortValue, setSortValue] = useState("updated_at"); // 排序
-  const [activeCategory, setActiveCategory] = useState("");
-  const [nftData, setNftData] = useState<AuctionListResponse['data']['result']>([]);
+  const [activeCategory, setActiveCategory] = useState(""); // 分类
+  const [nftData, setNftData] = useState<AuctionListResponse['data']['result']>([]); // NFT数据
+  const [count, setCount] = useState(0); // 总页数
+  const [total, setTotal] = useState(0); // 总条数
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [pageSize, setPageSize] = useState(10); // 每页条数
+  const [page, setPage] = useState(1); // 当前页
+  const auctionParamsRef = useRef<AuctionListParams>({
+    filters: {
+      category: activeCategory,
+      auction_type: [],
+      chain_id: [],
+      min_price: 0,
+      max_price: 0,
+      order_by: sortValue,
+      page: 1,
+      page_size: pageSize,
+    }
+  });
 
   // 分类
   const categories = [
@@ -42,8 +59,14 @@ export default function MarketPlace() {
     const res = await services.did.getAuctionList(auctionListParams);
     console.log("ZYP-dev 📍 page.tsx 📍 fetchNftData 📍 res:", res);
     if (res.code === 200) {
-      setNftData(res.data.result);
+      setNftData(res.data.result || []);
+      setTotal(res.data.count || 0);
+      // Math.ceil天花板函数，向上取整
+      setCount(Math.ceil(res.data.count / pageSize) || 0);
     } else {
+      setNftData([]);
+      setTotal(0);
+      setCount(0);
       toast.error("获取NFT数据失败");
     }
   };
@@ -56,18 +79,26 @@ export default function MarketPlace() {
         chain_id: [],
         order_by: sortValue,
         page: 1,
-        page_size: 10,
+        page_size: pageSize,
       }
     };
     fetchNftData(auctionListParams);
   }, []);
 
+  // 切换排序
   const handleSortChange = (event: SelectChangeEvent) => {
     setSortValue(event.target.value);
+    const auctionListParams = auctionParamsRef.current;
+    auctionListParams.filters.order_by = event.target.value;
+    fetchNftData(auctionListParams);
   };
 
+  // 切换分类
   const handleCategoryChange = (event: SyntheticEvent, newValue: string) => {
     setActiveCategory(newValue);
+    const auctionListParams = auctionParamsRef.current;
+    auctionListParams.filters.category = newValue;
+    fetchNftData(auctionListParams);
   };
 
   // 应用筛选
@@ -86,7 +117,7 @@ export default function MarketPlace() {
     const chain_ids = Object.keys(params.chainIds).filter(key => params.chainIds[key as keyof typeof params.chainIds]);
     // 根据BlockchainNameToId将chain_id转换为[1,2,137,56]格式
     const chain_id = chain_ids.map(key => BlockchainNameToId[key as keyof typeof BlockchainNameToId]);
-    
+
     // 将params中的auctionTypes、blockchains、categories、priceRange转换为AuctionListParams
     const auctionListParams: AuctionListParams = {
       filters: {
@@ -97,14 +128,24 @@ export default function MarketPlace() {
         max_price: params.priceRange.max ? Number(params.priceRange.max) : 0,
         order_by: sortValue,
         page: 1,
-        page_size: 10,
+        page_size: pageSize,
       }
     };
+    // 使用一个useRef对象缓存auctionListParams的值
+    auctionParamsRef.current = auctionListParams;
     fetchNftData(auctionListParams);
   };
 
   const handleViewModeChange = (mode: "grid" | "list") => {
     setViewMode(mode);
+  };
+
+  // 切换分页
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    const auctionListParams = auctionParamsRef.current;
+    auctionListParams.filters.page = value;
+    fetchNftData(auctionListParams);
   };
 
   function a11yProps(index: number) {
@@ -488,19 +529,23 @@ export default function MarketPlace() {
 
             {/* 分页 */}
             <Box className="flex justify-center mt-8">
-              <Pagination
-                count={5}
-                color="primary"
-                sx={{
-                  "& .MuiPaginationItem-root": {
-                    color: "#333",
-                  },
-                  "& .Mui-selected": {
-                    backgroundColor: "#6c63ff !important",
-                    color: "white",
-                  },
-                }}
-              />
+              {total > 0 && (
+                <Pagination
+                  count={count} // 总页数
+                  page={page} // 当前页
+                  onChange={handlePageChange} // 切换分页
+                  color="primary"
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      color: "#333",
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: "#6c63ff !important",
+                      color: "white",
+                    },
+                  }}
+                />
+              )}
             </Box>
           </Grid>
         </Grid>
