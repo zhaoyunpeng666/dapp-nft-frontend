@@ -103,7 +103,7 @@ export default function FilterSidebar({ handleSidebarFilterChange }:
       currency: "eth"
     });
     // 在实际应用中，这里会清除筛选
-    alert('所有筛选已清除');
+    handleSidebarFilterChange({auctionTypes, chainIds, priceRange});
   };
 
   return (

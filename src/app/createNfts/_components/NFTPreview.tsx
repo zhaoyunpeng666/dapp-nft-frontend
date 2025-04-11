@@ -10,7 +10,7 @@ interface NFTPreviewProps {
     name: string;
     description: string;
     categorieId: string;
-    chainId: string;
+    chainId: number;
     royaltyPercentage: string;
     file: File | null;
     previewUrl: string;

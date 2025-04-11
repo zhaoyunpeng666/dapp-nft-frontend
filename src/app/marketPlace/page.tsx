@@ -21,6 +21,7 @@ import services from "@/services";
 import { AuctionListParams, AuctionListResponse } from "@/services/did/types";
 import { toast } from "react-toastify";
 import { FilterParamsType } from "./_type";
+import { calculateTime } from "@/utils";
 
 export default function MarketPlace() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -375,9 +376,17 @@ export default function MarketPlace() {
                               : "盲拍"}
                           </Box>
                         </Box>
-                        <Typography className="text-xs text-gray-500 mb-3">
-                          {item.auction_type === 'fixed_price' ? "可立即购买" : item.status === "pending" ? "待拍卖" : "已结束"}
-                        </Typography>
+                        {
+                          item.auction_type === 'english' ? (
+                            <Typography className="text-xs text-gray-500 mb-3">
+                              {calculateTime(item.end_time) > 0 ? `${calculateTime(item.end_time)}小时后结束` : "已结束"}
+                            </Typography>
+                          ) : (
+                            <Typography className="text-xs text-gray-500 mb-3">
+                              {item.auction_type === 'fixed_price' ? "可立即购买" : item.status === "pending" ? "待拍卖" : "已结束"}
+                            </Typography>
+                          )
+                        }
                         <Box className="flex gap-2">
                           <Button
                             variant="outlined"
@@ -484,13 +493,19 @@ export default function MarketPlace() {
                           <Typography className="font-bold text-[#6c63ff]">
                             {item.current_price + item.currency_symbol}
                           </Typography>
-                          <Typography className="text-xs text-gray-500">
+                          {item.auction_type === 'english' ? (
+                              <Typography className="text-xs text-gray-500">
+                                {calculateTime(item.end_time) > 0 ? `${calculateTime(item.end_time)}小时后结束` : "已结束"}
+                              </Typography>
+                            ) : (
+                            <Typography className="text-xs text-gray-500">
                             {item.auction_type === 'fixed_price'
                               ? "可立即购买"
                               : item.status === "pending"
                               ? "待拍卖"
                               : "已结束"}
-                          </Typography>
+                            </Typography>
+                          )}
                         </Box>
                         <Box className="flex gap-2">
                           <Button

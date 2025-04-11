@@ -18,13 +18,13 @@ export enum Category {
 
 // 区块链枚举
 export enum Blockchain {
-  ETHEREUM = '1',
-  SOLANA = '2',
-  ETHEREUM_GOERLI = '5',
-  BSC = '56',
-  OPTIMISM = '10',
-  POLYGON = '137',
-  SEPOLIA = '11155111'
+  ETHEREUM = 1,
+  SOLANA = 2,
+  ETHEREUM_GOERLI = 5,
+  BSC = 56,
+  OPTIMISM = 10,
+  POLYGON = 137,
+  SEPOLIA = 11155111
 }
 
 // 类别菜单

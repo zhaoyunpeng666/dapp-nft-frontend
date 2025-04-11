@@ -41,7 +41,7 @@ export interface SaveNFTInfoData {
   description: string;
   imageUrl: string;
   royaltyPercentage: string;
-  chainId: string;
+  chainId: number;
   categorieId: string;
 }
 

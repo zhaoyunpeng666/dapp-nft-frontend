@@ -74,7 +74,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: Number(value)
     }));
   };
 
@@ -120,6 +120,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
 
   const handleSubmit = async () => {
     console.log('铸造NFT:', formData);
+    
     setLoading(true)
     handleSaveNFTInfo()
     setLoading(false)
@@ -330,7 +331,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       <FormControl fullWidth sx={{ marginBottom: '16px' }}>
         <Select
           name="chainId"
-          value={formData.chainId}
+          value={`${formData.chainId}`}
           onChange={handleSelectChange}
           displayEmpty
           sx={{
