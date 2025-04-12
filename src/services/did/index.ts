@@ -45,7 +45,20 @@ export default class LoginService {
 
     // 保存NFT信息
     async saveNFTInfo(data: SaveNFTInfoData) {
-        return await this.apiClient.post<SaveNFTInfoData, SaveNFTInfoResponse>(`/collections/createNft`, data);
+        const queryParams = new URLSearchParams();
+        
+        // 添加参数
+        if (data.name) queryParams.append('name', data.name);
+        if (data.description) queryParams.append('description', data.description);
+        if (data.imageUrl) queryParams.append('imageUrl', data.imageUrl);
+        if (data.royaltyPercentage) queryParams.append('royaltyPercentage', data.royaltyPercentage);
+        if (data.chainId) queryParams.append('chainId', data.chainId.toString());
+        if (data.categorieId) queryParams.append('categorieId', data.categorieId);
+
+        return await this.apiClient.post<null, SaveNFTInfoResponse>(
+            `/collections/createNft?${queryParams.toString()}`,
+            null
+        );
     }
 
     // 获取拍卖信息列表
