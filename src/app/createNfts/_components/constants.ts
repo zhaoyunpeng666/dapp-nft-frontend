@@ -20,11 +20,11 @@ export enum Category {
 export enum Blockchain {
   ETHEREUM = 1,
   SOLANA = 2,
-  ETHEREUM_GOERLI = 5,
+  // ETHEREUM_GOERLI = 5,
   BSC = 56,
-  OPTIMISM = 10,
+  // OPTIMISM = 10,
   POLYGON = 137,
-  SEPOLIA = 11155111
+  // SEPOLIA = 11155111
 }
 
 // 类别菜单
@@ -50,11 +50,11 @@ export const CATEGORY_MENU_ARRAY = Object.entries(CATEGORY_MENU).map(([key, valu
 export const BLOCKCHAIN_MENU: Record<Blockchain, string> = {
   [Blockchain.ETHEREUM]: '以太坊(Ethereum)',
   [Blockchain.SOLANA]: '索拉纳(Solana)',
-  [Blockchain.ETHEREUM_GOERLI]: 'Ethereum Goerli',
-  [Blockchain.BSC]: '币安智能链(BSC)',
-  [Blockchain.OPTIMISM]: 'Optimism',
+  // [Blockchain.ETHEREUM_GOERLI]: 'Ethereum Goerli',
+  // [Blockchain.OPTIMISM]: 'Optimism',
   [Blockchain.POLYGON]: 'Polygon',
-  [Blockchain.SEPOLIA]: 'Ethereum Sepolia'
+  // [Blockchain.SEPOLIA]: 'Ethereum Sepolia',
+  [Blockchain.BSC]: '币安智能链(BSC)',
 }
 
 // 将BLOCKCHAIN_MENU转换成对象数组
