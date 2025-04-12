@@ -12,7 +12,6 @@ import NFTDetailTable from '@/components/NFTDetail';
 const NFTDetail = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get('id')
-  console.log('ZYP-dev 📍 page.tsx 📍 NFTDetail 📍 id:', id);
 
   const nftData = {
     title: "宇宙探索者 #42",
