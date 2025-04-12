@@ -120,12 +120,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
 
   const handleSubmit = async () => {
     console.log('铸造NFT:', formData);
-    
     setLoading(true)
-    handleSaveNFTInfo()
-    setLoading(false)
-    return
-
     try {
       // 1. 铸造NFT
       const hash = await writeContractAsync({
@@ -143,6 +138,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       // 2. 等待交易确认      
       await publicClient.waitForTransactionReceipt({ hash });
       toast.success('铸造NFT成功')
+      handleSaveNFTInfo()
       setLoading(false)
     } catch (error) {
       console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSubmit 📍 error:', error);
