@@ -1,8 +1,10 @@
 // components/Header.tsx
 'use client'
 
-import { useContext, useEffect, useCallback } from 'react'
-// import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { useContext, useEffect, useCallback, 
+  // useState 
+} from 'react'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 // import { useTranslation } from 'react-i18next'
 import { ThemeContext } from '@/providers/ThemeProvider'
 import { 
@@ -11,7 +13,7 @@ import {
   // Button, Menu, MenuItem, useMediaQuery, 
   Box } from '@mui/material'
 // import LanguageIcon from '@mui/icons-material/Language'
-import CustomWalletButton from '@/components/CustomWalletButton'
+// import CustomWalletButton from '@/components/CustomWalletButton'
 // import LightModeIcon from '@mui/icons-material/LightMode'
 // import DarkModeIcon from '@mui/icons-material/DarkMode'
 import NavigationApp from './NavigationApp'
@@ -29,7 +31,8 @@ export default function Header() {
   // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   // const [connectWallet, setConnectWallet] = useState('Connect Wallet')
   // const matches = useMediaQuery('(max-width:750px)')
-  const { address, connector } = useAccount();
+  const { address, connector, addresses } = useAccount();
+  console.log('ZYP-dev 📍 Header.tsx 📍 Header 📍 addresses:', addresses);
 
   // const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
   //   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -101,14 +104,15 @@ export default function Header() {
           {/* <LightModeIcon className={!isDark ? 'text-yellow-500' : 'text-gray-400'} />
           <Switch checked={isDark} onChange={toggleTheme} />
           <DarkModeIcon className={isDark ? 'text-purple-300' : 'text-gray-500'} /> */}
-          {/* <ConnectButton 
+          <ConnectButton 
             showBalance={true}
             chainStatus="icon"
             accountStatus="avatar"
-            label={connectWallet}
-          /> */}
+            // label={connectWallet}
+            label='Connect Wallet'
+          />
           {/* 自定义钱包 */}
-          <CustomWalletButton />
+          {/* <CustomWalletButton /> */}
         </Box>
       </Toolbar>
     </AppBar>
