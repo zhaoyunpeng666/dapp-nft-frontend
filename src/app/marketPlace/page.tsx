@@ -77,9 +77,9 @@ export default function MarketPlace() {
   useEffect(() => {
     const auctionListParams: AuctionListParams = {
       filters: {
-        category: activeCategory,
-        auction_type: [],
-        chain_id: [],
+        category: '1',
+        auction_type: ['english'],
+        chain_id: [11155111],
         order_by: sortValue,
         page: 1,
         page_size: pageSize,
@@ -402,7 +402,7 @@ export default function MarketPlace() {
                                 backgroundColor: "rgba(108, 99, 255, 0.04)",
                               },
                             }}
-                            onClick={() => router.push(`/nftDetail?id=${item.nft_id}`)}
+                            onClick={() => router.push(`/nftDetail?id=${item.nft_id}&auction_id=${item.auction_id}&chain_id=${item.chain_id}`)}
                           >
                             查看
                           </Button>

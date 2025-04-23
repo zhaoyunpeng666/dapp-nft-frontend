@@ -78,3 +78,52 @@ export interface NFTItem {
 }
 
 export type AuctionListResponse = Awaited<Readonly<IResponse<{result: NFTItem[]; count: number}>>>;
+
+// 拍卖详情
+export interface AuctionDetailParams {
+  filters: {
+    auction_id: number;
+    chain_id: number;
+    token_id: string;
+    contract_address: string;
+  }
+}
+
+export type nft_attributes = {
+  attribute_id: number,
+  token_id: string,
+  trait_type: string,
+  trait_value: string,
+  display_type: string,
+  rarity_percentage: number,
+  created_at: string
+}
+
+export type auction_bids = {
+  bid_id: number,
+  auction_id: number,
+  bidder: string,
+  bid_amount: number,
+  transaction_hash: string,
+  status: string,
+  created_at: string,
+  updated_at: string,
+}
+
+export interface AuctionDetailData {
+  bid_count: number;
+  winner: string;
+  description: string;
+  image_url: string;
+  metadata_url: string;
+  owner_id: string;
+  royalty_percentage: string;
+  token_standard: string;
+  minted_at: string;
+  nft_status: string;
+  nft_attributes: nft_attributes[];
+  auction_bids: auction_bids[]
+}
+
+
+export type AuctionDetailResponse = Awaited<Readonly<IResponse<{result: AuctionDetailData}>>>;

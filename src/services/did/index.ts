@@ -7,7 +7,9 @@ import {
     AuctionListParams,
     AuctionListResponse,
     SaveNFTInfoData,
-    SaveNFTInfoResponse
+    SaveNFTInfoResponse,
+    AuctionDetailParams,
+    AuctionDetailResponse
  } from "./types";
 
 export default class LoginService {
@@ -68,6 +70,15 @@ export default class LoginService {
                 filters: JSON.stringify(params.filters)
             }
          });
+    }
+
+    // 获取拍卖详情
+    async getAuctionDetail(params: AuctionDetailParams) {
+        return await this.apiClient.get<AuctionDetailResponse>(`/auctions/detail`, {
+            params: {
+                filters: JSON.stringify(params.filters)
+            }
+        });
     }
 }
 

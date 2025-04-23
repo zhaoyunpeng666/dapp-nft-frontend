@@ -1004,7 +1004,8 @@ export const NFTAuctionAbi = [
   }
 ] as const;
 
-// AssetStorageAbi 代理address: 0x01Ee7af20D93742DB46AeEA5551D56Be683ed6Cc
+// 代理address:
+export const AssetStorageAbiAddress = '0x01Ee7af20D93742DB46AeEA5551D56Be683ed6Cc'
 // AssetStorageAbi 实现地址: 0xA5F1cF6A0376D23b91f1e81675fA24A5403474Be
 // 下面是实现地址的abi
 export const AssetStorageAbi = [

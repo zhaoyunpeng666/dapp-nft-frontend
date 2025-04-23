@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { Grid2 as Grid, Typography, TextField, Button, Box } from '@mui/material';
-import { NFTData } from '@/@types';
+import { AuctionDetailData } from '@/services/did/types';
 
-const AuctionSection = ({ nftData }: {nftData: NFTData}) => {
+const AuctionSection = ({ nftData }: {nftData: AuctionDetailData}) => {
   return (
     <Grid container spacing={2} sx={{
         bgcolor: '#f0f0ff',
@@ -30,13 +30,13 @@ const AuctionSection = ({ nftData }: {nftData: NFTData}) => {
       {/* 当前出价 */}
       <Grid size={4}>
         <Typography variant="body2">当前出价</Typography>
-        <Typography variant="h6">{nftData.currentBid}</Typography>
+        <Typography variant="h6">{nftData.nft_attributes[0].trait_value}</Typography>
       </Grid>
 
       {/* 剩余时间 */}
       <Grid size={4}>
         <Typography variant="body2">剩余时间</Typography>
-        <Typography variant="h6">{nftData.timeLeft}</Typography>
+        <Typography variant="h6">{nftData.nft_attributes[0].created_at}</Typography>
       </Grid>
 
       {/* 出价次数 */}
@@ -47,7 +47,7 @@ const AuctionSection = ({ nftData }: {nftData: NFTData}) => {
 
       {/* 最低出价 */}
       <Grid size={12}>
-        <Typography variant="caption">最低加价: {nftData.minIncrement}</Typography>
+        <Typography variant="caption">最低加价: {nftData.nft_attributes[0].trait_value}</Typography>
       </Grid>
 
       {/* 出价输入框 */}
@@ -112,7 +112,7 @@ const AuctionSection = ({ nftData }: {nftData: NFTData}) => {
             console.log('立即购买');
         }}
         >
-          立即购买 ({nftData.buyNowPrice})
+          立即购买 ({nftData.nft_attributes[0].trait_value})
         </Button>
       </Grid>
     </Grid>

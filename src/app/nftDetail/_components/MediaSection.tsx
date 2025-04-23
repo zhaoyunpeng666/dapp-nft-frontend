@@ -4,15 +4,15 @@ import React from 'react';
 import { Typography, Button, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Image from 'next/image';
-import { NFTData } from '@/@types';
+import { AuctionDetailData } from '@/services/did/types';
 
-const MediaSection = ({ nftData }: {nftData: NFTData}) => {
+const MediaSection = ({ nftData }: {nftData: AuctionDetailData}) => {
   return (
     <Grid container spacing={2}>
       {/* 主图 */}
       <Grid size={12}>
         <Typography variant="h5" gutterBottom>
-          {nftData.title}
+          {nftData.description}
         </Typography>
         <Image
           src="https://via.placeholder.com/300"
@@ -74,12 +74,12 @@ const MediaSection = ({ nftData }: {nftData: NFTData}) => {
           </Grid>
           <Grid size={6}>
             <Typography variant="body1">
-              {nftData.author}
+              {nftData.winner}
             </Typography>
             <Typography variant="caption">
-              {`${nftData.verified ? "已验证" : ""} - ${
-                nftData.nftsCount
-              } NFT - ${nftData.followers} 粉丝`}
+              {`${nftData.nft_status === 'active' ? "已验证" : ""} - ${
+                nftData.bid_count
+              } NFT - ${nftData.bid_count} 粉丝`}
             </Typography>
           </Grid>
           <Grid size={4} textAlign="right">

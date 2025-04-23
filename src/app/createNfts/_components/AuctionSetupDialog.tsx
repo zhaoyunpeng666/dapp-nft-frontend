@@ -28,7 +28,7 @@ import { AuctionType, AUCTION_TYPE_MENU, AUCTION_DURATION_OPTIONS } from './Auct
 import { useWriteContract, usePublicClient } from 'wagmi';
 import { PublicClient, Address } from 'viem';
 import { toast } from "react-toastify";
-import { AuctionAbi, AuctionAbiAddress } from '@/constants/abis';
+import { AuctionAbi, AuctionAbiAddress, AssetStorageAbiAddress, NFTAuctionAbi, NFTAuctionAbiAddress } from '@/constants/abis';
 import { useRouter } from 'next/navigation';
 
 interface AuctionSetupDialogProps {
@@ -84,6 +84,7 @@ const AuctionSetupDialog: React.FC<AuctionSetupDialogProps> = ({ open, onClose, 
 
     try {
       setLoading(true);
+      
       // 将以太坊转换为wei (1 ETH = 10^18 wei)
       const reservePriceWei = BigInt(Math.floor(Number(reservePrice) * 10**18));
       console.log('ZYP-dev 📍 AuctionSetupDialog.tsx 📍 handleCreateAuction 📍 BigInt(tokenId):', BigInt(tokenId));
@@ -94,6 +95,19 @@ const AuctionSetupDialog: React.FC<AuctionSetupDialogProps> = ({ open, onClose, 
       console.log('ZYP-dev 📍 AuctionSetupDialog.tsx 📍 handleCreateAuction 📍 auctionType:', auctionType);
       console.log('ZYP-dev 📍 AuctionSetupDialog.tsx 📍 handleCreateAuction 📍 auctionType type:', typeof auctionType);
 
+      // 授权合约
+      const approveHash = await writeContractAsync({
+        abi: NFTAuctionAbi,
+        address: NFTAuctionAbiAddress,
+        functionName: 'approve',
+        args: [
+          AssetStorageAbiAddress,
+          BigInt(tokenId)
+        ],
+      })
+      const approveReceipt = await publicClient.waitForTransactionReceipt({ hash: approveHash });
+      console.log('ZYP-dev 📍 AuctionSetupDialog.tsx 📍 handleCreateAuction 📍 approveReceipt:', approveReceipt);
+      
       // 调用合约创建拍卖
       const hash = await writeContractAsync({
         abi: AuctionAbi,
