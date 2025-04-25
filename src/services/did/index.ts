@@ -45,6 +45,17 @@ export default class LoginService {
         });
     }
 
+    // 图片回显接口
+    async getFile(path: string) {
+        const formData = new FormData();
+        formData.append('path', path);
+        return await this.apiClient.post<FormData, UploadFileResponse>(`/uploadFile/getFile`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
+
     // 保存NFT信息
     async saveNFTInfo(data: SaveNFTInfoData) {
         const queryParams = new URLSearchParams();
@@ -56,6 +67,7 @@ export default class LoginService {
         if (data.royaltyPercentage) queryParams.append('royaltyPercentage', data.royaltyPercentage);
         if (data.chainId) queryParams.append('chainId', data.chainId.toString());
         if (data.categorieId) queryParams.append('categorieId', data.categorieId);
+        if (data.tokenId) queryParams.append('tokenId', data.tokenId);
 
         return await this.apiClient.post<null, SaveNFTInfoResponse>(
             `/collections/createNft?${queryParams.toString()}`,
