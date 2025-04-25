@@ -113,10 +113,10 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
   };
 
   // 保存NFT信息
-  const handleSaveNFTInfo = async () => {
+  const handleSaveNFTInfo = async (tokenId: string) => {
     const params = omit(formData, ['previewUrl', 'file'])
     try {
-      const res = await services.did.saveNFTInfo(params);
+      const res = await services.did.saveNFTInfo({...params, tokenId});
       console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSaveNFTInfo 📍 res:', res);
     } catch (error) {
       console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSaveNFTInfo 📍 error:', error);
@@ -146,7 +146,6 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       toast.success('铸造NFT成功')
       console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSubmit 📍 receipt:', receipt);
-      handleSaveNFTInfo()
 
       const eventSignature = 'Minted(address,uint256)';
       const eventTopic = keccak256(toBytes(eventSignature));
@@ -165,6 +164,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
       if (mintedEvents.length > 0) {
         // 从事件数据中解析tokenId（通常是topics[1]）
         const tokenIdHex = mintedEvents[0].data;
+        handleSaveNFTInfo(tokenIdHex);
         setMintedTokenId(tokenIdHex);
       }
       

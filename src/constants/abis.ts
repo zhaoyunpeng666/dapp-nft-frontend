@@ -1281,10 +1281,10 @@ export const AssetStorageAbi = [
   }
 ] as const;
 
-// AuctionAbi 代理address: 0xe3360c5Ee0f097633FCE8fAE1f2F923F483ddAEA
-export const AuctionAbiAddress = '0xe3360c5Ee0f097633FCE8fAE1f2F923F483ddAEA';
+// AuctionAbi 代理address: 0x1B99C667C9C73b0477a9453694D66775032fd4E3
+export const AuctionAbiAddress = '0x1B99C667C9C73b0477a9453694D66775032fd4E3';
 
-// AuctionAbi 实现地址: 0xfC5E2DE38f9f5e0A5b8992C5093b0C6F56Dd7220
+// AuctionAbi 实现地址: 0xb7f616535AE4946aFeFf53b0D3000963FE8bfCF9
 // 下面是实现地址的abi
 export const AuctionAbi = [
   {

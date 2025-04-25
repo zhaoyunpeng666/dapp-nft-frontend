@@ -43,6 +43,7 @@ export interface SaveNFTInfoData {
   royaltyPercentage: string;
   chainId: number;
   categorieId: string;
+  tokenId: string;
 }
 
 export type SaveNFTInfoResponse = Awaited<Readonly<IResponse<{result: boolean}>>>;
