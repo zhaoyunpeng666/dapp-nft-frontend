@@ -315,8 +315,12 @@ export default function MarketPlace() {
 
             {/* NFT列表 - 网格视图 */}
             {viewMode === "grid" && (
+            nftData.length === 0 ? (
+              <Box className="text-center py-10">暂无数据</Box>
+            ) : (
               <Grid container spacing={3}>
-                {nftData.map((item) => (
+                {
+                nftData.map((item) => (
                   <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.nft_id}>
                     <Box
                       className="bg-white rounded-lg overflow-hidden shadow-lg"
@@ -423,12 +427,17 @@ export default function MarketPlace() {
                       </Box>
                     </Box>
                   </Grid>
-                ))}
+                ))
+                }
               </Grid>
+              )
             )}
 
             {/* NFT列表 - 列表视图 */}
             {viewMode === "list" && (
+              nftData.length === 0 ? (
+                <Box className="text-center py-10">暂无数据</Box>
+              ) : (
               <Box>
                 {nftData.map((item) => (
                   <Box
@@ -543,7 +552,7 @@ export default function MarketPlace() {
                     </Box>
                   </Box>
                 ))}
-              </Box>
+              </Box>)
             )}
 
             {/* 分页 */}
