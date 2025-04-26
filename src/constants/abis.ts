@@ -1366,9 +1366,9 @@ export const AuctionAbi = [
     "inputs": [
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
       },
       {
         "indexed": true,
@@ -1385,13 +1385,19 @@ export const AuctionAbi = [
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "reservePrice",
+        "name": "startPrice",
         "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "duration",
+        "name": "startTime",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "endTime",
         "type": "uint256"
       },
       {
@@ -1399,6 +1405,18 @@ export const AuctionAbi = [
         "internalType": "enum LibAuction.AuctionType",
         "name": "auctionType",
         "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "minBidIncrement",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "nftAddress",
+        "type": "address"
       }
     ],
     "name": "AuctionCreated",
@@ -1409,9 +1427,9 @@ export const AuctionAbi = [
     "inputs": [
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
       },
       {
         "indexed": false,
@@ -1434,9 +1452,9 @@ export const AuctionAbi = [
     "inputs": [
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
       },
       {
         "indexed": true,
@@ -1547,17 +1565,22 @@ export const AuctionAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "AuctionKey",
         "name": "",
-        "type": "uint256"
+        "type": "bytes32"
       }
     ],
     "name": "auctions",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "NFTCollection",
+        "type": "address"
       },
       {
         "internalType": "uint256",
@@ -1571,7 +1594,7 @@ export const AuctionAbi = [
       },
       {
         "internalType": "uint256",
-        "name": "reservePrice",
+        "name": "startPrice",
         "type": "uint256"
       },
       {
@@ -1600,6 +1623,11 @@ export const AuctionAbi = [
         "type": "uint8"
       },
       {
+        "internalType": "uint256",
+        "name": "minBidIncrement",
+        "type": "uint256"
+      },
+      {
         "internalType": "bool",
         "name": "isActive",
         "type": "bool"
@@ -1617,7 +1645,7 @@ export const AuctionAbi = [
       },
       {
         "internalType": "uint256",
-        "name": "reservePrice",
+        "name": "startPrice",
         "type": "uint256"
       },
       {
@@ -1629,14 +1657,24 @@ export const AuctionAbi = [
         "internalType": "enum LibAuction.AuctionType",
         "name": "auctionType",
         "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minBidIncrement",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "collectionAddress",
+        "type": "address"
       }
     ],
     "name": "createAuction",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "nonpayable",
@@ -1688,9 +1726,9 @@ export const AuctionAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
       }
     ],
     "name": "endAuction",
@@ -1701,9 +1739,9 @@ export const AuctionAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
       }
     ],
     "name": "getAuctionDetails",
@@ -1711,9 +1749,14 @@ export const AuctionAbi = [
       {
         "components": [
           {
-            "internalType": "uint256",
-            "name": "auctionId",
-            "type": "uint256"
+            "internalType": "AuctionKey",
+            "name": "auctionKey",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "NFTCollection",
+            "type": "address"
           },
           {
             "internalType": "uint256",
@@ -1727,7 +1770,7 @@ export const AuctionAbi = [
           },
           {
             "internalType": "uint256",
-            "name": "reservePrice",
+            "name": "startPrice",
             "type": "uint256"
           },
           {
@@ -1754,6 +1797,11 @@ export const AuctionAbi = [
             "internalType": "enum LibAuction.AuctionType",
             "name": "auctionType",
             "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minBidIncrement",
+            "type": "uint256"
           },
           {
             "internalType": "bool",
@@ -1829,9 +1877,9 @@ export const AuctionAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "auctionId",
-        "type": "uint256"
+        "internalType": "AuctionKey",
+        "name": "auctionKey",
+        "type": "bytes32"
       },
       {
         "internalType": "uint256",

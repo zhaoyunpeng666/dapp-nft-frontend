@@ -14,6 +14,7 @@ import CustomWalletButton from '@/components/CustomWalletButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Image from 'next/image';
 import { Category, Blockchain, CATEGORY_MENU_ARRAY, BLOCKCHAIN_MENU_ARRAY } from './constants';
+console.log('ZYP-dev 📍 NFTForm.tsx 📍 CATEGORY_MENU_ARRAY:', CATEGORY_MENU_ARRAY);
 import { config } from '@/config/chains';
 import { NFTAuctionAbi, NFTAuctionAbiAddress } from '@/constants/abis';
 import { toast } from "react-toastify";
@@ -50,7 +51,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
   const [loading, setLoading] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [mintedTokenId, setMintedTokenId] = useState<Address | null>(null);
-  const [showAuctionDialog, setShowAuctionDialog] = useState(true);
+  const [showAuctionDialog, setShowAuctionDialog] = useState(false);
 
   const publicClient = usePublicClient() as PublicClient;
 
@@ -77,10 +78,17 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
 
   const handleSelectChange = (e: SelectChangeEvent) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: Number(value)
-    }));
+    console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSelectChange 📍 name:', name);
+    console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSelectChange 📍 value:', value);
+    
+    setFormData(prev => {
+      const params = {
+        ...prev,
+        [name]: value
+      }
+      console.log('ZYP-dev 📍 NFTForm.tsx 📍 handleSelectChange 📍 params:', params);
+      return params;
+    });
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -332,7 +340,7 @@ export default function NFTForm({ formData, setFormData }: NFTFormProps) {
         <Typography variant="subtitle1">类别</Typography>
         <FormControl fullWidth sx={{ marginBottom: '16px' }}>
           <Select
-            name="category"
+            name="categorieId"
             value={formData.categorieId}
             onChange={handleSelectChange}
             displayEmpty
