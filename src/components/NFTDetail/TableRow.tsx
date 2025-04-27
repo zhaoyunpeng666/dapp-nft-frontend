@@ -5,12 +5,22 @@ import React from 'react';
 import { Box, TableCell, TableRow, Typography } from '@mui/material';
 import Image from 'next/image';
 
+// interface RowData {
+//   avatar: string;
+//   bidder: string;
+//   amount: string;
+//   time: string;
+//   transactionHash: string;
+// }
 interface RowData {
-  avatar: string;
+  bid_id: number;
+  auction_id: number;
   bidder: string;
-  amount: string;
-  time: string;
-  transactionHash: string;
+  bid_amount: number;
+  transaction_hash: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
 }
 
 const TableRowComponent = ({ row }: { row: RowData }) => {
@@ -24,13 +34,13 @@ const TableRowComponent = ({ row }: { row: RowData }) => {
     }}>
       <TableCell>
         <Box display="flex" alignItems="center">
-          <Image src={row.avatar} alt="Avatar" width="24" height="24" style={{ borderRadius: '50%', marginRight: '8px' }} />
+          <Image src={'-'} alt="Avatar" width="24" height="24" style={{ borderRadius: '50%', marginRight: '8px' }} />
           <Typography>{row.bidder}</Typography>
         </Box>
       </TableCell>
-      <TableCell>{row.amount}</TableCell>
-      <TableCell>{row.time}</TableCell>
-      <TableCell>{row.transactionHash}</TableCell>
+      <TableCell>{row.bid_amount}</TableCell>
+      <TableCell>{row.updated_at}</TableCell>
+      <TableCell>{row.transaction_hash}</TableCell>
     </TableRow>
   );
 }

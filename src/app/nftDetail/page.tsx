@@ -84,7 +84,7 @@ const NFTDetail = () => {
         </Box>
         <Box className="container mx-auto p-4 max-w-5xl">
             <Box className="bg-white rounded-lg p-4 shadow-md">
-                <NFTDetailTable />
+                <NFTDetailTable nftData={nftData} />
             </Box>
         </Box>
     </Box>

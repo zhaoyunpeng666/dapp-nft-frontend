@@ -6,25 +6,26 @@ import TabBar from './TabBar';
 import BiddingHistory from './BiddingHistory';
 import { Tab } from '@mui/material';
 import DetailCard from './DetailCard';
+import { AuctionDetailData } from '@/services/did/types';
 
 interface TabContentProps {
     value: 0 | 1 | 2; // value 只能是 0, 1, 或 2
   }
 
-function TabContent({ value }: TabContentProps) {
+function TabContent({ value, nftData }: TabContentProps & { nftData: AuctionDetailData }) {
   switch (value) {
     case 0:
-      return <BiddingHistory />;
+      return <BiddingHistory nftData={nftData} />;
     case 1:
       return <div>属性内容</div>;
     case 2:
-      return <DetailCard />;
+      return <DetailCard nftData={nftData} />;
     default:
       return null;
   }
 }
 
-export default function Home() {
+export default function Home({ nftData }: {nftData: AuctionDetailData}) {
     const [value, setValue] = React.useState<number>(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -39,7 +40,7 @@ export default function Home() {
         <Tab label="详情" />
       </TabBar>
       <div className="mt-4">
-        <TabContent value={value as 0 | 1 | 2} />
+        <TabContent value={value as 0 | 1 | 2} nftData={nftData} />
       </div>
     </div>
   );
