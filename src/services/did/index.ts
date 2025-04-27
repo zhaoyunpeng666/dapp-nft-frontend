@@ -9,7 +9,8 @@ import {
     SaveNFTInfoData,
     SaveNFTInfoResponse,
     AuctionDetailParams,
-    AuctionDetailResponse
+    AuctionDetailResponse,
+    GetFileResponse,
  } from "./types";
 
 export default class LoginService {
@@ -44,16 +45,9 @@ export default class LoginService {
             }
         });
     }
-
     // 图片回显接口
     async getFile(path: string) {
-        const formData = new FormData();
-        formData.append('path', path);
-        return await this.apiClient.post<FormData, UploadFileResponse>(`/uploadFile/getFile`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
+        return await this.apiClient.post<null, GetFileResponse>(`/uploadFile/getFile?path=${path}`, null);
     }
 
     // 保存NFT信息

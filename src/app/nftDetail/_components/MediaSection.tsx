@@ -1,26 +1,69 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Button, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Image from 'next/image';
 import { AuctionDetailData } from '@/services/did/types';
+import services from '@/services';
 
 const MediaSection = ({ nftData }: {nftData: AuctionDetailData}) => {
+  const [nftImage, setNftImage] = useState<string>();
+
+  const fetchNftImage = async (imageUrl: string) => {
+    console.log('ZYP-dev 📍 MediaSection.tsx 📍 fetchNftImage 📍 imageUrl:', imageUrl);
+    try {
+      const response = await services.did.getFile(`./${imageUrl}`);
+      // console.log('ZYP-dev 📍 MediaSection.tsx 📍 fetchNftImage 📍 response:', response);
+      console.log('ZYP-dev 📍 MediaSection.tsx 📍 fetchNftImage 📍 response type:', typeof response);
+      const uint8Array = new Uint8Array(response.length);
+      for (let i = 0; i < response.length; i++) {
+        uint8Array[i] = response.charCodeAt(i);
+      }
+       // 生成 Blob 和临时 URL
+      const blob = new Blob([uint8Array], { type: 'image/png' });
+      const imgUrl = URL.createObjectURL(blob);
+      console.log('ZYP-dev 📍 MediaSection.tsx 📍 fetchNftImage 📍 imgUrl:', imgUrl);
+      // 方法1：如果返回的是Blob对象
+      // const blob = await response.split(',')[1];
+      // const objectUrl = URL.createObjectURL(blob);
+      // console.log('ZYP-dev 📍 MediaSection.tsx 📍 fetchNftImage 📍 objectUrl:', objectUrl);
+      setNftImage(imgUrl);
+    } catch (error) {
+      console.error('获取图片失败:', error);
+    }
+  };
+  
+  useEffect(() => {
+    if (nftData.image_url) {
+      fetchNftImage(nftData.image_url)
+    }
+  }, [nftData.image_url]);
+
   return (
     <Grid container spacing={2}>
       {/* 主图 */}
       <Grid size={12}>
         <Typography variant="h5" gutterBottom>
-          {nftData.description}
+          {nftData.description} {nftImage}
         </Typography>
-        <Image
-          src="https://via.placeholder.com/300"
-          width={300}
-          height={256}
-          alt="缩略图"
-          className="w-full h-64 object-cover rounded-lg"
-        />
+        {
+          nftImage ? (
+            <Image
+              src={nftImage}
+              width={300}
+              height={256}
+              alt="缩略图"
+              className="w-full h-64 object-cover rounded-lg"
+              crossOrigin="anonymous"
+            />
+          ) : (
+            <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+            加载中...
+          </div>
+          )
+        }
+        
       </Grid>
 
       {/* 缩略图 */}

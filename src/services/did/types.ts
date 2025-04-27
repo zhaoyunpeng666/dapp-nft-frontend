@@ -35,6 +35,8 @@ export type AuthVerifyResponse = Awaited<Readonly<AuthorityResponse<AuthVerifyRe
 
 export type UploadFileResponse = Awaited<Readonly<{path: string; status: string}>>;
 
+export type GetFileResponse = Awaited<string>;
+
 // 保存NFT信息
 export interface SaveNFTInfoData {
   name: string;
